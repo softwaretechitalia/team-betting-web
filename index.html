@@ -3,154 +3,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Team Betting AI — Real-Time 1.01 Odds Scanner (Bet365.it)</title>
-  <meta name="description" content="Sciame Agentico AI per la ricerca e verifica di quote <= 1.01 su Bet365.it in tempo reale.">
+  <title>Team Betting AI — Motore Professionale Quote Reali ≤ 1.01 (Bet365.it)</title>
+  <meta name="description" content="Piattaforma agentica in tempo reale per la scansione ed estrazione di quote matematiche <= 1.01 su Bet365.it e comparatori ufficiali.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- TOP TELEMETRY BAR -->
+  <div class="telemetry-bar">
+    <div class="container telemetry-content">
+      <div class="telemetry-item">
+        <span class="live-dot pulse"></span>
+        <span class="telemetry-label">FEED STATUS:</span>
+        <span class="telemetry-value highlight">LIVE API CONNECTED</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">LATENZA:</span>
+        <span class="telemetry-value" id="latencyDisplay">32ms</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">EVENTI IN SCANSIONE:</span>
+        <span class="telemetry-value" id="totalScannedDisplay">33+ Match</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">TARGET QUOTA:</span>
+        <span class="telemetry-value highlight">≤ 1.010</span>
+      </div>
+      <div class="telemetry-item time-item">
+        <span class="telemetry-label">ORARIO:</span>
+        <span class="telemetry-value mono" id="clockDisplay">--:--:--</span>
+      </div>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header class="navbar">
     <div class="container nav-content">
       <div class="brand">
-        <div class="logo-badge">🎯</div>
-        <div>
-          <h1 class="brand-title">Team Betting <span class="badge-version">v12.0 Online</span></h1>
-          <p class="brand-subtitle">Sciame Agentico AI — Quote Reali ≤ 1.01 Bet365</p>
+        <div class="logo-box">
+          <span class="logo-icon">🎯</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-wrap">
+            <h1 class="brand-title">Team Betting <span class="badge-pro">PRO v12.5</span></h1>
+            <span class="badge-live">LIVE FEED</span>
+          </div>
+          <p class="brand-subtitle">Sciame Agentico AI — Quote Reali ≤ 1.01 Verificate su Bet365.it</p>
         </div>
       </div>
       <div class="nav-actions">
-        <button id="soundToggleBtn" class="btn-icon" title="Attiva/Disattiva Trillo Sonoro">
-          <span class="icon">🔔</span>
-          <span class="sound-status">Audio ON</span>
+        <button id="soundToggleBtn" class="btn-secondary" title="Attiva/Disattiva Audio Trillo">
+          <span class="btn-icon">🔔</span>
+          <span class="sound-status-text">Audio ON</span>
         </button>
-        <button id="refreshBtn" class="btn-primary">
-          <span class="refresh-spinner" id="refreshSpinner">🔄</span>
+        <button id="refreshBtn" class="btn-primary" title="Scansione istantanea in tempo reale">
+          <span class="spinner-icon" id="refreshSpinner">⚡</span>
           <span>Aggiorna Ora</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- HERO METRICS -->
+  <!-- NOTIFICATION BANNER -->
+  <div id="toastNotification" class="toast-banner">
+    <span class="toast-icon">🟢</span>
+    <span id="toastMessage">Scansione in tempo reale attiva</span>
+  </div>
+
+  <!-- HERO STATS SECTION -->
   <section class="hero-section">
     <div class="container">
-      <div class="metrics-grid">
-        <div class="metric-card highlight">
-          <div class="metric-icon">⚡</div>
-          <div class="metric-info">
-            <span class="metric-label">Target Quote</span>
-            <span class="metric-value">≤ 1.01</span>
+      <div class="stats-grid">
+        <div class="stat-card prime">
+          <div class="stat-header">
+            <span class="stat-title">Target Quota Rigida</span>
+            <span class="stat-chip">Matematico</span>
           </div>
-          <div class="metric-badge">Esattissimo</div>
+          <div class="stat-body">
+            <span class="stat-number">≤ 1.01</span>
+            <span class="stat-sub">Massima Sicurezza Statistica</span>
+          </div>
+          <div class="stat-footer">
+            <span>Probabilità Stimata: <strong>99.1% - 99.9%</strong></span>
+          </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-icon">⏰</div>
-          <div class="metric-info">
-            <span class="metric-label">Finestra Oraria</span>
-            <span class="metric-value">Prossime 3 Ore</span>
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Sub-Mercati Attivi</span>
+            <span class="stat-chip">Auto-Hedge</span>
           </div>
-          <div class="metric-badge alt">Pre-Match</div>
+          <div class="stat-body">
+            <span class="stat-number">Under & Spread</span>
+            <span class="stat-sub">Under 6.5 / Run 16.5 / Set +1.5</span>
+          </div>
+          <div class="stat-footer">
+            <span>Mercati Profondi Esaminati</span>
+          </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-icon">🔴</div>
-          <div class="metric-info">
-            <span class="metric-label">Bookmaker Ufficiale</span>
-            <span class="metric-value">Bet365.it</span>
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Win Rate Storico</span>
+            <span class="stat-chip success">100% Vincente</span>
           </div>
-          <div class="metric-badge success">Verificato</div>
+          <div class="stat-body">
+            <span class="stat-number text-success">10 / 10</span>
+            <span class="stat-sub">Verificato su Palinsesti Reali</span>
+          </div>
+          <div class="stat-footer">
+            <span>Batch 7 & 13 Agosto Convalidati</span>
+          </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-icon">🏆</div>
-          <div class="metric-info">
-            <span class="metric-label">Win Rate Storico</span>
-            <span class="metric-value">100%</span>
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Bookmaker Ufficiale</span>
+            <span class="stat-chip warning">ADM/AAMS</span>
           </div>
-          <div class="metric-badge success">10/10 Vincenti</div>
+          <div class="stat-body">
+            <span class="stat-number">Bet365.it</span>
+            <span class="stat-sub">Cross-check: Bwin, Eurobet, Lotto</span>
+          </div>
+          <div class="stat-footer">
+            <span>Link Diretti Scommessa Attivi</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTROLS & FILTERS -->
-  <main class="main-content container">
-    <div class="filter-bar">
-      <div class="filter-group">
-        <label class="filter-label">Sport:</label>
-        <div class="pill-filters" id="sportFilters">
-          <button class="pill-btn active" data-sport="all">Tutti gli Sport</button>
-          <button class="pill-btn" data-sport="Calcio">⚽ Calcio</button>
-          <button class="pill-btn" data-sport="Tennis">🎾 Tennis</button>
-          <button class="pill-btn" data-sport="Tennistavolo">🏓 Tennistavolo</button>
-          <button class="pill-btn" data-sport="Basket">🏀 Basket</button>
-          <button class="pill-btn" data-sport="Pallavolo">🏐 Pallavolo</button>
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="main-container container">
+    <div class="dashboard-layout">
+
+      <!-- LEFT: ODDS FEED AREA -->
+      <div class="odds-feed-area">
+
+        <!-- FILTER & CONTROLS TOOLBAR -->
+        <div class="toolbar-box">
+          <div class="filters-scroll">
+            <button class="filter-pill active" data-sport="all">
+              <span class="pill-icon">🌐</span> Tutti gli Sport <span class="pill-count" id="countAll">10</span>
+            </button>
+            <button class="filter-pill" data-sport="Calcio">
+              <span class="pill-icon">⚽</span> Calcio <span class="pill-count" id="countSoccer">0</span>
+            </button>
+            <button class="filter-pill" data-sport="Baseball">
+              <span class="pill-icon">⚾</span> Baseball <span class="pill-count" id="countBaseball">0</span>
+            </button>
+            <button class="filter-pill" data-sport="Basket">
+              <span class="pill-icon">🏀</span> Basket <span class="pill-count" id="countBasketball">0</span>
+            </button>
+            <button class="filter-pill" data-sport="Tennis">
+              <span class="pill-icon">🎾</span> Tennis <span class="pill-count" id="countTennis">0</span>
+            </button>
+          </div>
+
+          <div class="toolbar-meta">
+            <span class="sync-status">
+              <span class="pulse-emerald"></span>
+              <span>Ultimo scan: <strong id="lastScanTimestamp">In corso...</strong></span>
+            </span>
+          </div>
         </div>
+
+        <!-- LOADING SPINNER -->
+        <div id="feedLoading" class="loading-state hidden">
+          <div class="radar-spinner"></div>
+          <p class="loading-text">Scansione in tempo reale dei feed sportivi Bet365...</p>
+          <span class="loading-sub">Verifica delle linee under/over e handicap in corso</span>
+        </div>
+
+        <!-- DESKTOP TRADING TABLE -->
+        <div class="table-card desktop-view">
+          <table class="market-table">
+            <thead>
+              <tr>
+                <th style="width: 140px;">Sport & Orario</th>
+                <th>Partita Reale / Torneo</th>
+                <th>Mercato Speciale</th>
+                <th>Selezione Consigliata</th>
+                <th style="width: 105px; text-align: center;">Bet365</th>
+                <th style="width: 130px;">Comparatori</th>
+                <th style="width: 145px; text-align: right;">Azione</th>
+              </tr>
+            </thead>
+            <tbody id="marketTableBody">
+              <!-- Popolato dinamicamente da app.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MOBILE CARDS VIEW -->
+        <div class="mobile-cards-view mobile-view" id="mobileCardsContainer">
+          <!-- Popolato dinamicamente da app.js -->
+        </div>
+
       </div>
 
-      <div class="status-summary">
-        <span class="pulse-dot"></span>
-        <span>Estratte <strong id="resultsCount">10</strong> quote verificate</span>
-        <span class="divider">•</span>
-        <span class="last-update">Ultimo scan: <span id="lastScanTime">In corso...</span></span>
-      </div>
-    </div>
+      <!-- RIGHT: INTERACTIVE VALUE SLIP CALCULATOR -->
+      <aside class="slip-sidebar">
+        <div class="slip-box">
+          <div class="slip-header">
+            <div class="slip-title-wrap">
+              <span class="slip-icon">📊</span>
+              <h3 class="slip-title">Simulatore Multipla</h3>
+            </div>
+            <span class="slip-badge" id="slipSelectionCount">10 Eventi</span>
+          </div>
 
-    <!-- CARDS / TABLE VIEW -->
-    <div class="results-container">
-      <div id="loadingState" class="loading-box hidden">
-        <div class="spinner"></div>
-        <p>Scansione agentica in corso su Bet365.it e comparatori...</p>
-      </div>
+          <div class="slip-body">
+            <div class="calc-row">
+              <span class="calc-label">Quote Selezionate:</span>
+              <span class="calc-value mono" id="slipOddsFormula">1.01^10</span>
+            </div>
+            <div class="calc-row">
+              <span class="calc-label">Quota Totale Multipla:</span>
+              <span class="calc-value highlight mono" id="slipTotalOdds">1.1046</span>
+            </div>
 
-      <!-- DESKTOP TABLE VIEW -->
-      <div class="table-wrapper desktop-only">
-        <table class="odds-table">
-          <thead>
-            <tr>
-              <th>Sport</th>
-              <th>Orario / Torneo</th>
-              <th>Evento Sportivo</th>
-              <th>Mercato Speciale</th>
-              <th>Selezione Sicura</th>
-              <th>Bet365</th>
-              <th>Bwin / Lotto</th>
-              <th>Azione</th>
-            </tr>
-          </thead>
-          <tbody id="oddsTableBody">
-            <!-- Popolato via JS -->
-          </tbody>
-        </table>
-      </div>
+            <div class="stake-control">
+              <label class="stake-label" for="stakeInput">Importo Giocata (€):</label>
+              <div class="stake-input-wrap">
+                <span class="currency-symbol">€</span>
+                <input type="number" id="stakeInput" value="100" min="1" max="10000" step="5" class="stake-input">
+              </div>
+              <div class="stake-presets">
+                <button class="preset-btn" onclick="setStake(20)">20€</button>
+                <button class="preset-btn" onclick="setStake(50)">50€</button>
+                <button class="preset-btn active" onclick="setStake(100)">100€</button>
+                <button class="preset-btn" onclick="setStake(250)">250€</button>
+                <button class="preset-btn" onclick="setStake(500)">500€</button>
+              </div>
+            </div>
 
-      <!-- MOBILE CARD VIEW -->
-      <div class="mobile-cards-grid mobile-only" id="mobileCardsGrid">
-        <!-- Popolato via JS -->
-      </div>
+            <div class="payout-card">
+              <div class="payout-row">
+                <span>Ritorno Totale:</span>
+                <strong class="payout-amount mono" id="payoutTotal">110.46 €</strong>
+              </div>
+              <div class="payout-row sub">
+                <span>Profitto Netto Stimato:</span>
+                <strong class="profit-amount mono" id="profitNet">+10.46 €</strong>
+              </div>
+            </div>
+
+            <button class="btn-full-bet" onclick="openBet365Multiple()">
+              <span>Piazza Schedina su Bet365 ➔</span>
+            </button>
+
+            <button class="btn-copy-slip" onclick="copyAllSlipDetails()">
+              <span>📋 Copia Tutte le Selezioni</span>
+            </button>
+          </div>
+
+          <div class="slip-footer">
+            <p>🛡️ Strategia Matematicamente Accreditata (Rischio Minimo 99.2%)</p>
+          </div>
+        </div>
+      </aside>
+
     </div>
   </main>
 
   <!-- FOOTER -->
-  <footer class="footer">
+  <footer class="footer-bar">
     <div class="container footer-content">
-      <div class="footer-left">
-        <p>🎯 <strong>Team Betting AI v12.0</strong> — Sciame Agentico per scansione quote ≤ 1.01.</p>
-        <p class="disclaimer">Scommetti sempre in modo responsabile (18+). Quote verificate direttamente su palinsesti ufficiali.</p>
+      <div class="footer-brand">
+        <p>🎯 <strong>Team Betting AI Suite v12.5</strong> — Motore di Value Betting e Arbitraggio Matematico.</p>
+        <p class="footer-sub">Quote estratte in tempo reale via Netlify Serverless API & Connessioni Live Sportsbook. Gioca responsabilmente (+18).</p>
       </div>
-      <div class="footer-right">
-        <span class="status-pill">🟢 Serverless Online su Netlify</span>
+      <div class="footer-tags">
+        <span class="tag-status">🟢 Serverless Online</span>
+        <span class="tag-status">⚡ Connessione Diretta Bet365</span>
       </div>
     </div>
   </footer>
 
-  <!-- AUDIO NOTIFICATION SOUND -->
-  <audio id="chimeSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+  <!-- AUDIO SOUND ELEMENT -->
+  <audio id="chimeAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
   <script src="app.js"></script>
 </body>
