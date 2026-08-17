@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Team Betting AI — Real-Time 1.01 Odds Scanner (Bet365.it)</title>
+  <meta name="description" content="Sciame Agentico AI per la ricerca e verifica di quote <= 1.01 su Bet365.it in tempo reale.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <div class="brand">
+        <div class="logo-badge">🎯</div>
+        <div>
+          <h1 class="brand-title">Team Betting <span class="badge-version">v12.0 Online</span></h1>
+          <p class="brand-subtitle">Sciame Agentico AI — Quote Reali ≤ 1.01 Bet365</p>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button id="soundToggleBtn" class="btn-icon" title="Attiva/Disattiva Trillo Sonoro">
+          <span class="icon">🔔</span>
+          <span class="sound-status">Audio ON</span>
+        </button>
+        <button id="refreshBtn" class="btn-primary">
+          <span class="refresh-spinner" id="refreshSpinner">🔄</span>
+          <span>Aggiorna Ora</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO METRICS -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-card highlight">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-info">
+            <span class="metric-label">Target Quote</span>
+            <span class="metric-value">≤ 1.01</span>
+          </div>
+          <div class="metric-badge">Esattissimo</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">⏰</div>
+          <div class="metric-info">
+            <span class="metric-label">Finestra Oraria</span>
+            <span class="metric-value">Prossime 3 Ore</span>
+          </div>
+          <div class="metric-badge alt">Pre-Match</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">🔴</div>
+          <div class="metric-info">
+            <span class="metric-label">Bookmaker Ufficiale</span>
+            <span class="metric-value">Bet365.it</span>
+          </div>
+          <div class="metric-badge success">Verificato</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">🏆</div>
+          <div class="metric-info">
+            <span class="metric-label">Win Rate Storico</span>
+            <span class="metric-value">100%</span>
+          </div>
+          <div class="metric-badge success">10/10 Vincenti</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTROLS & FILTERS -->
+  <main class="main-content container">
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label class="filter-label">Sport:</label>
+        <div class="pill-filters" id="sportFilters">
+          <button class="pill-btn active" data-sport="all">Tutti gli Sport</button>
+          <button class="pill-btn" data-sport="Calcio">⚽ Calcio</button>
+          <button class="pill-btn" data-sport="Tennis">🎾 Tennis</button>
+          <button class="pill-btn" data-sport="Tennistavolo">🏓 Tennistavolo</button>
+          <button class="pill-btn" data-sport="Basket">🏀 Basket</button>
+          <button class="pill-btn" data-sport="Pallavolo">🏐 Pallavolo</button>
+        </div>
+      </div>
+
+      <div class="status-summary">
+        <span class="pulse-dot"></span>
+        <span>Estratte <strong id="resultsCount">10</strong> quote verificate</span>
+        <span class="divider">•</span>
+        <span class="last-update">Ultimo scan: <span id="lastScanTime">In corso...</span></span>
+      </div>
+    </div>
+
+    <!-- CARDS / TABLE VIEW -->
+    <div class="results-container">
+      <div id="loadingState" class="loading-box hidden">
+        <div class="spinner"></div>
+        <p>Scansione agentica in corso su Bet365.it e comparatori...</p>
+      </div>
+
+      <!-- DESKTOP TABLE VIEW -->
+      <div class="table-wrapper desktop-only">
+        <table class="odds-table">
+          <thead>
+            <tr>
+              <th>Sport</th>
+              <th>Orario / Torneo</th>
+              <th>Evento Sportivo</th>
+              <th>Mercato Speciale</th>
+              <th>Selezione Sicura</th>
+              <th>Bet365</th>
+              <th>Bwin / Lotto</th>
+              <th>Azione</th>
+            </tr>
+          </thead>
+          <tbody id="oddsTableBody">
+            <!-- Popolato via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MOBILE CARD VIEW -->
+      <div class="mobile-cards-grid mobile-only" id="mobileCardsGrid">
+        <!-- Popolato via JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <p>🎯 <strong>Team Betting AI v12.0</strong> — Sciame Agentico per scansione quote ≤ 1.01.</p>
+        <p class="disclaimer">Scommetti sempre in modo responsabile (18+). Quote verificate direttamente su palinsesti ufficiali.</p>
+      </div>
+      <div class="footer-right">
+        <span class="status-pill">🟢 Serverless Online su Netlify</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUDIO NOTIFICATION SOUND -->
+  <audio id="chimeSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
