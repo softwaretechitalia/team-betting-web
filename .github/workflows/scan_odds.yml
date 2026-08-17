@@ -1,0 +1,42 @@
+name: Real-Time Odds Scanner (Playwright Diretta.it)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  scan-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Run Diretta.it Odds Scanner
+        run: python scanner.py
+
+      - name: Commit and Push Updated Odds
+        run: |
+          git config user.name "TeamBetting Bot"
+          git config user.email "bot@teambetting.ai"
+          git add odds.json
+          git diff --staged --quiet || git commit -m "chore(odds): update real-time odds from Diretta.it [skip ci]"
+          git push
