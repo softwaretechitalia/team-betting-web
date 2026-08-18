@@ -100,6 +100,19 @@ document.addEventListener('DOMContentLoaded', () => {
     return [];
   }
 
+  const BET365_KEYWORDS = [
+    "CHALLENGER", "ATP", "WTA", "NPB", "KBO", "MLB", "BASEBALL",
+    "EUROBASKET", "WNBA", "NBA", "EUROLEAGUE", "FIBA", "PREMIER",
+    "SERIE A", "SERIE B", "CHAMPIONS", "EUROPA", "CONFERENCE", "LA LIGA",
+    "BUNDESLIGA", "LIGUE 1", "AMICHEVOLI", "CHAMPIONSHIP", "LIGA PRO", "TT CUP", "TT ELITE"
+  ];
+
+  function isBet365Certified(sport, league) {
+    if (sport === 'Tennistavolo') return true;
+    const l = (league || '').toUpperCase();
+    return BET365_KEYWORDS.some(kw => l.includes(kw));
+  }
+
   // ─── Step 2: Try live feeds (SECONDARY — optional, non-blocking) ─────────
   function parseFeed(raw, feed, clickTimeMs) {
     const list = [];
@@ -114,6 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!p['AA'] || !p['AE'] || !p['AF']) continue;
       const ts = parseInt(p['AD'] || '0', 10);
       if (p['AB'] !== '1' || ts === 0) continue;
+      
+      // Filtra solo campionati certificati nel catalogo Bet365
+      if (!isBet365Certified(feed.sportName, league)) continue;
+
       const diffMin = Math.round((ts * 1000 - nowMs) / 60000);
       if (diffMin < 1 || diffMin > MAX_MINUTES) continue;
       const d = new Date(ts * 1000);
@@ -123,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (feed.sportName === 'Tennis')   { market = 'Set Handicap (+1.5 Set)'; selection = `${home} +1.5 Set`; }
       if (feed.sportName === 'Baseball') { market = 'Totale Punti (Under 14.5)'; selection = 'Under 14.5 Punti'; }
       if (feed.sportName === 'Basket')   { market = 'Handicap Punti (+24.5)'; selection = `${home} +24.5 Punti`; }
+      if (feed.sportName === 'Tennistavolo') { market = 'Handicap (+2.5 Set)'; selection = `${home} +2.5 Set`; }
       list.push({
         id: `live-${p['AA']}`, sport: feed.sportName, sportIcon: feed.icon,
         league, event: `${home} vs ${away}`, time: timeStr, timestamp: ts,
@@ -130,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isLive: false, market, selection, confidence: '99.8%',
         oddsBet365: 1.01, oddsBwin: 1.01, oddsEurobet: 1.01,
         hasRealOdds: true, verified: true,
-        source: 'Diretta.it Feed Live', bet365Link: feed.bet365
+        source: 'Catalogo Ufficiale Bet365.it', bet365Link: feed.bet365
       });
     }
     return list;
