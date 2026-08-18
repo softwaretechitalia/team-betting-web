@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="moneyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="50%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcd34d" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Dark Rounded Square -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0c121e" stroke="#10b981" stroke-width="2" />
+
+  <!-- Money Bill Graphic (Green Gradient) -->
+  <rect x="10" y="16" width="44" height="26" rx="4" fill="url(#moneyGrad)" stroke="#34d399" stroke-width="1.5" filter="url(#glow)" />
+  <circle cx="32" cy="29" r="7" fill="none" stroke="#a7f3d0" stroke-width="1.5" stroke-dasharray="2 2" />
+  <text x="32" y="33.5" font-family="'JetBrains Mono', 'Courier New', monospace" font-size="11" font-weight="900" fill="#ecfdf5" text-anchor="middle">€</text>
+
+  <!-- Gold Coins Stacks -->
+  <ellipse cx="46" cy="46" rx="10" ry="4.5" fill="url(#goldGrad)" stroke="#78350f" stroke-width="0.8" />
+  <ellipse cx="46" cy="42.5" rx="10" ry="4.5" fill="url(#goldGrad)" stroke="#78350f" stroke-width="0.8" />
+  <ellipse cx="46" cy="39" rx="10" ry="4.5" fill="url(#goldGrad)" stroke="#78350f" stroke-width="0.8" />
+
+  <!-- 1.01 Target Tag -->
+  <rect x="8" y="44" width="26" height="13" rx="3.5" fill="#dc2626" stroke="#ef4444" stroke-width="1" />
+  <text x="21" y="53.5" font-family="'JetBrains Mono', sans-serif" font-size="7.5" font-weight="800" fill="#ffffff" text-anchor="middle">≤1.01</text>
+</svg>

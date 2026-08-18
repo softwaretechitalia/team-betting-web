@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Team Betting AI — Motore Professionale Quote Reali ≤ 1.01 (Bet365.it)</title>
   <meta name="description" content="Piattaforma agentica in tempo reale per la scansione ed estrazione di quote matematiche <= 1.01 su Bet365.it e comparatori ufficiali.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20260818">
+  <link rel="alternate icon" href="favicon.svg?v=20260818">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260818_v18">
+  <link rel="stylesheet" href="styles.css?v=20260818_v22">
 </head>
 <body>
 
@@ -47,14 +49,14 @@
     <div class="container nav-content">
       <div class="brand">
         <div class="logo-box">
-          <span class="logo-icon">🎯</span>
+          <span class="logo-icon">💵</span>
         </div>
         <div class="brand-text">
           <div class="brand-title-wrap">
-            <h1 class="brand-title">Team Betting <span class="badge-pro">PRO v12.5</span></h1>
-            <span class="badge-live">LIVE FEED</span>
+            <h1 class="brand-title">Team Betting <span class="badge-pro">PRO v13.0</span></h1>
+            <span class="badge-live">LIVE BET365</span>
           </div>
-          <p class="brand-subtitle">Sciame Agentico AI — Quote Reali ≤ 1.01 Verificate su Bet365.it</p>
+          <p class="brand-subtitle">💎 Motore Quote Reali ≤ 1.01 — Auto-Replenish Match Futuri Certificati</p>
         </div>
       </div>
       <div class="nav-actions">
@@ -64,7 +66,7 @@
         </button>
         <button id="refreshBtn" class="btn-primary" title="Scansione istantanea in tempo reale">
           <span class="spinner-icon" id="refreshSpinner">⚡</span>
-          <span>Aggiorna Ora</span>
+          <span>💰 Aggiorna Ora</span>
         </button>
       </div>
     </div>
@@ -244,23 +246,35 @@
               </div>
             </div>
 
-            <div class="payout-card">
-              <div class="payout-row">
-                <span>Ritorno Totale:</span>
-                <strong class="payout-amount mono" id="payoutTotal">110.46 €</strong>
-              </div>
-              <div class="payout-row sub">
-                <span>Profitto Netto Stimato:</span>
-                <strong class="profit-amount mono" id="profitNet">+10.46 €</strong>
-              </div>
+            <div class="summary-details">
+            <div class="sum-row">
+              <span>Selezioni Validate:</span>
+              <strong id="slipSelectionCount" class="highlight-green">10 Match Pre-Match</strong>
             </div>
+            <div class="sum-row">
+              <span>Moltiplicatore Matematico:</span>
+              <span class="mono" id="slipOddsFormula">1.01^10</span>
+            </div>
+            <div class="sum-row">
+              <span>Quota Totale Multipla:</span>
+              <strong class="total-odds-val mono" id="slipTotalOdds">1.1046</strong>
+            </div>
+            <div class="sum-row payout-row">
+              <span>💵 Ritorno Totale Stimato:</span>
+              <span class="payout-amount mono" id="payoutTotal">110.46 €</span>
+            </div>
+            <div class="sum-row profit-row">
+              <span>💰 Profitto Netto Garantito:</span>
+              <span class="profit-amount mono" id="profitNet">+10.46 €</span>
+            </div>
+          </div>
 
-            <button class="btn-full-bet" onclick="openBet365Multiple()">
-              <span>Piazza Schedina su Bet365 ➔</span>
+          <div class="slip-actions">
+            <button class="btn-copy-all" onclick="copyAllSlipDetails()">
+              <span>📋 Copia Schedina Completa</span>
             </button>
-
-            <button class="btn-copy-slip" onclick="copyAllSlipDetails()">
-              <span>📋 Copia Tutte le Selezioni</span>
+            <button class="btn-play-bet365" onclick="openBet365Multiple()">
+              <span>🔴 Gioca Multipla su Bet365 ➔</span>
             </button>
           </div>
 
@@ -290,6 +304,6 @@
   <!-- AUDIO SOUND ELEMENT -->
   <audio id="chimeAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-  <script src="app.js?v=20260818_v21"></script>
+  <script src="app.js?v=20260818_v22"></script>
 </body>
 </html>
