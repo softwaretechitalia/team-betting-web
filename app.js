@@ -1,5 +1,5 @@
 /**
- * Team Betting AI PRO v17.0 — Live Real-Time Pre-Match Filter (Strict 3 Hours)
+ * Team Betting AI PRO v18.0 — Live Real-Time Pre-Match Filter (Strict 3 Hours)
  * Estrae solo e soltanto match reali NON ANCORA INIZIATI con inizio entro 3 ore da adesso.
  */
 
@@ -163,30 +163,42 @@ document.addEventListener('DOMContentLoaded', () => {
       return liveMatches.slice(0, 10);
     }
 
-    // Fallback: Read odds.json and recalculate remaining minutes dynamically
-    const jsonRes = await fetch(`./odds.json?_t=${Date.now()}`, { cache: 'no-store' });
-    if (jsonRes.ok) {
-      const parsed = await jsonRes.json();
-      if (parsed && parsed.data && parsed.data.length > 0) {
-        const nowMs = Date.now();
-        const adjusted = parsed.data.map((item, idx) => {
-          let diffMin = item.diffMin;
-          if (item.timestamp) {
-            diffMin = Math.round((item.timestamp * 1000 - nowMs) / 60000);
-          }
-          // If match in the past, adjust smoothly to upcoming window
-          if (diffMin < 1) {
-            diffMin = 10 + idx * 8;
-            const newDate = new Date(nowMs + diffMin * 60000);
-            item.time = newDate.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-          }
-          item.diffMin = diffMin;
-          item.status = `⏰ PRE-MATCH: Inizio ore ${item.time} (tra ${diffMin} min)`;
-          return item;
-        });
+    // Fallback: Read odds.json directly from GitHub Pages with Cache-Buster
+    const cacheBuster = Date.now();
+    const jsonUrls = [
+      `./odds.json?_t=${cacheBuster}`,
+      `https://raw.githubusercontent.com/softwaretechitalia/team-betting-web/main/odds.json?_t=${cacheBuster}`
+    ];
 
-        adjusted.sort((a, b) => a.diffMin - b.diffMin);
-        return adjusted.slice(0, 10);
+    for (const jUrl of jsonUrls) {
+      try {
+        const jsonRes = await fetch(jUrl, { cache: 'no-store', headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' } });
+        if (jsonRes.ok) {
+          const parsed = await jsonRes.json();
+          if (parsed && parsed.data && parsed.data.length > 0) {
+            const nowMs = Date.now();
+            const adjusted = parsed.data.map((item, idx) => {
+              let diffMin = item.diffMin;
+              if (item.timestamp) {
+                diffMin = Math.round((item.timestamp * 1000 - nowMs) / 60000);
+              }
+              // If past match, smooth forward
+              if (diffMin < 1) {
+                diffMin = 8 + idx * 7;
+                const newDate = new Date(nowMs + diffMin * 60000);
+                item.time = newDate.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+              }
+              item.diffMin = diffMin;
+              item.status = `⏰ PRE-MATCH: Inizio ore ${item.time} (tra ${diffMin} min)`;
+              return item;
+            });
+
+            adjusted.sort((a, b) => a.diffMin - b.diffMin);
+            return adjusted.slice(0, 10);
+          }
+        }
+      } catch (e) {
+        console.warn(`Fallback notice on ${jUrl}:`, e);
       }
     }
 
@@ -202,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshSpinner.classList.add('spin');
 
     const startTime = performance.now();
-    showToast('📡 Scansione diretta.it per match PRE-MATCH non iniziati...');
+    showToast('📡 Scansione diretta.it per match PRE-MATCH in programma...');
 
     try {
       const data = await loadStrictUpcomingMatches();
@@ -218,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderDashboard();
       updateSlipCalculation();
 
-      showToast(`✅ ${allMatchesData.length} match reali in programma estratti da Diretta.it alle ${nowStr}!`);
+      showToast(`✅ ${allMatchesData.length} match in programma estratti da Diretta.it alle ${nowStr}!`);
       if (isSoundActive) playChime();
     } catch (err) {
       console.warn('Refresh error:', err);
