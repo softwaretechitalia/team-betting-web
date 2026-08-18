@@ -279,13 +279,37 @@
           </div>
 
           <div class="slip-footer">
-            <p>🛡️ Strategia Matematicamente Accreditata (Rischio Minimo 99.2%)</p>
+            <span>Quota matematica certificata ≤ 1.01 per evento. Gioca responsabilmente (+18).</span>
           </div>
         </div>
       </aside>
 
     </div>
   </main>
+
+  <!-- MOBILE STICKY FLOATING BOTTOM BAR -->
+  <div class="mobile-sticky-bar" id="mobileStickyBar">
+    <div class="sticky-bar-content">
+      <div class="sticky-info-col">
+        <div class="sticky-top-line">
+          <span class="sticky-badge">💰 MULTIPLA 10x</span>
+          <span class="sticky-odds mono" id="stickyTotalOdds">1.1046</span>
+        </div>
+        <div class="sticky-payout-line">
+          <span>Puntata 100€ ➜</span>
+          <strong class="sticky-payout-val mono" id="stickyPayout">110.46 €</strong>
+        </div>
+      </div>
+      <div class="sticky-actions-col">
+        <button class="btn-sticky-copy" onclick="copyAllSlipDetails()" title="Copia Schedina Completa">
+          📋 Copia
+        </button>
+        <button class="btn-sticky-play" onclick="openBet365Multiple()" title="Gioca su Bet365">
+          🔴 Bet365 ➔
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer-bar">
@@ -304,6 +328,6 @@
   <!-- AUDIO SOUND ELEMENT -->
   <audio id="chimeAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-  <script src="app.js?v=20260818_v22"></script>
+  <script src="app.js?v=20260818_v23"></script>
 </body>
 </html>

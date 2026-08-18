@@ -394,6 +394,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (slipTotalOdds)      slipTotalOdds.textContent      = totalOdds.toFixed(4);
     if (payoutTotal)        payoutTotal.textContent        = `${totalReturn.toFixed(2)} €`;
     if (profitNet)          profitNet.textContent          = `+${netProfit.toFixed(2)} €`;
+
+    // Sincronizza Sticky Bottom Bar Mobile
+    const stickyOdds = document.getElementById('stickyTotalOdds');
+    const stickyPayout = document.getElementById('stickyPayout');
+    if (stickyOdds)   stickyOdds.textContent   = totalOdds.toFixed(4);
+    if (stickyPayout) stickyPayout.textContent = `${totalReturn.toFixed(2)} €`;
   }
 
   window.setStake = function(val) {
