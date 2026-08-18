@@ -275,31 +275,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Counters ─────────────────────────────────────────────────────────────
   function updateSportCounters() {
-    if (countAll)        countAll.textContent        = allMatchesData.length;
-    if (countSoccer)     countSoccer.textContent     = allMatchesData.filter(m => m.sport === 'Calcio').length;
-    if (countBaseball)   countBaseball.textContent   = allMatchesData.filter(m => m.sport === 'Baseball').length;
-    if (countBasketball) countBasketball.textContent = allMatchesData.filter(m => m.sport === 'Basket').length;
-    if (countTennis)     countTennis.textContent     = allMatchesData.filter(m => m.sport === 'Tennis').length;
+    const total = allMatchesData.length;
+    if (countAll)          countAll.textContent          = total;
+    if (countTennis)       countTennis.textContent       = allMatchesData.filter(m => m.sport === 'Tennis').length;
+    if (countBaseball)     countBaseball.textContent     = allMatchesData.filter(m => m.sport === 'Baseball').length;
+    if (countSoccer)       countSoccer.textContent       = allMatchesData.filter(m => m.sport === 'Calcio').length;
+    if (countBasketball)   countBasketball.textContent   = allMatchesData.filter(m => m.sport === 'Basket').length;
+    const countTT = document.getElementById('countTableTennis');
+    if (countTT)           countTT.textContent           = allMatchesData.filter(m => m.sport === 'Tennistavolo').length;
   }
 
   // ─── Render Dashboard (Desktop Table + Mobile Cards) ──────────────────────
   function renderDashboard() {
     const filtered = allMatchesData.filter(item => {
-      if (currentFilter === 'all')        return true;
-      if (currentFilter === 'soccer')     return item.sport === 'Calcio';
-      if (currentFilter === 'tennis')     return item.sport === 'Tennis';
-      if (currentFilter === 'basketball') return item.sport === 'Basket';
-      if (currentFilter === 'baseball')   return item.sport === 'Baseball';
-      return true;
+      if (!currentFilter || currentFilter === 'all') return true;
+      return item.sport.toLowerCase() === currentFilter.toLowerCase();
     });
 
     if (filtered.length === 0) {
       marketTableBody.innerHTML = `
         <tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--text-muted);">
-          <div style="font-size:1.3rem;margin-bottom:0.4rem;">📭 Nessun evento disponibile per questo sport</div>
-          <div style="font-size:0.9rem;">Premi <strong>"Aggiorna Ora"</strong> per avviare una nuova scansione</div>
+          <div style="font-size:1.3rem;margin-bottom:0.4rem;">📭 Nessun evento disponibile per "${currentFilter}"</div>
+          <div style="font-size:0.9rem;">Seleziona <strong>"Tutti"</strong> o premi <strong>"Aggiorna Ora"</strong></div>
         </td></tr>`;
-      mobileCardsContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-muted);">Nessuna quota disponibile. Premi Aggiorna Ora.</div>`;
+      mobileCardsContainer.innerHTML = `
+        <div style="text-align:center;padding:2.5rem 1rem;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:16px;">
+          <div style="font-size:1.4rem;margin-bottom:0.4rem;">📭 Nessun evento per "${currentFilter}"</div>
+          <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">I match per questo sport inizieranno più tardi.</div>
+          <button class="btn-mobile-bet" style="max-width:200px;margin:0 auto;display:flex;" onclick="document.querySelector('[data-sport=all]').click()">Mostra Tutti</button>
+        </div>`;
       return;
     }
 
