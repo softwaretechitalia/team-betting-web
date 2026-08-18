@@ -4,8 +4,8 @@
   "source": "Diretta.it Multi-Sport Real Time",
   "totalPreMatchesFound": 93,
   "count": 10,
-  "scannedAt": "2026-08-18T09:21:47.571836",
-  "timeFormatted": "09:21:47",
+  "scannedAt": "2026-08-18T09:29:29.121318",
+  "timeFormatted": "09:29:29",
   "data": [
     {
       "id": "diretta-CnFtq4Hj",
@@ -16,8 +16,8 @@
       "time": "09:30",
       "timestamp": 1787038200,
       "rawDate": "2026-08-18T09:30:00",
-      "diffMin": 8,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 8 min)",
+      "diffMin": 1,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 1 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Adams J. +1.5 Set",
@@ -30,7 +30,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-nPm2L3gS",
@@ -41,8 +41,8 @@
       "time": "09:30",
       "timestamp": 1787038200,
       "rawDate": "2026-08-18T09:30:00",
-      "diffMin": 8,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 8 min)",
+      "diffMin": 1,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 1 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Mair L. +1.5 Set",
@@ -55,7 +55,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-4ENs3P8M",
@@ -66,8 +66,8 @@
       "time": "09:30",
       "timestamp": 1787038200,
       "rawDate": "2026-08-18T09:30:00",
-      "diffMin": 8,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 8 min)",
+      "diffMin": 1,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 1 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Schunk N. +1.5 Set",
@@ -80,7 +80,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-WYtnPof3",
@@ -91,8 +91,8 @@
       "time": "09:30",
       "timestamp": 1787038200,
       "rawDate": "2026-08-18T09:30:00",
-      "diffMin": 8,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 8 min)",
+      "diffMin": 1,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 1 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Zoldakova D. +1.5 Set",
@@ -105,7 +105,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-Aku63TPP",
@@ -116,8 +116,8 @@
       "time": "10:00",
       "timestamp": 1787040000,
       "rawDate": "2026-08-18T10:00:00",
-      "diffMin": 38,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 38 min)",
+      "diffMin": 30,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 30 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5 / 7.5)",
       "selection": "Under 6.5 Gol",
@@ -130,7 +130,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-hlocbeJ5",
@@ -141,8 +141,8 @@
       "time": "10:00",
       "timestamp": 1787040000,
       "rawDate": "2026-08-18T10:00:00",
-      "diffMin": 38,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 38 min)",
+      "diffMin": 30,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 30 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5 / 7.5)",
       "selection": "Under 6.5 Gol",
@@ -155,7 +155,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-vRCySd8M",
@@ -166,8 +166,8 @@
       "time": "10:00",
       "timestamp": 1787040000,
       "rawDate": "2026-08-18T10:00:00",
-      "diffMin": 38,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 38 min)",
+      "diffMin": 30,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 30 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Broska F. +1.5 Set",
@@ -180,7 +180,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-nkmbXImK",
@@ -191,8 +191,8 @@
       "time": "10:00",
       "timestamp": 1787040000,
       "rawDate": "2026-08-18T10:00:00",
-      "diffMin": 38,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 38 min)",
+      "diffMin": 30,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 30 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Krutykh O. +1.5 Set",
@@ -205,7 +205,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-nVd4ByR0",
@@ -216,8 +216,8 @@
       "time": "10:00",
       "timestamp": 1787040000,
       "rawDate": "2026-08-18T10:00:00",
-      "diffMin": 38,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 38 min)",
+      "diffMin": 30,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 30 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Soto M. +1.5 Set",
@@ -230,7 +230,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     },
     {
       "id": "diretta-8GyQ2DaM",
@@ -241,8 +241,8 @@
       "time": "10:00",
       "timestamp": 1787040000,
       "rawDate": "2026-08-18T10:00:00",
-      "diffMin": 38,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 38 min)",
+      "diffMin": 30,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 30 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Ehrenschneider N. +1.5 Set",
@@ -255,7 +255,7 @@
       "verified": true,
       "source": "Diretta.it (Feed Ufficiale Live)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "09:21:47"
+      "scanTime": "09:29:29"
     }
   ]
 }

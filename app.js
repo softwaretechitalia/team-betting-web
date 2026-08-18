@@ -1,6 +1,7 @@
 /**
- * Team Betting AI PRO v18.0 — Live Real-Time Pre-Match Filter (Strict 3 Hours)
- * Estrae solo e soltanto match reali NON ANCORA INIZIATI con inizio entro 3 ore da adesso.
+ * Team Betting AI PRO v19.0 — Strict Live Pre-Match Filter (ZERO fake data)
+ * Estrae solo e soltanto match reali NON ANCORA INIZIATI con inizio entro 3 ore dall'orario del click.
+ * I match passati vengono SCARTATI — mai riposizionati artificialmente.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,9 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     { sportId: 3, sportName: "Basket", icon: "🏀", bet365: "https://www.bet365.it/#/AS/B18/" },
   ];
 
-  function parseLiveFeed(rawText, feedConfig) {
+  function parseLiveFeed(rawText, feedConfig, clickTimeMs, maxMinutes) {
     const list = [];
-    const nowMs = Date.now();
+    const nowMs = clickTimeMs || Date.now(); // anchored to click time
+    const maxMin = maxMinutes || 180;
     const records = rawText.split('~');
     let currentTournament = "Palinsesto Diretta.it";
 
@@ -80,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (matchStatus === '1' && timestamp > 0) {
           const diffMinutes = Math.round((timestamp * 1000 - nowMs) / 60000);
 
-          // STRICT FILTER: Match must start in the future (between 0 and 200 minutes from now)
-          if (diffMinutes >= 0 && diffMinutes <= 200) {
+          // STRICT: must be in the future AND within 3 hours from click time
+          if (diffMinutes >= 1 && diffMinutes <= maxMin) {
             const mDate = new Date(timestamp * 1000);
             const timeStr = mDate.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
 
@@ -132,7 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Fetch Upcoming Matches from Feeds & JSON ─────────────────────────────
   async function loadStrictUpcomingMatches() {
+    // Capture "now" at the exact moment the user clicked Aggiorna Ora
+    const clickTimeMs = Date.now();
+    const MAX_MINUTES_AHEAD = 180; // 3 hours
     const liveMatches = [];
+
     const proxyUrls = [
       (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
       (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
@@ -149,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (res.ok) {
             const raw = await res.text();
             if (raw && raw.length > 500 && raw.includes('~')) {
-              const items = parseLiveFeed(raw, feed);
+              const items = parseLiveFeed(raw, feed, clickTimeMs, MAX_MINUTES_AHEAD);
               liveMatches.push(...items);
               ok = true;
             }
@@ -163,8 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return liveMatches.slice(0, 10);
     }
 
-    // Fallback: Read odds.json directly from GitHub Pages with Cache-Buster
-    const cacheBuster = Date.now();
+    // Fallback: Read odds.json with strict current-time filter (NO fake data)
+    const cacheBuster = clickTimeMs;
     const jsonUrls = [
       `./odds.json?_t=${cacheBuster}`,
       `https://raw.githubusercontent.com/softwaretechitalia/team-betting-web/main/odds.json?_t=${cacheBuster}`
@@ -172,29 +178,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const jUrl of jsonUrls) {
       try {
-        const jsonRes = await fetch(jUrl, { cache: 'no-store', headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' } });
+        const jsonRes = await fetch(jUrl, {
+          cache: 'no-store',
+          headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
+        });
         if (jsonRes.ok) {
           const parsed = await jsonRes.json();
           if (parsed && parsed.data && parsed.data.length > 0) {
-            const nowMs = Date.now();
-            const adjusted = parsed.data.map((item, idx) => {
-              let diffMin = item.diffMin;
-              if (item.timestamp) {
-                diffMin = Math.round((item.timestamp * 1000 - nowMs) / 60000);
-              }
-              // If past match, smooth forward
-              if (diffMin < 1) {
-                diffMin = 8 + idx * 7;
-                const newDate = new Date(nowMs + diffMin * 60000);
-                item.time = newDate.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-              }
-              item.diffMin = diffMin;
-              item.status = `⏰ PRE-MATCH: Inizio ore ${item.time} (tra ${diffMin} min)`;
-              return item;
-            });
 
-            adjusted.sort((a, b) => a.diffMin - b.diffMin);
-            return adjusted.slice(0, 10);
+            // STRICT FILTER: recalculate diffMin from real click time, discard past matches
+            const valid = parsed.data
+              .map(item => {
+                if (!item.timestamp) return null; // no timestamp = skip
+                const diffMin = Math.round((item.timestamp * 1000 - clickTimeMs) / 60000);
+                if (diffMin < 1 || diffMin > MAX_MINUTES_AHEAD) return null; // PAST or TOO FAR = skip
+                const startDate = new Date(item.timestamp * 1000);
+                const timeStr = startDate.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+                return {
+                  ...item,
+                  diffMin,
+                  time: timeStr,
+                  status: `⏰ PRE-MATCH: Inizio ore ${timeStr} (tra ${diffMin} min)`
+                };
+              })
+              .filter(Boolean);
+
+            if (valid.length > 0) {
+              valid.sort((a, b) => a.diffMin - b.diffMin);
+              return valid.slice(0, 10);
+            }
           }
         }
       } catch (e) {
@@ -202,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    throw new Error('Nessun dato quote live disponibile');
+    throw new Error('Nessun match futuro trovato nelle prossime 3 ore. Aggiorna tra qualche minuto.');
   }
 
   // ─── Refresh Button Click Handler ─────────────────────────────────────────
