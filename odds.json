@@ -4,8 +4,8 @@
   "source": "Palinsesto Ufficiale Bet365.it Multi-Sport",
   "totalPreMatchesFound": 9,
   "count": 9,
-  "scannedAt": "2026-08-19T04:00:28.014328",
-  "timeFormatted": "04:00:28",
+  "scannedAt": "2026-08-19T04:53:21.591761",
+  "timeFormatted": "04:53:21",
   "data": [
     {
       "id": "diretta-fqZhXaVp",
@@ -18,8 +18,8 @@
       "time": "05:00",
       "timestamp": 1787115600,
       "rawDate": "2026-08-19T05:00:00",
-      "diffMin": 59,
-      "status": "⏰ PRE-MATCH: Inizio ore 05:00 (tra 59 min)",
+      "diffMin": 6,
+      "status": "⏰ PRE-MATCH: Inizio ore 05:00 (tra 6 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -32,34 +32,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "04:00:28"
-    },
-    {
-      "id": "diretta-UkQEbYhA",
-      "sport": "Tennis",
-      "sportIcon": "🎾",
-      "league": "CHALLENGER MÄNNER - DOPPEL: Cancún 2 (Mexiko), Hartplatz",
-      "event": "Rojer J.-J./Winegar T. vs Hernandez A./Pacheco Méndez R.",
-      "home": "Rojer J.-J./Winegar T.",
-      "away": "Hernandez A./Pacheco Méndez R.",
-      "time": "05:15",
-      "timestamp": 1787116500,
-      "rawDate": "2026-08-19T05:15:00",
-      "diffMin": 74,
-      "status": "⏰ PRE-MATCH: Inizio ore 05:15 (tra 74 min)",
-      "isLive": false,
-      "market": "Set Handicap (+1.5 Set)",
-      "selection": "Rojer J.-J./Winegar T. +1.5 Set",
-      "confidence": "99.8%",
-      "oddsBet365": 1.01,
-      "oddsBwin": 1.01,
-      "oddsEurobet": 1.01,
-      "oddsLottomatica": 1.01,
-      "hasRealOdds": true,
-      "verified": true,
-      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
-      "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-fk9crojJ",
@@ -72,8 +45,8 @@
       "time": "07:00",
       "timestamp": 1787122800,
       "rawDate": "2026-08-19T07:00:00",
-      "diffMin": 179,
-      "status": "⏰ PRE-MATCH: Inizio ore 07:00 (tra 179 min)",
+      "diffMin": 126,
+      "status": "⏰ PRE-MATCH: Inizio ore 07:00 (tra 126 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -86,7 +59,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-WfflOpDD",
@@ -99,8 +72,8 @@
       "time": "08:00",
       "timestamp": 1787126400,
       "rawDate": "2026-08-19T08:00:00",
-      "diffMin": 239,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 239 min)",
+      "diffMin": 186,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 186 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Nijboer R. +1.5 Set",
@@ -113,7 +86,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-08w69CYO",
@@ -126,8 +99,8 @@
       "time": "08:00",
       "timestamp": 1787126400,
       "rawDate": "2026-08-19T08:00:00",
-      "diffMin": 239,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 239 min)",
+      "diffMin": 186,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 186 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Stäheli L. +1.5 Set",
@@ -140,7 +113,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-6eHPrOX9",
@@ -153,8 +126,8 @@
       "time": "08:00",
       "timestamp": 1787126400,
       "rawDate": "2026-08-19T08:00:00",
-      "diffMin": 239,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 239 min)",
+      "diffMin": 186,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 186 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Grevelius E./Heinonen A. +1.5 Set",
@@ -167,7 +140,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-dSf5e1HF",
@@ -180,8 +153,8 @@
       "time": "08:00",
       "timestamp": 1787126400,
       "rawDate": "2026-08-19T08:00:00",
-      "diffMin": 239,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 239 min)",
+      "diffMin": 186,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 186 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Reček D./Siniakov D. +1.5 Set",
@@ -194,7 +167,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-Ai63ytQq",
@@ -207,8 +180,8 @@
       "time": "08:00",
       "timestamp": 1787126400,
       "rawDate": "2026-08-19T08:00:00",
-      "diffMin": 239,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 239 min)",
+      "diffMin": 186,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 186 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Paul J./Vocel M. +1.5 Set",
@@ -221,7 +194,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
     },
     {
       "id": "diretta-6LQyb7mm",
@@ -234,8 +207,8 @@
       "time": "08:00",
       "timestamp": 1787126400,
       "rawDate": "2026-08-19T08:00:00",
-      "diffMin": 239,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 239 min)",
+      "diffMin": 186,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:00 (tra 186 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -248,7 +221,34 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "04:00:28"
+      "scanTime": "04:53:21"
+    },
+    {
+      "id": "diretta-6J05t48b",
+      "sport": "Baseball",
+      "sportIcon": "⚾",
+      "league": "JAPAN: NPB",
+      "event": "Yokohama Baystars vs Yomiuri Giants",
+      "home": "Yokohama Baystars",
+      "away": "Yomiuri Giants",
+      "time": "08:45",
+      "timestamp": 1787129100,
+      "rawDate": "2026-08-19T08:45:00",
+      "diffMin": 231,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:45 (tra 231 min)",
+      "isLive": false,
+      "market": "Totale Punti (Under 14.5)",
+      "selection": "Under 14.5 Punti",
+      "confidence": "99.8%",
+      "oddsBet365": 1.01,
+      "oddsBwin": 1.01,
+      "oddsEurobet": 1.01,
+      "oddsLottomatica": 1.01,
+      "hasRealOdds": true,
+      "verified": true,
+      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
+      "bet365Link": "https://www.bet365.it/#/AS/B16/",
+      "scanTime": "04:53:21"
     }
   ]
 }
