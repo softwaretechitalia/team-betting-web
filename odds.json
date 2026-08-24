@@ -4,8 +4,8 @@
   "source": "Palinsesto Ufficiale Bet365.it Multi-Sport",
   "totalPreMatchesFound": 2,
   "count": 2,
-  "scannedAt": "2026-08-24T01:52:01.225367",
-  "timeFormatted": "01:52:01",
+  "scannedAt": "2026-08-24T03:08:32.691121",
+  "timeFormatted": "03:08:32",
   "data": [
     {
       "id": "diretta-YZhnOHwp",
@@ -15,11 +15,11 @@
       "event": "Ružić A. vs Bartunkova N.",
       "home": "Ružić A.",
       "away": "Bartunkova N.",
-      "time": "03:00",
-      "timestamp": 1787540400,
-      "rawDate": "2026-08-24T03:00:00",
-      "diffMin": 67,
-      "status": "⏰ PRE-MATCH: Inizio ore 03:00 (tra 67 min)",
+      "time": "03:15",
+      "timestamp": 1787541300,
+      "rawDate": "2026-08-24T03:15:00",
+      "diffMin": 6,
+      "status": "⏰ PRE-MATCH: Inizio ore 03:15 (tra 6 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Ružić A. +1.5 Set",
@@ -32,7 +32,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "01:52:01"
+      "scanTime": "03:08:32"
     },
     {
       "id": "diretta-I9mHTwGM",
@@ -42,11 +42,11 @@
       "event": "Sherif M. vs Oliynykova O.",
       "home": "Sherif M.",
       "away": "Oliynykova O.",
-      "time": "03:00",
-      "timestamp": 1787540400,
-      "rawDate": "2026-08-24T03:00:00",
-      "diffMin": 67,
-      "status": "⏰ PRE-MATCH: Inizio ore 03:00 (tra 67 min)",
+      "time": "03:30",
+      "timestamp": 1787542200,
+      "rawDate": "2026-08-24T03:30:00",
+      "diffMin": 21,
+      "status": "⏰ PRE-MATCH: Inizio ore 03:30 (tra 21 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Sherif M. +1.5 Set",
@@ -59,7 +59,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "01:52:01"
+      "scanTime": "03:08:32"
     }
   ]
 }
