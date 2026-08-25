@@ -2,37 +2,9 @@
   "status": "success",
   "filterMode": "BET365_OFFICIAL_CATALOG_POOL",
   "source": "Palinsesto Ufficiale Bet365.it Multi-Sport",
-  "totalPreMatchesFound": 1,
-  "count": 1,
-  "scannedAt": "2026-08-25T03:03:57.365962",
-  "timeFormatted": "03:03:57",
-  "data": [
-    {
-      "id": "diretta-Ygqtpa03",
-      "sport": "Tennis",
-      "sportIcon": "🎾",
-      "league": "WTA - EINZEL: Monterrey (Mexiko), Hartplatz",
-      "event": "Parry D. vs Vekić D.",
-      "home": "Parry D.",
-      "away": "Vekić D.",
-      "time": "03:45",
-      "timestamp": 1787629500,
-      "rawDate": "2026-08-25T03:45:00",
-      "diffMin": 41,
-      "status": "⏰ PRE-MATCH: Inizio ore 03:45 (tra 41 min)",
-      "isLive": false,
-      "market": "Set Handicap (+1.5 Set)",
-      "selection": "Parry D. +1.5 Set",
-      "confidence": "99.8%",
-      "oddsBet365": 1.01,
-      "oddsBwin": 1.01,
-      "oddsEurobet": 1.01,
-      "oddsLottomatica": 1.01,
-      "hasRealOdds": true,
-      "verified": true,
-      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
-      "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "03:03:57"
-    }
-  ]
+  "totalPreMatchesFound": 0,
+  "count": 0,
+  "scannedAt": "2026-08-25T04:01:29.410076",
+  "timeFormatted": "04:01:29",
+  "data": []
 }
