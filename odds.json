@@ -2,10 +2,10 @@
   "status": "success",
   "filterMode": "BET365_OFFICIAL_CATALOG_POOL",
   "source": "Palinsesto Ufficiale Bet365.it Multi-Sport",
-  "totalPreMatchesFound": 26,
-  "count": 26,
-  "scannedAt": "2026-08-26T07:26:52.509342",
-  "timeFormatted": "07:26:52",
+  "totalPreMatchesFound": 31,
+  "count": 31,
+  "scannedAt": "2026-08-26T08:10:48.943129",
+  "timeFormatted": "08:10:48",
   "data": [
     {
       "id": "diretta-viOdq5VO",
@@ -18,8 +18,8 @@
       "time": "08:30",
       "timestamp": 1787733000,
       "rawDate": "2026-08-26T08:30:00",
-      "diffMin": 63,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:30 (tra 63 min)",
+      "diffMin": 19,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:30 (tra 19 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Kopp S. +1.5 Set",
@@ -32,7 +32,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-6D2Eqr0l",
@@ -45,8 +45,8 @@
       "time": "08:30",
       "timestamp": 1787733000,
       "rawDate": "2026-08-26T08:30:00",
-      "diffMin": 63,
-      "status": "⏰ PRE-MATCH: Inizio ore 08:30 (tra 63 min)",
+      "diffMin": 19,
+      "status": "⏰ PRE-MATCH: Inizio ore 08:30 (tra 19 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "La Serna J. M. +1.5 Set",
@@ -59,7 +59,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-xOkGCYRO",
@@ -72,8 +72,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Merino A./Zhu M. +1.5 Set",
@@ -86,7 +86,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-ELmqx4Z2",
@@ -99,8 +99,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -113,7 +113,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-UV2IlM1B",
@@ -126,8 +126,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -140,7 +140,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-OWKjWDop",
@@ -153,8 +153,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -167,7 +167,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-0xnizr4F",
@@ -180,8 +180,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -194,7 +194,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-WdObUiGd",
@@ -207,8 +207,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -221,7 +221,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-dI4AjrXb",
@@ -234,8 +234,8 @@
       "time": "09:00",
       "timestamp": 1787734800,
       "rawDate": "2026-08-26T09:00:00",
-      "diffMin": 93,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 93 min)",
+      "diffMin": 49,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:00 (tra 49 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -248,7 +248,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-Olfvckff",
@@ -261,8 +261,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -275,7 +275,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-KGmmeTO6",
@@ -288,8 +288,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -302,7 +302,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-GOjWbBPs",
@@ -315,8 +315,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -329,7 +329,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-6DNDtU9D",
@@ -342,8 +342,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -356,7 +356,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-WjFa4X1K",
@@ -369,8 +369,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -383,7 +383,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-YoDK0EWH",
@@ -396,8 +396,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -410,7 +410,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-vouhr6Gj",
@@ -423,8 +423,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -437,7 +437,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-WvSw698c",
@@ -450,8 +450,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -464,7 +464,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-nVEC2z25",
@@ -477,8 +477,8 @@
       "time": "09:30",
       "timestamp": 1787736600,
       "rawDate": "2026-08-26T09:30:00",
-      "diffMin": 123,
-      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 123 min)",
+      "diffMin": 79,
+      "status": "⏰ PRE-MATCH: Inizio ore 09:30 (tra 79 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -491,7 +491,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-K2BpLmSh",
@@ -504,8 +504,8 @@
       "time": "10:00",
       "timestamp": 1787738400,
       "rawDate": "2026-08-26T10:00:00",
-      "diffMin": 153,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 153 min)",
+      "diffMin": 109,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 109 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Estevez J. +1.5 Set",
@@ -518,7 +518,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-bDMtmmWa",
@@ -531,8 +531,8 @@
       "time": "10:00",
       "timestamp": 1787738400,
       "rawDate": "2026-08-26T10:00:00",
-      "diffMin": 153,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 153 min)",
+      "diffMin": 109,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 109 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Schönhaus M. +1.5 Set",
@@ -545,7 +545,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-6ohnjro9",
@@ -558,8 +558,8 @@
       "time": "10:00",
       "timestamp": 1787738400,
       "rawDate": "2026-08-26T10:00:00",
-      "diffMin": 153,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 153 min)",
+      "diffMin": 109,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 109 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Hara Friend J. D. +1.5 Set",
@@ -572,7 +572,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-86b638Gt",
@@ -585,8 +585,8 @@
       "time": "10:00",
       "timestamp": 1787738400,
       "rawDate": "2026-08-26T10:00:00",
-      "diffMin": 153,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 153 min)",
+      "diffMin": 109,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 109 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Ivanov I. +1.5 Set",
@@ -599,7 +599,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-O4kZzHqK",
@@ -612,8 +612,8 @@
       "time": "10:00",
       "timestamp": 1787738400,
       "rawDate": "2026-08-26T10:00:00",
-      "diffMin": 153,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 153 min)",
+      "diffMin": 109,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 109 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Matusevich A. +1.5 Set",
@@ -626,7 +626,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-OM4O1Tx3",
@@ -639,8 +639,8 @@
       "time": "10:00",
       "timestamp": 1787738400,
       "rawDate": "2026-08-26T10:00:00",
-      "diffMin": 153,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 153 min)",
+      "diffMin": 109,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:00 (tra 109 min)",
       "isLive": false,
       "market": "Totale Gol (Under 6.5)",
       "selection": "Under 6.5 Gol",
@@ -653,7 +653,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B1/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-WtVpcsuA",
@@ -666,8 +666,8 @@
       "time": "10:30",
       "timestamp": 1787740200,
       "rawDate": "2026-08-26T10:30:00",
-      "diffMin": 183,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:30 (tra 183 min)",
+      "diffMin": 139,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:30 (tra 139 min)",
       "isLive": false,
       "market": "Set Handicap (+1.5 Set)",
       "selection": "Gulin S. +1.5 Set",
@@ -680,7 +680,7 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B13/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
     },
     {
       "id": "diretta-UV9CDilJ",
@@ -693,8 +693,8 @@
       "time": "10:35",
       "timestamp": 1787740500,
       "rawDate": "2026-08-26T10:35:00",
-      "diffMin": 188,
-      "status": "⏰ PRE-MATCH: Inizio ore 10:35 (tra 188 min)",
+      "diffMin": 144,
+      "status": "⏰ PRE-MATCH: Inizio ore 10:35 (tra 144 min)",
       "isLive": false,
       "market": "Totale Punti (Under 14.5)",
       "selection": "Under 14.5 Punti",
@@ -707,7 +707,142 @@
       "verified": true,
       "source": "Catalogo Ufficiale Bet365.it (Verificato)",
       "bet365Link": "https://www.bet365.it/#/AS/B16/",
-      "scanTime": "07:26:52"
+      "scanTime": "08:10:48"
+    },
+    {
+      "id": "diretta-WvjUzmUp",
+      "sport": "Tennis",
+      "sportIcon": "🎾",
+      "league": "CHALLENGER MÄNNER - EINZEL: Augsburg (Deutschland), Sand",
+      "event": "Cretu C. vs Damas M.",
+      "home": "Cretu C.",
+      "away": "Damas M.",
+      "time": "11:30",
+      "timestamp": 1787743800,
+      "rawDate": "2026-08-26T11:30:00",
+      "diffMin": 199,
+      "status": "⏰ PRE-MATCH: Inizio ore 11:30 (tra 199 min)",
+      "isLive": false,
+      "market": "Set Handicap (+1.5 Set)",
+      "selection": "Cretu C. +1.5 Set",
+      "confidence": "99.8%",
+      "oddsBet365": 1.01,
+      "oddsBwin": 1.01,
+      "oddsEurobet": 1.01,
+      "oddsLottomatica": 1.01,
+      "hasRealOdds": true,
+      "verified": true,
+      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
+      "bet365Link": "https://www.bet365.it/#/AS/B13/",
+      "scanTime": "08:10:48"
+    },
+    {
+      "id": "diretta-WW1wgnjT",
+      "sport": "Tennis",
+      "sportIcon": "🎾",
+      "league": "CHALLENGER MÄNNER - EINZEL: Augsburg (Deutschland), Sand",
+      "event": "Mena F. vs Wehnelt K.",
+      "home": "Mena F.",
+      "away": "Wehnelt K.",
+      "time": "11:30",
+      "timestamp": 1787743800,
+      "rawDate": "2026-08-26T11:30:00",
+      "diffMin": 199,
+      "status": "⏰ PRE-MATCH: Inizio ore 11:30 (tra 199 min)",
+      "isLive": false,
+      "market": "Set Handicap (+1.5 Set)",
+      "selection": "Mena F. +1.5 Set",
+      "confidence": "99.8%",
+      "oddsBet365": 1.01,
+      "oddsBwin": 1.01,
+      "oddsEurobet": 1.01,
+      "oddsLottomatica": 1.01,
+      "hasRealOdds": true,
+      "verified": true,
+      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
+      "bet365Link": "https://www.bet365.it/#/AS/B13/",
+      "scanTime": "08:10:48"
+    },
+    {
+      "id": "diretta-xtBB5dPi",
+      "sport": "Tennis",
+      "sportIcon": "🎾",
+      "league": "CHALLENGER MÄNNER - EINZEL: Roehampton 2 (Großbritannien), Hartplatz",
+      "event": "Hudd E. vs Martineau M.",
+      "home": "Hudd E.",
+      "away": "Martineau M.",
+      "time": "11:30",
+      "timestamp": 1787743800,
+      "rawDate": "2026-08-26T11:30:00",
+      "diffMin": 199,
+      "status": "⏰ PRE-MATCH: Inizio ore 11:30 (tra 199 min)",
+      "isLive": false,
+      "market": "Set Handicap (+1.5 Set)",
+      "selection": "Hudd E. +1.5 Set",
+      "confidence": "99.8%",
+      "oddsBet365": 1.01,
+      "oddsBwin": 1.01,
+      "oddsEurobet": 1.01,
+      "oddsLottomatica": 1.01,
+      "hasRealOdds": true,
+      "verified": true,
+      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
+      "bet365Link": "https://www.bet365.it/#/AS/B13/",
+      "scanTime": "08:10:48"
+    },
+    {
+      "id": "diretta-be3h4ket",
+      "sport": "Tennis",
+      "sportIcon": "🎾",
+      "league": "CHALLENGER MÄNNER - EINZEL: Roehampton 2 (Großbritannien), Hartplatz",
+      "event": "Monday J. vs Maxted L.",
+      "home": "Monday J.",
+      "away": "Maxted L.",
+      "time": "11:30",
+      "timestamp": 1787743800,
+      "rawDate": "2026-08-26T11:30:00",
+      "diffMin": 199,
+      "status": "⏰ PRE-MATCH: Inizio ore 11:30 (tra 199 min)",
+      "isLive": false,
+      "market": "Set Handicap (+1.5 Set)",
+      "selection": "Monday J. +1.5 Set",
+      "confidence": "99.8%",
+      "oddsBet365": 1.01,
+      "oddsBwin": 1.01,
+      "oddsEurobet": 1.01,
+      "oddsLottomatica": 1.01,
+      "hasRealOdds": true,
+      "verified": true,
+      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
+      "bet365Link": "https://www.bet365.it/#/AS/B13/",
+      "scanTime": "08:10:48"
+    },
+    {
+      "id": "diretta-KlExV9wR",
+      "sport": "Tennis",
+      "sportIcon": "🎾",
+      "league": "CHALLENGER MÄNNER - EINZEL: Roehampton 2 (Großbritannien), Hartplatz",
+      "event": "Tarvet O. vs Bonding O.",
+      "home": "Tarvet O.",
+      "away": "Bonding O.",
+      "time": "11:30",
+      "timestamp": 1787743800,
+      "rawDate": "2026-08-26T11:30:00",
+      "diffMin": 199,
+      "status": "⏰ PRE-MATCH: Inizio ore 11:30 (tra 199 min)",
+      "isLive": false,
+      "market": "Set Handicap (+1.5 Set)",
+      "selection": "Tarvet O. +1.5 Set",
+      "confidence": "99.8%",
+      "oddsBet365": 1.01,
+      "oddsBwin": 1.01,
+      "oddsEurobet": 1.01,
+      "oddsLottomatica": 1.01,
+      "hasRealOdds": true,
+      "verified": true,
+      "source": "Catalogo Ufficiale Bet365.it (Verificato)",
+      "bet365Link": "https://www.bet365.it/#/AS/B13/",
+      "scanTime": "08:10:48"
     }
   ]
 }
