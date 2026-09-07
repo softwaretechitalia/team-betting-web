@@ -1068,14 +1068,16 @@ function giornoPerso() {
   if (S.cassa <= 0) return;
   const cassaInizio = S.cassa;
   const puntata = puntataOdierna();
-  const perdita = S.cassa * 0.25;
-  S.cassa -= perdita;
+  // La perdita deve coincidere ESATTAMENTE con la puntata giocata
+  const perdita = puntata;
+  S.cassa = Math.max(0, S.cassa - perdita);
   S.perditeConsecutive++;
 
   simStats.total++; simStats.persi++;
-  registra(cassaInizio, puntata, '❌ PERDUTO (−1/4)', -perdita, 0, S.cassa, 'loss', 0);
+  const labelEsito = S.mode === 'sicuro' ? '❌ PERDUTO (−1/8)' : (S.mode === 'costruzione' ? '❌ PERDUTO (100%)' : '❌ PERDUTO (−1/4)');
+  registra(cassaInizio, puntata, labelEsito, -perdita, 0, S.cassa, 'loss', 0);
   S.giorno++;
-  showToast(`Perdita 1/4 cassa: -${fmt(perdita)}`, '❌');
+  showToast(`Perdita giornata: -${fmt(perdita)}`, '❌');
   aggiorna();
 }
 
