@@ -495,6 +495,61 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+
+  /* 🗄️ CARD DEDICATA CANCELLAZIONE DATABASE */
+  .db-management-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(255, 61, 87, 0.08), rgba(0, 0, 0, 0.4));
+    border: 1px solid rgba(255, 61, 87, 0.25);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+  .db-man-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .db-man-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .db-man-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .db-man-sub {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 2px;
+  }
+  .btn-danger-db {
+    background: linear-gradient(135deg, #c62828, #ff3d57);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 14px rgba(255, 61, 87, 0.35);
+    min-height: 44px;
+    transition: transform 0.15s ease;
+    touch-action: manipulation;
+  }
+  .btn-danger-db:active {
+    transform: scale(0.95);
+  }
+
 </style>
 </head>
 <body>
@@ -729,6 +784,7 @@ function updateDbCount(){
     const countReq = store.count();
     countReq.onsuccess = () => {
       if (el('dbRecordCount')) el('dbRecordCount').textContent = countReq.result;
+      if (el('dbRecordCountDetail')) el('dbRecordCountDetail').textContent = countReq.result + (countReq.result === 1 ? ' giocata' : ' giocate');
     };
   } catch (e) {}
 }
@@ -749,6 +805,37 @@ function loadHistoryFromDB(){
       }
     };
   } catch (e) {}
+}
+
+
+function deleteEntireDatabase(){
+  if (!confirm("⚠️ ATTENZIONE: Sei sicuro di voler cancellare definitivamente TUTTE le giocate dal database?\n\nQuesta operazione non può essere annullata.")) {
+    return;
+  }
+  
+  if (db) {
+    try {
+      const tx = db.transaction('plays', 'readwrite');
+      const store = tx.objectStore('plays');
+      const clearReq = store.clear();
+      
+      clearReq.onsuccess = () => {
+        el('historyBody').innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:rgba(255,255,255,0.4);">📋 Nessuna operazione nel database</td></tr>';
+        updateDbCount();
+        showToast("Database cancellato con successo!", "🗑️");
+      };
+      
+      clearReq.onerror = () => {
+        showToast("Errore durante la cancellazione del DB", "⚠️");
+      };
+    } catch(e) {
+      console.error(e);
+      showToast("Errore durante l'accesso al DB", "⚠️");
+    }
+  } else {
+    el('historyBody').innerHTML = '';
+    showToast("Storico azzerato!", "🗑️");
+  }
 }
 
 function clearDatabaseHistory(){
