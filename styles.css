@@ -1406,3 +1406,90 @@ body {
   border-radius: 999px;
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
+
+
+/* ==========================================================================
+   MOBILE PERFORMANCE & TOUCH ERGONOMICS (SMARTPHONE OPTIMIZED)
+   ========================================================================== */
+html, body {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
+.btn-cassa-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 170, 0, 0.3));
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  color: #ffd700;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  white-space: nowrap;
+}
+.btn-cassa-cta:active {
+  transform: scale(0.96);
+}
+
+.filters-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.filters-scroll::-webkit-scrollbar {
+  display: none;
+}
+.filter-pill {
+  scroll-snap-align: start;
+  min-height: 40px;
+  touch-action: manipulation;
+}
+.filter-pill:active {
+  transform: scale(0.96);
+}
+
+.mobile-match-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 150px;
+}
+
+.btn-bet-link, .btn-mini-copy, .btn-sticky-play, .btn-sticky-copy {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+.btn-bet-link:active, .btn-sticky-play:active {
+  transform: scale(0.96);
+}
+
+.mobile-sticky-bar {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 600px) {
+  .nav-content {
+    gap: 0.6rem;
+  }
+  .nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .btn-cassa-cta {
+    flex: 1;
+    justify-content: center;
+  }
+  .card-teams {
+    font-size: 0.98rem;
+  }
+  .stats-grid {
+    gap: 0.6rem;
+  }
+  .stat-card {
+    padding: 0.85rem;
+  }
+}
