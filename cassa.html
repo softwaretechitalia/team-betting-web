@@ -706,7 +706,7 @@
     <div class="stat-card highlight"><div class="label" id="lblPuntataOggi">Puntata Oggi (¼)</div><div class="value" id="statPuntata">—</div></div>
     <div class="stat-card"><div class="label">Obiettivo 4X</div><div class="value" id="statTarget">—</div></div>
     <div class="stat-card"><div class="label">Copertura Stop</div><div class="value" id="statCopertura">—</div></div>
-    <div class="stat-card"><div class="label">Quota Multipla</div><div class="value cyan" id="statMolt">—</div></div>
+    <div class="stat-card"><div class="label">Moltiplicatore (Q^N)</div><div class="value cyan" id="statMolt">—</div></div>
     <div class="stat-card"><div class="label">Profitto 100% Vinto</div><div class="value green" id="statGuadagno">—</div></div>
     <div class="stat-card"><div class="label">Prelevato Forziere</div><div class="value gold" id="statPrelevato">—</div></div>
     <div class="stat-card"><div class="label">Sicurezza / Edge</div><div class="value cyan" id="statSicurezza">—</div></div>
@@ -739,14 +739,14 @@
   </div>
 
   <div class="info-box success" id="infoBoxExplanation">
-    <strong>🎯 Money Management Matematico Reale:</strong> In modalità standard punti <strong>¼ della cassa</strong>, in modalità sicura <strong>⅛ della cassa</strong>. Il rendimento è calcolato autenticamente sulla quota multipla: vincere tutte le schedine genera esattamente <code>Puntata × (Quota − 1)</code>, senza moltiplicazioni arbitrarie o valori inventati.
+    <strong>🎯 Formula Compound 4X System:</strong> In modalità standard punti <strong>¼ della cassa</strong>, in modalità sicura <strong>⅛ della cassa</strong>. Il moltiplicatore complessivo della giornata è dato da <strong>Quota Multipla elevata al numero di schedine giocate</strong> (<code>Q^N</code>). La vincita piena con tutte le schedine vinte genera esattamente <code>Puntata × (Quota^N − 1)</code>.
   </div>
 
   <h3 style="margin-top:12px;font-size:12px;font-weight:700;">📜 Storico Operazioni (Database Locale Permanente)</h3>
   <div class="table-scroll">
     <table>
       <thead>
-        <tr><th>Giorno</th><th>Cassa Inizio</th><th>Puntata</th><th>Quota</th><th>Vinte</th><th>Esito</th><th>Variazione Reale</th><th>Prelevato</th><th>Cassa Fine</th></tr>
+        <tr><th>Giorno</th><th>Cassa Inizio</th><th>Puntata</th><th>Molt (Q^N)</th><th>Vinte</th><th>Esito</th><th>Variazione</th><th>Prelevato</th><th>Cassa Fine</th></tr>
       </thead>
       <tbody id="historyBody"></tbody>
     </table>
@@ -1030,6 +1030,8 @@ function reset() {
     target = c.cassa * 4;
   }
 
+  const molt = Math.pow(c.quotaMultipla, c.schedine);
+
   S = {
     mode: c.modo,
     cassa: c.cassa,
@@ -1040,6 +1042,7 @@ function reset() {
     schedine: c.schedine,
     eventi: c.eventi,
     winRate: c.winRate,
+    molt: molt,
     giorno: 1,
     prelevatoTot: 0,
     perditeConsecutive: 0
@@ -1089,15 +1092,16 @@ function aggiorna() {
   const breakEven = 1 / S.quotaMultipla;
   const edge = S.winRate - breakEven;
 
-  // PROFITTO REALE: Puntata * (Quota - 1)
-  const profittoPienoReale = puntata * (S.quotaMultipla - 1);
+  // Moltiplicatore: Quota multipla elevata al numero di schedine (Q^N)
+  S.molt = Math.pow(S.quotaMultipla, S.schedine);
+  const profittoPieno = puntata * (S.molt - 1);
 
   el('statCassa').textContent = fmt(S.cassa);
   el('statPuntata').textContent = fmt(puntata);
   el('statTarget').textContent = fmt(S.target);
   el('statCopertura').textContent = copertura().toFixed(1) + ' stop';
-  el('statMolt').textContent = 'Q ' + S.quotaMultipla.toFixed(3);
-  el('statGuadagno').textContent = '+' + fmt(profittoPienoReale);
+  el('statMolt').textContent = '×' + S.molt.toFixed(4);
+  el('statGuadagno').textContent = '+' + fmt(profittoPieno);
   el('statPrelevato').textContent = fmt(S.prelevatoTot);
   el('statSicurezza').textContent = (edge >= 0 ? '+' : '') + (edge * 100).toFixed(2) + '%';
 
@@ -1139,14 +1143,14 @@ function aggiorna() {
                     `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · Prelievo 50% profitti per consolidare il guadagno.</div>`;
   } else if (S.mode === 'costruisci') {
     ind.className = 'phase-indicator phase-all-in';
-    const giorni = profittoPienoReale > 0 ? Math.ceil((S.target - S.cassa) / profittoPienoReale) : 0;
+    const giorni = profittoPieno > 0 ? Math.ceil((S.target - S.cassa) / profittoPieno) : 0;
     ind.innerHTML = `🔨 FASE COSTRUZIONE — Cassa ${fmt(S.cassa)} → Obiettivo ${fmt(S.target)}` +
                     ` (${giorni > 0 ? '~' + giorni + ' giorni' : '✅ RAGGIUNTO!'})` +
                     `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.) ad accumulo integrale.</div>`;
   } else {
     ind.className = 'phase-indicator phase-rendita';
     ind.innerHTML = `✅ CASSA 4X PRONTA — Cassa ${fmt(S.cassa)} (${progress.toFixed(1)}% di ${fmt(S.target)}).` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.) | Profitto stimato: +${fmt(profittoPienoReale)}</div>`;
+                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.) | Profitto stimato: +${fmt(profittoPieno)}</div>`;
   }
 
   el('useCassaBox').classList.toggle('hidden', !(S.mode === 'costruisci' && S.cassa >= S.target));
@@ -1158,14 +1162,14 @@ function aggiorna() {
   el('btnSimula').disabled = dead;
 }
 
-function appendRowToTable(cassaInizio, puntata, quota, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
+function appendRowToTable(cassaInizio, puntata, moltVal, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
   const tr = document.createElement('tr');
   tr.className = cls;
   const vinteStr = vinte !== undefined ? vinte + '/' + S.schedine : '-';
   tr.innerHTML = `<td>#${giornoNum || S.giorno}</td>` +
     `<td>${fmt(cassaInizio)}</td>` +
     `<td>${fmt(puntata)}</td>` +
-    `<td style="font-family:var(--mono)">Q ${Number(quota || S.quotaMultipla).toFixed(3)}</td>` +
+    `<td style="font-family:var(--mono)">×${Number(moltVal || S.molt).toFixed(4)}</td>` +
     `<td style="text-align:center;">${vinteStr}</td>` +
     `<td style="text-align:left;">${esito}</td>` +
     `<td style="color:${variazione >= 0 ? '#00e676' : '#ff3d57'};font-weight:700;">${variazione >= 0 ? '+' : ''}${fmt(variazione)}</td>` +
@@ -1176,11 +1180,12 @@ function appendRowToTable(cassaInizio, puntata, quota, esito, variazione, prelev
 }
 
 function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine, cls, vinte) {
-  appendRowToTable(cassaInizio, puntata, S.quotaMultipla, esito, variazione, prelevato, cassaFine, cls, vinte, S.giorno);
+  appendRowToTable(cassaInizio, puntata, S.molt, esito, variazione, prelevato, cassaFine, cls, vinte, S.giorno);
   savePlayToDB({
     giorno: S.giorno,
     cassaInizio,
     puntata,
+    molt: S.molt,
     quota: S.quotaMultipla,
     esito,
     variazione,
@@ -1191,14 +1196,15 @@ function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine,
   });
 }
 
-/* GIORNO VINTO (100% SCHEDINE VINTE): MATEMATICA AUTENTICA */
+/* GIORNO VINTO (100% SCHEDINE VINTE): QUOTA MULTIPLA ELEVATA AL NUMERO DI SCHEDINE PER LA PUNTATA */
 function giornoVinto() {
   if (S.cassa <= 0) return;
   const cassaInizio = S.cassa;
   const puntata = puntataOdierna();
   
-  // PROFITTO REALE: Puntata * (Quota - 1)
-  const profit = puntata * (S.quotaMultipla - 1);
+  // Calcolo Quota Multipla elevato al numero di schedine giocate per la somma giocata
+  S.molt = Math.pow(S.quotaMultipla, S.schedine);
+  const profit = puntata * (S.molt - 1);
   let prelevato = 0;
   let esito;
 
@@ -1274,11 +1280,12 @@ function openMistoModal() {
   el('modalTotalSchedine').textContent = S.schedine;
   const grid = el('mistoBtnGrid');
   grid.innerHTML = '';
+  const puntata = puntataOdierna();
   for (let w = 0; w <= S.schedine; w++) {
     const btn = document.createElement('button');
     btn.className = 'modal-btn-choice';
-    const puntataSingola = puntataOdierna() / S.schedine;
-    const netto = (w * puntataSingola * S.quotaMultipla) - puntataOdierna();
+    const moltW = Math.pow(S.quotaMultipla, w);
+    const netto = puntata * (moltW - 1);
     btn.innerHTML = `<strong>${w}/${S.schedine}</strong><div style="font-size:10px;margin-top:2px;color:${netto>=0?'#00e676':'#ff3d57'}">${netto>=0?'+':''}${fmt(netto)}</div>`;
     btn.onclick = () => eseguiGiornoMisto(w);
     grid.appendChild(btn);
@@ -1304,8 +1311,9 @@ function eseguiGiornoMisto(vinte) {
 
   const cassaInizio = S.cassa;
   const puntata = puntataOdierna();
-  const puntataSingola = puntata / S.schedine;
-  const incassoLordo = vinte * puntataSingola * S.quotaMultipla;
+  // Calcolo quota multipla elevata al numero di schedine vinte
+  const moltW = Math.pow(S.quotaMultipla, vinte);
+  const incassoLordo = puntata * moltW;
   const profit = incassoLordo - puntata;
 
   let prelevato = 0;
@@ -1373,8 +1381,8 @@ function simulaGiornate() {
     } else {
       const cassaInizio = S.cassa;
       const puntata = puntataOdierna();
-      const puntataSingola = puntata / S.schedine;
-      const incassoLordo = vinte * puntataSingola * S.quotaMultipla;
+      const moltW = Math.pow(S.quotaMultipla, vinte);
+      const incassoLordo = puntata * moltW;
       const profit = incassoLordo - puntata;
       
       let prelevato = 0;
