@@ -43,7 +43,7 @@
   }
 
   .container {
-    max-width: 860px;
+    max-width: 880px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.025);
     backdrop-filter: blur(20px);
@@ -59,7 +59,7 @@
     .container { padding: 10px 8px; border-radius: 14px; }
   }
 
-  /* 🌟 TOP APP BAR CON ICONA FORZIERE E NAVIGAZIONE STESSA TAB */
+  /* TOP APP BAR */
   .top-app-bar {
     display: flex;
     align-items: center;
@@ -102,9 +102,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .brand-text-title span {
-    color: var(--gold);
-  }
+  .brand-text-title span { color: var(--gold); }
   .brand-text-sub {
     font-size: 10px;
     color: rgba(255, 255, 255, 0.5);
@@ -201,7 +199,7 @@
     line-height: 1.4;
   }
 
-  /* CONFIG BOX CON CONTROLLI RESPONSIVE */
+  /* CONFIG BOX CON CONTROLLI RESPONSIVE E DATA GIOCATA */
   .config-box {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
@@ -284,6 +282,16 @@
     background: rgba(79, 195, 247, 0.15);
     border-color: var(--accent);
     color: #fff;
+  }
+
+  /* STEP PROGRESS BOX (QUANDO LA GIORNATA È IN CORSO) */
+  .step-progress-box {
+    background: linear-gradient(135deg, rgba(255, 215, 64, 0.08), rgba(0, 229, 255, 0.04));
+    border: 1px solid rgba(255, 215, 64, 0.35);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 14px rgba(255, 215, 64, 0.1);
   }
 
   /* STATS GRID */
@@ -378,20 +386,17 @@
     gap: 4px;
   }
 
-  /* ACTION BUTTONS GRID */
+  /* ACTION BUTTONS GRID CON VINTA UNA SCOMMESSA, PERSO, PRELEVA */
   .btn-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 6px;
     margin-bottom: 12px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 680px) {
     .btn-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 6px;
-    }
-    .btn-grid button:last-child {
-      grid-column: span 2;
     }
   }
   .btn {
@@ -406,6 +411,11 @@
     text-align: center;
     outline: none;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
   }
   .btn:hover:not(:disabled) {
     transform: translateY(-1px);
@@ -420,7 +430,7 @@
   }
   .btn-primary { background: rgba(255, 255, 255, 0.08); color: #fff; border-color: var(--border); }
   .btn-success { background: linear-gradient(135deg, #00c853, #009624); color: #fff; border-color: rgba(0, 230, 118, 0.4); }
-  .btn-warning { background: linear-gradient(135deg, #ff8f00, #e65100); color: #fff; border-color: rgba(255, 171, 64, 0.4); }
+  .btn-warning { background: linear-gradient(135deg, #0288d1, #01579b); color: #fff; border-color: rgba(79, 195, 247, 0.4); }
   .btn-danger { background: linear-gradient(135deg, #d50000, #b71c1c); color: #fff; border-color: rgba(255, 61, 87, 0.4); }
   .btn-cyan { background: linear-gradient(135deg, #00b0ff, #00838f); color: #fff; border-color: rgba(0, 229, 255, 0.4); }
   .btn-gold { background: linear-gradient(135deg, #ffd740, #ff8f00); color: #000; border-color: #ffd740; }
@@ -471,6 +481,8 @@
   tr:last-child td { border-bottom: none; }
   tr.win { background: rgba(0, 230, 118, 0.03); }
   tr.loss { background: rgba(255, 61, 87, 0.05); }
+  tr.step { background: rgba(79, 195, 247, 0.03); }
+  tr.prelievo { background: rgba(255, 215, 64, 0.06); }
   tr.special { background: rgba(255, 215, 64, 0.05); }
 
   /* MODAL */
@@ -510,38 +522,6 @@
     margin-bottom: 12px;
     line-height: 1.4;
   }
-  .modal-grid-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 12px;
-    max-height: 260px;
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-  .modal-btn-choice {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 6px;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    font-size: 11px;
-  }
-  .modal-btn-choice:hover {
-    background: rgba(79, 195, 247, 0.15);
-    border-color: var(--accent);
-  }
-  .modal-btn-choice.danger {
-    border-color: rgba(255, 61, 87, 0.4);
-    background: rgba(255, 61, 87, 0.1);
-  }
-  .modal-btn-choice.success {
-    border-color: rgba(0, 230, 118, 0.4);
-    background: rgba(0, 230, 118, 0.1);
-  }
 
   /* TOAST NOTIFICA */
   .toast {
@@ -575,7 +555,7 @@
 <body>
 
 <div class="container">
-  <!-- 🌟 APP BAR CON ICONA FORZIERE E LINK STESSA TAB -->
+  <!-- TOP APP BAR CON ICONA FORZIERE E LINK STESSA TAB -->
   <div class="top-app-bar">
     <div class="brand-group">
       <div class="chest-icon-wrap" title="Forziere Cassa 4X System">
@@ -618,7 +598,7 @@
   <!-- DATABASE STATUS BAR CON AZIONI BACKUP/RESTORE -->
   <div class="db-status-bar">
     <div class="db-status-badge">
-      <span>💾</span> Database Locale Permanente: <span id="dbRecordCount" style="color:#fff">0</span> giocate
+      <span>💾</span> Database Locale Permanente: <span id="dbRecordCount" style="color:#fff">0</span> operazioni
     </div>
     <div class="db-actions-group">
       <button class="btn-db-action" onclick="exportDatabaseJSON()" title="Esporta file di backup JSON">📤 Backup</button>
@@ -629,10 +609,15 @@
   <input type="file" id="jsonFileInput" accept=".json" style="display:none" onchange="handleImportJSON(event)">
 
   <h1>🎯 4X System — Cassa Quote 1.01/1.02</h1>
-  <p class="subtitle">Gestione Compound Reale · Guadagni Autentici Calcolati su Quota Multipla ^ Schedine</p>
+  <p class="subtitle">Gestione Compound Reale · Step Singoli, Prelievo dopo l'Intera Giornata o Libero Senza Sistema</p>
 
   <div class="config-box">
     <div class="config-row">
+      <div class="input-group">
+        <label>📅 Data Giocata</label>
+        <input type="date" id="dataGiocataInput" onchange="onDateChanged()">
+        <div class="sub-note">Data associata alle registrazioni</div>
+      </div>
       <div class="input-group">
         <label>💶 Cassa Iniziale (€)</label>
         <input type="number" id="cassaInput" value="1000" min="10" step="10" onchange="onUserInputChange()">
@@ -672,10 +657,10 @@
       <div class="input-group">
         <label>📊 Schedine al giorno</label>
         <input type="number" id="schedineInput" value="6" min="1" max="50" step="1" onchange="onUserInputChange()">
-        <div class="sub-note">Schedine indipendenti giocate al giorno</div>
+        <div class="sub-note">Schedine indipendenti / step al giorno</div>
       </div>
       <div class="input-group">
-        <label>🪙 Prelievo / Rendita</label>
+        <label>🪙 Prelievo di Sistema</label>
         <select id="prelievoSelect" onchange="onPrelievoChanged()">
           <option value="0" selected>0% (Accumulo 100% - Interesse Composto ⭐)</option>
           <option value="0.25">25% (Rendita 25% · Accumulo 75%)</option>
@@ -683,7 +668,7 @@
           <option value="0.75">75% (Rendita elevata)</option>
           <option value="1.00">100% (Prelievo integrale profitti)</option>
         </select>
-        <div class="sub-note">Default 0%: tutto il profitto aumenta la cassa</div>
+        <div class="sub-note">Applicato a fine giornata su tutte vinte</div>
       </div>
       <div class="input-group">
         <label>🎯 % Vincita stimata</label>
@@ -705,6 +690,21 @@
 
   <div id="phaseIndicator" class="phase-indicator phase-rendita"></div>
 
+  <!-- STEP PROGRESS BOX (VISIBILE DURANTE LA GIORNATA IN CORSO) -->
+  <div id="stepProgressBox" class="step-progress-box" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div style="font-weight:800;font-size:12px;color:var(--gold);display:flex;align-items:center;gap:6px;">
+        <span>🎯 GIORNATA IN CORSO:</span>
+        <span id="stepProgressBadge" style="background:rgba(255,215,64,0.2);border:1px solid var(--gold);padding:2px 8px;border-radius:6px;">0/6 Vinte</span>
+      </div>
+      <div style="font-size:11px;font-family:var(--mono);color:var(--cyan);" id="stepProgressMolt">×1.0000</div>
+    </div>
+    <div style="font-size:11px;color:#fff;line-height:1.4;">
+      Montante maturato oggi: <strong id="stepMontanteVal" style="color:var(--green);">€ 250,00</strong> (<span id="stepProfittoVal" style="color:var(--green);">+€ 0,00</span>).<br>
+      <span style="font-size:10px;color:rgba(255,255,255,0.7);" id="stepRemainingNote">Completa tutte le scommesse del giorno per chiudere la sessione e consentire il prelievo.</span>
+    </div>
+  </div>
+
   <!-- STATS GRID -->
   <div class="stats-grid">
     <div class="stat-card"><div class="label">Cassa Attuale</div><div class="value" id="statCassa">—</div></div>
@@ -713,7 +713,7 @@
     <div class="stat-card highlight"><div class="label">Guadagno Netto Vinto</div><div class="value green" id="statGuadagno">—</div></div>
     <div class="stat-card"><div class="label">Incasso Lordo</div><div class="value" id="statIncasso">—</div></div>
     <div class="stat-card"><div class="label">Target Obiettivo</div><div class="value" id="statTarget">—</div></div>
-    <div class="stat-card"><div class="label">Prelevato Forziere</div><div class="value gold" id="statPrelevato">—</div></div>
+    <div class="stat-card"><div class="label">Prelevato Totale</div><div class="value gold" id="statPrelevato">—</div></div>
     <div class="stat-card"><div class="label">Copertura Stop</div><div class="value cyan" id="statCopertura">—</div></div>
   </div>
 
@@ -723,19 +723,31 @@
   <div class="sim-stats">
     <div>Giornate: <span id="simCount" style="color:#00e5ff;">0</span></div>
     <div>Vinte: <span id="simVinti" style="color:#00e676;">0</span></div>
-    <div>Miste: <span id="simMisti" style="color:#ffab40;">0</span></div>
     <div>Perse: <span id="simPersi" style="color:#ff3d57;">0</span></div>
     <div>Crescita: <span id="simCrescita" style="color:#ffd740;">+0%</span></div>
     <div>Profitto: <span id="simProfitto" style="color:#ffd740;">€0,00</span></div>
   </div>
 
-  <!-- ACTION BUTTONS GRID -->
+  <!-- ACTION BUTTONS GRID: RESET, VINTA UNA SCOMMESSA, VINTO TUTTE, PERSO, PRELEVA, SIMULA -->
   <div class="btn-grid">
-    <button class="btn btn-primary" id="btnResetAction" onclick="resetButtonAction()">↺ Reset</button>
-    <button class="btn btn-success" id="btnVinto" onclick="giornoVinto()">✅ Vinto (Tutte)</button>
-    <button class="btn btn-warning" id="btnMisto" onclick="openMistoModal()">🔄 Misto...</button>
-    <button class="btn btn-danger" id="btnPerso" onclick="giornoPerso()">❌ Perso (Tutte)</button>
-    <button class="btn btn-cyan" id="btnSimula" onclick="simulaGiornate()">🎲 Simula 30gg</button>
+    <button class="btn btn-primary" id="btnResetAction" onclick="resetButtonAction()" title="Ripristina la cassa iniziale">
+      <span>↺ Reset</span>
+    </button>
+    <button class="btn btn-warning" id="btnVintaSingola" onclick="vintaUnaScommessa()" title="Registra la vittoria di una singola schedina del giorno">
+      <span>🎯 Vinta una scommessa</span>
+    </button>
+    <button class="btn btn-success" id="btnVintoTutte" onclick="giornoVintoTutte()" title="Registra tutte le schedine della giornata come vinte in una volta">
+      <span>✅ Vinto (Tutte)</span>
+    </button>
+    <button class="btn btn-danger" id="btnPerso" onclick="giornoPerso()" title="Hai perso il capitale giocato oggi">
+      <span>❌ Perso</span>
+    </button>
+    <button class="btn btn-gold" id="btnPrelevaLibero" onclick="apriModalPrelievoLibero()" title="Preleva un importo a piacere senza seguire il sistema">
+      <span>💸 Preleva</span>
+    </button>
+    <button class="btn btn-cyan" id="btnSimula" onclick="simulaGiornate()" title="Simula 30 giorni consecutivi">
+      <span>🎲 Simula 30gg</span>
+    </button>
   </div>
 
   <div class="use-cassa-box hidden" id="useCassaBox" style="text-align:center;margin:10px 0;padding:12px;background:rgba(255,215,0,.08);border:2px dashed #ffd700;border-radius:12px;font-size:12px;">
@@ -744,11 +756,10 @@
   </div>
 
   <div class="info-box success" id="infoBoxExplanation">
-    <strong>🎯 Formula Compound 4X System Verificata:</strong> La quota totale della giornata è data da <strong>Quota Multipla elevata al numero di schedine giocate (<code>Q^N</code>)</strong>.<br>
-    Ad esempio con <strong>€ 250</strong> puntati su <strong>6 schedine a quota 1.105</strong>:<br>
-    • Moltiplicatore: <code>1.105^6 ≈ 1.8204</code><br>
-    • Incasso Lordo: <code>€ 250 × 1.8204 = € 455,11</code><br>
-    • Guadagno Netto: <code>€ 455,11 − € 250 = +€ 205,11</code> aggiunto direttamente alla cassa (se Prelievo = 0%).
+    <strong>🎯 Regole Operative Compound & Prelievi:</strong><br>
+    • <strong>🎯 Vinta una scommessa:</strong> fa avanzare il montante della giornata moltiplicando la puntata per la quota. Il prelievo di sistema è consentito <strong>solo dopo aver completato tutte le schedine del giorno</strong>.<br>
+    • <strong>❌ Perso:</strong> perdi l'intero capitale puntato nella giornata (es. € 250 giocati = -€ 250 dalla cassa).<br>
+    • <strong>💸 Preleva:</strong> ti consente in qualsiasi momento di prelevare liberamente un importo a tua scelta (anche fuori dal sistema).
   </div>
 
   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:6px;">
@@ -758,27 +769,61 @@
   <div class="table-scroll">
     <table>
       <thead>
-        <tr><th>Giorno</th><th>Cassa Inizio</th><th>Puntata</th><th>Quota/Molt (Q^N)</th><th>Vinte</th><th>Esito</th><th>Variazione Reale</th><th>Prelevato</th><th>Cassa Fine</th></tr>
+        <tr>
+          <th>Data</th>
+          <th>Giorno</th>
+          <th>Cassa Inizio</th>
+          <th>Puntata</th>
+          <th>Quota/Molt (Q^N)</th>
+          <th>Vinte</th>
+          <th>Esito</th>
+          <th>Variazione Reale</th>
+          <th>Prelevato</th>
+          <th>Cassa Fine</th>
+        </tr>
       </thead>
       <tbody id="historyBody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- MODAL MISTO PERFEZIONATO CON CALCOLI REALI -->
-<div id="mistoModal" class="modal-overlay" style="display:none;">
+<!-- MODAL PRELIEVO LIBERO (SENZA SEGUIRE IL SISTEMA) -->
+<div id="prelievoModal" class="modal-overlay" style="display:none;">
   <div class="modal-box">
     <div class="modal-title">
-      <span>🔄 Risultato Misto Giornata</span>
-      <button onclick="closeMistoModal()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+      <span>💸 Prelievo Libero (Fuori Sistema)</span>
+      <button onclick="closePrelievoModal()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
     </div>
     <div class="modal-desc">
-      Scegli l'esito reale della giornata su <strong id="modalTotalSchedine">6</strong> schedine giocate (Take Profit o Stop):
+      Preleva una somma a tua scelta dalla cassa corrente senza vincoli di sistema.
     </div>
-    <div id="mistoBtnGrid" class="modal-grid-btns"></div>
+    <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:12px;">
+      <div style="font-size:11px;color:rgba(255,255,255,0.7);display:flex;justify-content:space-between;">
+        <span>Cassa Attuale Disponibile:</span>
+        <strong id="modalPrelievoCassaDisp" style="color:var(--green);font-size:13px;">—</strong>
+      </div>
+    </div>
+    <div class="input-group" style="margin-bottom:10px;">
+      <label>💶 Importo da Prelevare (€)</label>
+      <input type="number" id="prelievoLiberoImporto" min="1" step="1" placeholder="Es. 100">
+      <div style="display:flex;gap:4px;margin-top:6px;">
+        <button type="button" class="btn-db-action" onclick="setPercentPrelievo(0.25)">25%</button>
+        <button type="button" class="btn-db-action" onclick="setPercentPrelievo(0.50)">50%</button>
+        <button type="button" class="btn-db-action" onclick="setPercentPrelievo(0.75)">75%</button>
+        <button type="button" class="btn-db-action" onclick="setPercentPrelievo(1.00)">100% Tutto</button>
+      </div>
+    </div>
+    <div class="input-group" style="margin-bottom:10px;">
+      <label>📅 Data Prelievo</label>
+      <input type="date" id="prelievoLiberoData">
+    </div>
+    <div class="input-group" style="margin-bottom:14px;">
+      <label>📝 Nota / Causale (opzionale)</label>
+      <input type="text" id="prelievoLiberoNota" placeholder="Es. Bonifico personale, spesa, rendita...">
+    </div>
     <div style="display:flex;gap:6px;">
-      <button class="btn btn-cyan" style="flex:1;" onclick="simulaGiornoMistoCasuale()">🎲 Simula Esito</button>
-      <button class="btn btn-primary" style="flex:1;" onclick="closeMistoModal()">Annulla</button>
+      <button class="btn btn-gold" style="flex:1;" onclick="confermaPrelievoLibero()">💸 Conferma Prelievo</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="closePrelievoModal()">Annulla</button>
     </div>
   </div>
 </div>
@@ -787,47 +832,63 @@
 
 <script>
 let S = {};
-let simStats = { total:0, vinti:0, persi:0, misti:0 };
+let simStats = { total:0, vinti:0, persi:0 };
 let db = null;
-const fmt = n => '€ ' + (n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = n => (n < 0 ? '-€ ' : '€ ') + Math.abs(n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const el = id => document.getElementById(id);
+
+function getSelectedDate() {
+  const v = el('dataGiocataInput')?.value;
+  if (!v) return new Date().toLocaleDateString('it-IT');
+  const parts = v.split('-');
+  if (parts.length === 3) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  return v;
+}
+
+function onDateChanged() {
+  saveSettings();
+}
 
 function showToast(msg, icon='✅'){
   el('toastMsg').textContent = msg;
   el('toastIcon').textContent = icon;
   const t = el('toast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  setTimeout(() => t.classList.remove('show'), 2400);
 }
 
 /* ========================================================
-   LOCAL STORAGE PERSISTENCE (Impedisce sovrascritture indesiderate)
+   LOCAL STORAGE PERSISTENCE
    ======================================================== */
 function saveSettings() {
   const cfg = {
-    cassa: el('cassaInput').value,
-    quotaMultipla: el('quotaMultiplaInput').value,
-    schedine: el('schedineInput').value,
-    winRate: el('winRateSelect').value,
+    dataGiocata: el('dataGiocataInput')?.value,
+    cassa: el('cassaInput')?.value,
+    quotaMultipla: el('quotaMultiplaInput')?.value,
+    schedine: el('schedineInput')?.value,
+    winRate: el('winRateSelect')?.value,
     modo: document.querySelector('input[name="modo"]:checked')?.value || 'gia4x',
     prelievo: el('prelievoSelect')?.value || '0',
     quotaEvento: el('quotaEventoSelect')?.value || '1.010',
     eventi: el('eventiSelect')?.value || '10'
   };
   try {
-    localStorage.setItem('forziere_settings_v2', JSON.stringify(cfg));
+    localStorage.setItem('forziere_settings_v3', JSON.stringify(cfg));
   } catch(e) {}
 }
 
 function loadSettings() {
   try {
-    const raw = localStorage.getItem('forziere_settings_v2');
+    const raw = localStorage.getItem('forziere_settings_v3');
     if (!raw) return false;
     const cfg = JSON.parse(raw);
-    if (cfg.cassa) el('cassaInput').value = cfg.cassa;
-    if (cfg.quotaMultipla) el('quotaMultiplaInput').value = cfg.quotaMultipla;
-    if (cfg.schedine) el('schedineInput').value = cfg.schedine;
-    if (cfg.winRate) el('winRateSelect').value = cfg.winRate;
+    if (cfg.dataGiocata && el('dataGiocataInput')) el('dataGiocataInput').value = cfg.dataGiocata;
+    if (cfg.cassa && el('cassaInput')) el('cassaInput').value = cfg.cassa;
+    if (cfg.quotaMultipla && el('quotaMultiplaInput')) el('quotaMultiplaInput').value = cfg.quotaMultipla;
+    if (cfg.schedine && el('schedineInput')) el('schedineInput').value = cfg.schedine;
+    if (cfg.winRate && el('winRateSelect')) el('winRateSelect').value = cfg.winRate;
     if (cfg.prelievo && el('prelievoSelect')) el('prelievoSelect').value = cfg.prelievo;
     if (cfg.modo) {
       const r = document.querySelector(`input[name="modo"][value="${cfg.modo}"]`);
@@ -903,8 +964,9 @@ function loadHistoryFromDB(){
       if (records.length > 0) {
         el('historyBody').innerHTML = '';
         records.forEach(item => {
-          const moltVal = item.molt || Math.pow(item.quota || 1.105, item.schedine || S.schedine || 6);
-          appendRowToTable(item.cassaInizio, item.puntata, moltVal, item.esito, item.variazione, item.prelevato, item.cassaFine, item.cls, item.vinte, item.giorno);
+          const moltVal = item.molt || (item.quota ? Math.pow(item.quota, item.schedine || S.schedine || 6) : null);
+          const dataStr = item.data || (item.timestamp ? new Date(item.timestamp).toLocaleDateString('it-IT') : new Date().toLocaleDateString('it-IT'));
+          appendRowToTable(dataStr, item.cassaInizio, item.puntata, moltVal, item.esito, item.variazione, item.prelevato, item.cassaFine, item.cls, item.vinte, item.giorno);
         });
         const last = records[records.length - 1];
         if (last && last.cassaFine != null) {
@@ -954,7 +1016,7 @@ function exportDatabaseJSON(){
   req.onsuccess = () => {
     const plays = req.result || [];
     const backupData = {
-      version: '4X-BPS-Compound-2.1',
+      version: '4X-BPS-Compound-3.0',
       exportedAt: new Date().toISOString(),
       currentState: S,
       playsCount: plays.length,
@@ -1108,11 +1170,12 @@ function reset() {
     prelievoPerc: c.prelievoPerc,
     molt: molt,
     giorno: 1,
+    stepOggi: 0,
     prelevatoTot: 0,
     perditeConsecutive: 0
   };
   
-  simStats = { total:0, vinti:0, persi:0, misti:0 };
+  simStats = { total:0, vinti:0, persi:0 };
   aggiorna();
 }
 
@@ -1165,22 +1228,42 @@ function aggiorna() {
   if (el('statSicurezza')) el('statSicurezza').textContent = (edge >= 0 ? '+' : '') + (edge * 100).toFixed(2) + '%';
 
   const lblPuntata = el('lblPuntataOggi');
-  if (S.mode === 'sicuro') {
-    lblPuntata.textContent = 'Puntata Oggi (⅛ Sicura)';
-  } else {
-    lblPuntata.textContent = 'Puntata Oggi (¼ 4X)';
+  if (lblPuntata) {
+    if (S.mode === 'sicuro') {
+      lblPuntata.textContent = 'Puntata Oggi (⅛ Sicura)';
+    } else {
+      lblPuntata.textContent = 'Puntata Oggi (¼ 4X)';
+    }
   }
 
   const progress = Math.min((S.cassa / S.target) * 100, 100);
-  el('progressFill').style.width = progress + '%';
+  if (el('progressFill')) el('progressFill').style.width = progress + '%';
 
-  el('simCount').textContent = simStats.total;
-  el('simVinti').textContent = simStats.vinti;
-  el('simPersi').textContent = simStats.persi;
-  el('simMisti').textContent = simStats.misti;
+  if (el('simCount')) el('simCount').textContent = simStats.total;
+  if (el('simVinti')) el('simVinti').textContent = simStats.vinti;
+  if (el('simPersi')) el('simPersi').textContent = simStats.persi;
   const crescita = S.startCap > 0 ? ((S.cassa + S.prelevatoTot - S.startCap) / S.startCap * 100) : 0;
-  el('simCrescita').textContent = (crescita >= 0 ? '+' : '') + crescita.toFixed(2) + '%';
-  el('simProfitto').textContent = fmt(S.cassa + S.prelevatoTot - S.startCap);
+  if (el('simCrescita')) el('simCrescita').textContent = (crescita >= 0 ? '+' : '') + crescita.toFixed(2) + '%';
+  if (el('simProfitto')) el('simProfitto').textContent = fmt(S.cassa + S.prelevatoTot - S.startCap);
+
+  // Aggiornamento Box Progresso Step Giornaliero
+  const stepBox = el('stepProgressBox');
+  if (stepBox) {
+    if (S.stepOggi > 0 && S.stepOggi < S.schedine) {
+      stepBox.style.display = 'block';
+      const moltStep = Math.pow(S.quotaMultipla, S.stepOggi);
+      const montanteStep = puntata * moltStep;
+      const profittoStep = montanteStep - puntata;
+      const mancano = S.schedine - S.stepOggi;
+      if (el('stepProgressBadge')) el('stepProgressBadge').textContent = `${S.stepOggi}/${S.schedine} Vinte`;
+      if (el('stepProgressMolt')) el('stepProgressMolt').textContent = `×${moltStep.toFixed(4)}`;
+      if (el('stepMontanteVal')) el('stepMontanteVal').textContent = fmt(montanteStep);
+      if (el('stepProfittoVal')) el('stepProfittoVal').textContent = '+' + fmt(profittoStep);
+      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} scommesse per completare la giornata e abilitare il prelievo.`;
+    } else {
+      stepBox.style.display = 'none';
+    }
+  }
 
   const ind = el('phaseIndicator');
   const delev = getDeleverageMultiplier(S.perditeConsecutive);
@@ -1198,7 +1281,7 @@ function aggiorna() {
                     `<div style="font-size:11px;opacity:.85;margin-top:2px;">Puntata protetta ad ⅛: ${fmt(puntata)} | Guadagno netto stimato: +${fmt(profittoPieno)}</div>`;
   } else if (S.cassa >= S.target && S.mode !== 'costruisci') {
     ind.className = 'phase-indicator phase-rendita';
-    const prelievoDesc = (S.prelievoPerc || 0) > 0 ? `Prelievo ${(S.prelievoPerc*100).toFixed(0)}% attivo (${fmt(profittoPieno * S.prelievoPerc)})` : `Accumulo composto 100% (+${fmt(profittoPieno)})`;
+    const prelievoDesc = (S.prelievoPerc || 0) > 0 ? `Prelievo ${(S.prelievoPerc*100).toFixed(0)}% a fine giornata (${fmt(profittoPieno * S.prelievoPerc)})` : `Accumulo composto 100% (+${fmt(profittoPieno)})`;
     ind.innerHTML = `🟢 CASSA PRONTA — Cassa ${fmt(S.cassa)}.` +
                     `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · ${prelievoDesc}</div>`;
   } else if (S.mode === 'costruisci') {
@@ -1216,20 +1299,26 @@ function aggiorna() {
   el('useCassaBox').classList.toggle('hidden', !(S.mode === 'costruisci' && S.cassa >= S.target));
 
   const dead = S.cassa <= 0;
-  el('btnVinto').disabled = dead;
+  el('btnVintaSingola').disabled = dead;
+  el('btnVintoTutte').disabled = dead;
   el('btnPerso').disabled = dead;
-  el('btnMisto').disabled = dead;
+  el('btnPrelevaLibero').disabled = dead;
   el('btnSimula').disabled = dead;
 }
 
-function appendRowToTable(cassaInizio, puntata, moltVal, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
+function appendRowToTable(dataStr, cassaInizio, puntata, moltVal, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
   const tr = document.createElement('tr');
   tr.className = cls;
-  const vinteStr = vinte !== undefined ? vinte + '/' + S.schedine : '-';
-  tr.innerHTML = `<td>#${giornoNum || S.giorno}</td>` +
+  const vinteStr = vinte !== undefined && vinte !== null ? (typeof vinte === 'string' ? vinte : vinte + '/' + S.schedine) : '—';
+  const displayData = dataStr || getSelectedDate();
+  const displayPuntata = puntata > 0 ? fmt(puntata) : '—';
+  const displayMolt = moltVal ? (typeof moltVal === 'number' ? '×' + moltVal.toFixed(4) : moltVal) : '—';
+  
+  tr.innerHTML = `<td style="color:rgba(255,255,255,0.7);">${displayData}</td>` +
+    `<td>#${giornoNum || S.giorno}</td>` +
     `<td>${fmt(cassaInizio)}</td>` +
-    `<td>${fmt(puntata)}</td>` +
-    `<td style="font-family:var(--mono)">×${Number(moltVal || S.molt).toFixed(4)}</td>` +
+    `<td>${displayPuntata}</td>` +
+    `<td style="font-family:var(--mono)">${displayMolt}</td>` +
     `<td style="text-align:center;">${vinteStr}</td>` +
     `<td style="text-align:left;">${esito}</td>` +
     `<td style="color:${variazione >= 0 ? '#00e676' : '#ff3d57'};font-weight:700;">${variazione >= 0 ? '+' : ''}${fmt(variazione)}</td>` +
@@ -1239,9 +1328,11 @@ function appendRowToTable(cassaInizio, puntata, moltVal, esito, variazione, prel
   tb.insertBefore(tr, tb.firstChild);
 }
 
-function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine, cls, vinte) {
-  appendRowToTable(cassaInizio, puntata, S.molt, esito, variazione, prelevato, cassaFine, cls, vinte, S.giorno);
+function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine, cls, vinte, customData) {
+  const dataStr = customData || getSelectedDate();
+  appendRowToTable(dataStr, cassaInizio, puntata, S.molt, esito, variazione, prelevato, cassaFine, cls, vinte, S.giorno);
   savePlayToDB({
+    data: dataStr,
     giorno: S.giorno,
     cassaInizio,
     puntata,
@@ -1258,18 +1349,45 @@ function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine,
 }
 
 /* ========================================================
-   GIORNO VINTO: FORMULA REALE QUOTA^SCHEDINE × PUNTATA
+   1. VINTA UNA SCOMMESSA (STEP GIORNALIERO)
    ======================================================== */
-function giornoVinto() {
+function vintaUnaScommessa() {
   if (S.cassa <= 0) return;
-  const cassaInizio = S.cassa;
   const puntata = puntataOdierna();
+  S.stepOggi++;
+
+  const k = S.stepOggi;
+  const moltK = Math.pow(S.quotaMultipla, k);
+  const montanteK = puntata * moltK;
+  const profittoK = montanteK - puntata;
+
+  if (k < S.schedine) {
+    // Scommessa vinta, ma la giornata è ancora in corso
+    showToast(`🎯 Scommessa ${k}/${S.schedine} vinta! (+${fmt(profittoK)})`, '🎯');
+    aggiorna();
+  } else {
+    // Tutte le schedine del giorno sono state completate!
+    completaGiornataVinta(puntata, profittoK, moltK);
+  }
+}
+
+/* ========================================================
+   2. VINTO (TUTTE) — CHIUDE L'INTERA GIORNATA SUBITO
+   ======================================================== */
+function giornoVintoTutte() {
+  if (S.cassa <= 0) return;
+  const puntata = puntataOdierna();
+  S.stepOggi = S.schedine;
+  const moltAll = Math.pow(S.quotaMultipla, S.schedine);
+  const profitAll = puntata * (moltAll - 1);
+  completaGiornataVinta(puntata, profitAll, moltAll);
+}
+
+function completaGiornataVinta(puntata, profit, moltVal) {
+  const cassaInizio = S.cassa;
+  S.molt = moltVal;
   
-  // Formula autentica ed effettiva: Quota Multipla ^ Schedine
-  S.molt = Math.pow(S.quotaMultipla, S.schedine);
-  const incassoLordo = puntata * S.molt;
-  const profit = incassoLordo - puntata; // Esempio: € 250 * (1.105^6 - 1) = +€ 205,11
-  
+  // Il prelievo è consentito solo dopo aver fatto tutte le schedine del giorno
   const pPerc = S.prelievoPerc || 0;
   let prelevato = 0;
   let esito = '';
@@ -1278,19 +1396,20 @@ function giornoVinto() {
     prelevato = profit * pPerc;
     const accreditoCassa = profit - prelevato;
     S.cassa += accreditoCassa;
-    esito = `✅ VINTO (+${fmt(profit)} | Prelievo ${fmt(prelevato)})`;
+    esito = `✅ GIORNATA COMPLETA (+${fmt(profit)} | Prelievo ${fmt(prelevato)})`;
   } else {
-    // 100% Accumulo Composto diretto in cassa
+    // 100% Accumulo composto
     prelevato = 0;
     S.cassa += profit;
     if (S.mode === 'costruisci' && S.cassa >= S.target) {
       esito = '🎯 OBIETTIVO 4X RAGGIUNTO!';
     } else {
-      esito = `✅ VINTO (+${fmt(profit)})`;
+      esito = `✅ GIORNATA COMPLETA (+${fmt(profit)})`;
     }
   }
 
   S.prelevatoTot += prelevato;
+  S.stepOggi = 0;
   S.perditeConsecutive = 0;
   simStats.total++;
   simStats.vinti++;
@@ -1298,129 +1417,103 @@ function giornoVinto() {
   const variazioneReale = profit - prelevato;
   registra(cassaInizio, puntata, esito, variazioneReale, prelevato, S.cassa, 'win', S.schedine);
   S.giorno++;
-  showToast(`Vinto! Guadagno: +${fmt(variazioneReale)}`, '✅');
+  showToast(`🎉 Tutte le ${S.schedine} schedine vinte! +${fmt(variazioneReale)}`, '🎉');
   aggiorna();
 }
 
 /* ========================================================
-   GIORNO PERSO: PERDITA DELLA SOLA PUNTATA GIORNALIERA
+   3. PERSO (PERDI IL CAPITALE GIOCATO, ES. 250€)
    ======================================================== */
 function giornoPerso() {
   if (S.cassa <= 0) return;
   const cassaInizio = S.cassa;
-  const puntata = puntataOdierna();
-  const perdita = puntata;
+  const puntata = puntataOdierna(); // Es. 250€
+  const perdita = puntata; // Hai perso esattamente quel capitale
 
   S.cassa = Math.max(0, S.cassa - perdita);
   S.perditeConsecutive++;
   simStats.total++;
   simStats.persi++;
 
-  const labelEsito = S.mode === 'sicuro' ? '❌ PERDUTO (⅛)' : '❌ PERDUTO (¼)';
-  registra(cassaInizio, puntata, labelEsito, -perdita, 0, S.cassa, 'loss', 0);
+  const stepPerso = S.stepOggi;
+  S.stepOggi = 0; // Reset step giornaliero
+
+  const esito = stepPerso > 0 
+    ? `❌ PERSO (Step ${stepPerso}/${S.schedine})` 
+    : (S.mode === 'sicuro' ? '❌ PERSO (⅛)' : '❌ PERSO (¼)');
+
+  registra(cassaInizio, puntata, esito, -perdita, 0, S.cassa, 'loss', stepPerso);
   S.giorno++;
   showToast(`Perdita giornata: -${fmt(perdita)}`, '❌');
   aggiorna();
 }
 
 /* ========================================================
-   GIORNO MISTO: OPZIONI CHIARE E VERIFICATE
+   4. PRELIEVO LIBERO (SENZA SEGUIRE IL SISTEMA)
    ======================================================== */
-function openMistoModal() {
-  el('modalTotalSchedine').textContent = S.schedine;
-  const grid = el('mistoBtnGrid');
-  grid.innerHTML = '';
-  const puntata = puntataOdierna();
-
-  // 1. Scalata Saltata (perdita della puntata della giornata)
-  const btnLoss = document.createElement('button');
-  btnLoss.className = 'modal-btn-choice danger';
-  btnLoss.innerHTML = `<strong>❌ Scalata Saltata (0/${S.schedine})</strong><div style="font-size:10px;margin-top:2px;color:#ff3d57">Perdi puntata: -${fmt(puntata)}</div>`;
-  btnLoss.onclick = () => eseguiGiornoMisto(0, 'loss');
-  grid.appendChild(btnLoss);
-
-  // 2. Take Profit intermedi (1 a Schedine - 1)
-  for (let w = 1; w < S.schedine; w++) {
-    const btn = document.createElement('button');
-    btn.className = 'modal-btn-choice';
-    const moltW = Math.pow(S.quotaMultipla, w);
-    const incassoW = puntata * moltW;
-    const profitW = incassoW - puntata;
-    btn.innerHTML = `<strong>Take Profit ${w}/${S.schedine}</strong><div style="font-size:10px;margin-top:2px;color:#00e676">+${fmt(profitW)} (×${moltW.toFixed(3)})</div>`;
-    btn.onclick = () => eseguiGiornoMisto(w, 'take_profit');
-    grid.appendChild(btn);
+function apriModalPrelievoLibero() {
+  if (el('modalPrelievoCassaDisp')) el('modalPrelievoCassaDisp').textContent = fmt(S.cassa);
+  if (el('prelievoLiberoImporto')) {
+    el('prelievoLiberoImporto').value = '';
+    el('prelievoLiberoImporto').max = S.cassa;
   }
-
-  // 3. Tutte vinte
-  const btnAll = document.createElement('button');
-  btnAll.className = 'modal-btn-choice success';
-  const moltAll = Math.pow(S.quotaMultipla, S.schedine);
-  const incassoAll = puntata * moltAll;
-  const profitAll = incassoAll - puntata;
-  btnAll.innerHTML = `<strong>Tutte Vinte ${S.schedine}/${S.schedine} ⭐</strong><div style="font-size:10px;margin-top:2px;color:#00e676">+${fmt(profitAll)} (×${moltAll.toFixed(3)})</div>`;
-  btnAll.onclick = () => { closeMistoModal(); giornoVinto(); };
-  grid.appendChild(btnAll);
-
-  el('mistoModal').style.display = 'flex';
+  if (el('prelievoLiberoData')) {
+    el('prelievoLiberoData').value = el('dataGiocataInput')?.value || new Date().toISOString().slice(0, 10);
+  }
+  if (el('prelievoLiberoNota')) el('prelievoLiberoNota').value = '';
+  el('prelievoModal').style.display = 'flex';
 }
 
-function closeMistoModal() {
-  el('mistoModal').style.display = 'none';
+function closePrelievoModal() {
+  el('prelievoModal').style.display = 'none';
 }
 
-function simulaGiornoMistoCasuale() {
-  let vinte = 0;
-  for (let i = 0; i < S.schedine; i++) {
-    if (Math.random() < S.winRate) vinte++;
-  }
-  if (vinte === S.schedine) {
-    closeMistoModal();
-    giornoVinto();
-  } else if (vinte === 0) {
-    eseguiGiornoMisto(0, 'loss');
-  } else {
-    eseguiGiornoMisto(vinte, 'take_profit');
-  }
-}
-
-function eseguiGiornoMisto(vinte, tipo) {
-  closeMistoModal();
+function setPercentPrelievo(pct) {
   if (S.cassa <= 0) return;
+  const val = Math.floor(S.cassa * pct);
+  if (el('prelievoLiberoImporto')) el('prelievoLiberoImporto').value = val;
+}
 
-  const cassaInizio = S.cassa;
-  const puntata = puntataOdierna();
-
-  if (tipo === 'loss' || vinte === 0) {
-    giornoPerso();
+function confermaPrelievoLibero() {
+  const imp = parseFloat(el('prelievoLiberoImporto').value);
+  if (isNaN(imp) || imp <= 0) {
+    alert("Inserisci un importo valido maggiore di zero.");
+    return;
+  }
+  if (imp > S.cassa) {
+    alert(`L'importo richiesto (${fmt(imp)}) supera la cassa disponibile (${fmt(S.cassa)}).`);
     return;
   }
 
-  // Take Profit al gradino vinte
-  const moltW = Math.pow(S.quotaMultipla, vinte);
-  const incassoLordo = puntata * moltW;
-  const profit = incassoLordo - puntata;
-
-  const pPerc = S.prelievoPerc || 0;
-  let prelevato = 0;
-  if (pPerc > 0) {
-    prelevato = profit * pPerc;
+  // Se c'è una giornata in corso, avvisa l'utente
+  if (S.stepOggi > 0 && S.stepOggi < S.schedine) {
+    if (!confirm(`⚠️ Attenzione: hai la giornata in corso (${S.stepOggi}/${S.schedine} scommesse vinte).\nIl prelievo ordinario è previsto a fine giornata.\n\nVuoi comunque effettuare questo prelievo libero di ${fmt(imp)} adesso?`)) {
+      return;
+    }
   }
-  const accreditoCassa = profit - prelevato;
-  S.cassa += accreditoCassa;
-  S.prelevatoTot += prelevato;
-  S.perditeConsecutive = 0;
-  simStats.total++;
-  simStats.misti++;
 
-  const esito = `💰 TAKE PROFIT (${vinte}/${S.schedine}) +${fmt(profit)}`;
-  registra(cassaInizio, puntata, esito, accreditoCassa, prelevato, S.cassa, 'win', vinte);
-  S.giorno++;
-  showToast(`Take profit: +${fmt(accreditoCassa)}`, '💰');
+  const cassaInizio = S.cassa;
+  S.cassa -= imp;
+  S.prelevatoTot += imp;
+
+  const dataInput = el('prelievoLiberoData')?.value;
+  let customDate = getSelectedDate();
+  if (dataInput) {
+    const p = dataInput.split('-');
+    if (p.length === 3) customDate = `${p[2]}/${p[1]}/${p[0]}`;
+  }
+
+  const nota = el('prelievoLiberoNota')?.value?.trim();
+  const esito = nota ? `💸 PRELIEVO LIBERO (${nota})` : `💸 PRELIEVO LIBERO`;
+
+  closePrelievoModal();
+  registra(cassaInizio, 0, esito, -imp, imp, S.cassa, 'prelievo', null, customDate);
+  showToast(`💸 Prelevati ${fmt(imp)} con successo!`, '💸');
   aggiorna();
 }
 
 /* ========================================================
-   SIMULATORE 30 GIORNI CON FORMULE COMPOUND
+   SIMULATORE 30 GIORNI
    ======================================================== */
 function simulaGiornate() {
   const giorni = 30;
@@ -1436,7 +1529,6 @@ function simulaGiornate() {
       return;
     }
 
-    // Simulazione del percorso compound su S.schedine
     let allWon = true;
     for (let i = 0; i < S.schedine; i++) {
       if (Math.random() >= S.winRate) {
@@ -1446,7 +1538,7 @@ function simulaGiornate() {
     }
 
     if (allWon) {
-      giornoVinto();
+      giornoVintoTutte();
     } else {
       giornoPerso();
     }
@@ -1467,9 +1559,12 @@ function usaComeCassa() {
 }
 
 window.onload = async () => {
+  // Imposta la data di oggi come predefinita
+  const todayISO = new Date().toISOString().slice(0, 10);
+  if (el('dataGiocataInput')) el('dataGiocataInput').value = todayISO;
+  
   const hadSettings = loadSettings();
   if (!hadSettings) {
-    // Default ottimali
     el('cassaInput').value = '1000';
     el('quotaMultiplaInput').value = '1.105';
     el('schedineInput').value = '6';
