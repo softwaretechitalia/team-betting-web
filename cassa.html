@@ -1,21 +1,42 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Cassa 4X Pro — Money Management & Andamento Live</title>
+<!-- PRELOAD THEME SCRIPT PER ZERO FLICKER -->
+<script>
+  (function() {
+    try {
+      const savedTheme = localStorage.getItem('cassa_theme_mode') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    } catch(e) {}
+  })();
+</script>
+
 <!-- FAVICON FORZIERE D'ORO SVG NATIVO -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe066'/%3E%3Cstop offset='50%25' stop-color='%23f59e0b'/%3E%3Cstop offset='100%25' stop-color='%23b45309'/%3E%3C/linearGradient%3E%3ClinearGradient id='wood' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2378350f'/%3E%3Cstop offset='100%25' stop-color='%23451a03'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='8' y='24' width='48' height='32' rx='4' fill='url(%23wood)' stroke='%23f59e0b' stroke-width='2'/%3E%3Cpath d='M8 24 C8 12 56 12 56 24 Z' fill='url(%23wood)' stroke='%23f59e0b' stroke-width='2'/%3E%3Crect x='16' y='16' width='6' height='40' fill='url(%23gold)'/%3E%3Crect x='42' y='16' width='6' height='40' fill='url(%23gold)'/%3E%3Crect x='27' y='26' width='10' height='12' rx='2' fill='url(%23gold)' stroke='%2378350f' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='30' r='1.5' fill='%23451a03'/%3E%3Cpath d='M32 31.5 L32 35' stroke='%23451a03' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='22' r='3' fill='%23fde047'/%3E%3Ccircle cx='44' cy='22' r='3' fill='%23fde047'/%3E%3Cpath d='M50 14 L52 10 L54 14 L58 16 L54 18 L52 22 L50 18 L46 16 Z' fill='%23fff' opacity='0.9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-<!-- CHART.JS PER GRAFICO ANDAMENTO CASSA E VINCITE/PERDITE -->
+<!-- CHART.JS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  :root {
+
+  /* TEMA DARK (DEFAULT) */
+  :root, html[data-theme="dark"] {
     --bg-main: #060911;
-    --bg-card: rgba(18, 26, 43, 0.75);
+    --bg-radial: radial-gradient(circle at 50% 0%, #0d1a30 0%, #060911 65%, #04060b 100%);
+    --bg-container: rgba(13, 21, 38, 0.72);
+    --bg-card: rgba(18, 26, 43, 0.78);
+    --bg-card-hover: rgba(26, 36, 58, 0.85);
+    --bg-input: rgba(0, 0, 0, 0.6);
+    --bg-appbar: rgba(0, 0, 0, 0.5);
+    --text-main: #e8f4fd;
+    --text-title: #ffffff;
+    --text-sub: rgba(255, 255, 255, 0.55);
+    --text-muted: rgba(255, 255, 255, 0.45);
     --border: rgba(255, 255, 255, 0.08);
     --border-highlight: rgba(79, 195, 247, 0.25);
     --accent: #4fc3f7;
@@ -27,37 +48,77 @@
     --gold-glow: rgba(255, 215, 64, 0.25);
     --orange: #ffab40;
     --cyan: #00e5ff;
-    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
-    --mono: 'JetBrains Mono', monospace;
-    --radius: 16px;
-    --radius-sm: 10px;
+    --chart-line: #00e5ff;
+    --chart-grid: rgba(255, 255, 255, 0.05);
+    --chart-text: rgba(255, 255, 255, 0.65);
+    --table-header-bg: rgba(18, 26, 43, 0.95);
+    --table-header-text: rgba(255, 255, 255, 0.75);
+    --table-row-border: rgba(255, 255, 255, 0.04);
+    --box-shadow-container: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
+    --box-shadow-card: 0 4px 14px rgba(0, 0, 0, 0.35);
   }
-  
+
+  /* TEMA LIGHT (PROFESSIONALE / FINTECH LOOK) */
+  html[data-theme="light"] {
+    --bg-main: #f1f5f9;
+    --bg-radial: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f1f5f9 60%, #ffffff 100%);
+    --bg-container: rgba(255, 255, 255, 0.92);
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
+    --bg-input: #f8fafc;
+    --bg-appbar: rgba(255, 255, 255, 0.85);
+    --text-main: #0f172a;
+    --text-title: #0f172a;
+    --text-sub: #64748b;
+    --text-muted: #94a3b8;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-highlight: rgba(2, 132, 199, 0.35);
+    --accent: #0284c7;
+    --accent-glow: rgba(2, 132, 199, 0.2);
+    --green: #059669;
+    --green-glow: rgba(5, 150, 105, 0.2);
+    --red: #dc2626;
+    --gold: #d97706;
+    --gold-glow: rgba(217, 119, 6, 0.2);
+    --orange: #ea580c;
+    --cyan: #0284c7;
+    --chart-line: #0284c7;
+    --chart-grid: rgba(0, 0, 0, 0.06);
+    --chart-text: #475569;
+    --table-header-bg: #f8fafc;
+    --table-header-text: #475569;
+    --table-row-border: rgba(0, 0, 0, 0.05);
+    --box-shadow-container: 0 16px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    --box-shadow-card: 0 4px 14px rgba(0, 0, 0, 0.05);
+  }
+
   html, body {
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   body {
-    font-family: var(--font);
-    background: radial-gradient(circle at 50% 0%, #0d1a30 0%, #060911 65%, #04060b 100%);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background: var(--bg-radial);
     min-height: 100vh;
     padding: 8px 6px 40px;
-    color: #e8f4fd;
+    color: var(--text-main);
     overflow-x: hidden;
   }
 
-  /* OTTIMIZZAZIONE SPECIFICA PER SMARTPHONE (Max-width 480px) */
+  /* OTTIMIZZAZIONE SMARTPHONE (Max-width 480px) */
   .container {
     max-width: 480px;
     margin: 0 auto;
-    background: rgba(13, 21, 38, 0.65);
+    background: var(--bg-container);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border-radius: var(--radius);
+    border-radius: 16px;
     padding: 12px 10px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
+    box-shadow: var(--box-shadow-container);
+    transition: all 0.25s ease;
   }
 
   /* TOP APP BAR */
@@ -65,12 +126,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    background: rgba(0, 0, 0, 0.5);
+    gap: 6px;
+    background: var(--bg-appbar);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 8px 10px;
     margin-bottom: 10px;
+    transition: all 0.25s ease;
   }
   .brand-group {
     display: flex;
@@ -98,7 +160,7 @@
     font-size: 13px;
     font-weight: 800;
     letter-spacing: -0.2px;
-    color: #fff;
+    color: var(--text-title);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -106,14 +168,48 @@
   .brand-text-title span { color: var(--gold); }
   .brand-text-sub {
     font-size: 10px;
-    color: rgba(255, 255, 255, 0.55);
+    color: var(--text-sub);
+  }
+
+  .top-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  /* THEME TOGGLE BUTTON (DARK / LIGHT) */
+  .btn-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 9px;
+    background: rgba(125, 125, 125, 0.12);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--text-main);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .btn-theme-toggle:active {
+    transform: scale(0.94);
+  }
+  .theme-label {
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
 
   .btn-switch-webapp {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 7px 11px;
+    gap: 4px;
+    padding: 6px 10px;
     background: linear-gradient(135deg, #0288d1, #01579b);
     color: #fff;
     border: 1px solid rgba(79, 195, 247, 0.4);
@@ -125,13 +221,12 @@
     box-shadow: 0 4px 12px rgba(2, 136, 209, 0.3);
     transition: all 0.2s ease;
     white-space: nowrap;
-    flex-shrink: 0;
   }
   .btn-switch-webapp:active {
     transform: scale(0.96);
   }
 
-  /* DATABASE BAR MINIMAL & SLEEK */
+  /* DATABASE BAR MINIMAL */
   .db-status-bar {
     display: flex;
     align-items: center;
@@ -143,7 +238,12 @@
     padding: 6px 9px;
     margin-bottom: 10px;
     font-size: 10.5px;
-    color: #b2ebf2;
+    color: var(--text-sub);
+  }
+  html[data-theme="light"] .db-status-bar {
+    background: rgba(2, 132, 199, 0.05);
+    border-color: rgba(2, 132, 199, 0.2);
+    color: #0369a1;
   }
   .db-status-badge {
     display: flex;
@@ -157,25 +257,25 @@
     gap: 4px;
   }
   .btn-db-action {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(125, 125, 125, 0.08);
     border: 1px solid var(--border);
-    color: #fff;
+    color: var(--text-main);
     padding: 4px 7px;
     border-radius: 6px;
     font-size: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
-    font-family: var(--font);
+    font-family: inherit;
   }
-  .btn-db-action:active { background: rgba(255, 255, 255, 0.2); }
+  .btn-db-action:active { background: rgba(125, 125, 125, 0.2); }
   .btn-db-action.danger {
     background: rgba(255, 61, 87, 0.15);
     border-color: rgba(255, 61, 87, 0.35);
-    color: #ff8a95;
+    color: #ff5270;
   }
 
-  /* 4 PARAMETRI DASHBOARD (RICHIESTI DALL'UTENTE) */
+  /* 4 PARAMETRI DASHBOARD */
   .dashboard-4-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -189,11 +289,11 @@
     padding: 10px 11px;
     position: relative;
     overflow: hidden;
-    transition: all 0.2s;
+    transition: all 0.25s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--box-shadow-card);
   }
   .dash-card::after {
     content: '';
@@ -201,13 +301,13 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 2.5px;
     background: transparent;
   }
   .dash-card.card-initial::after { background: linear-gradient(90deg, #90caf9, transparent); }
-  .dash-card.card-current::after { background: linear-gradient(90deg, #00e5ff, transparent); }
-  .dash-card.card-stake::after { background: linear-gradient(90deg, #00e676, transparent); }
-  .dash-card.card-withdrawn::after { background: linear-gradient(90deg, #ffd740, transparent); }
+  .dash-card.card-current::after { background: linear-gradient(90deg, var(--cyan), transparent); }
+  .dash-card.card-stake::after { background: linear-gradient(90deg, var(--green), transparent); }
+  .dash-card.card-withdrawn::after { background: linear-gradient(90deg, var(--gold), transparent); }
 
   .dash-card-header {
     display: flex;
@@ -218,7 +318,7 @@
   .dash-card-label {
     font-size: 9.5px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-sub);
     text-transform: uppercase;
     letter-spacing: 0.4px;
     display: flex;
@@ -229,62 +329,64 @@
     font-size: 11px;
   }
   .dash-card-value {
-    font-family: var(--mono);
+    font-family: 'JetBrains Mono', monospace;
     font-size: 18px;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-title);
     letter-spacing: -0.5px;
     line-height: 1.15;
     margin-bottom: 4px;
+    transition: color 0.2s ease;
   }
-  .dash-card-value.val-cyan { color: #00e5ff; }
-  .dash-card-value.val-green { color: #00e676; }
-  .dash-card-value.val-gold { color: #ffd740; }
+  .dash-card-value.val-cyan { color: var(--cyan); }
+  .dash-card-value.val-green { color: var(--green); }
+  .dash-card-value.val-gold { color: var(--gold); }
 
   .dash-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 9.5px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted);
   }
   .badge-tag {
     padding: 1px 6px;
     border-radius: 4px;
     font-size: 9px;
     font-weight: 700;
-    font-family: var(--mono);
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.8);
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(125, 125, 125, 0.1);
+    color: var(--text-sub);
   }
   .badge-growth {
     padding: 1px 6px;
     border-radius: 4px;
     font-size: 9px;
     font-weight: 800;
-    font-family: var(--mono);
+    font-family: 'JetBrains Mono', monospace;
     background: rgba(0, 230, 118, 0.15);
-    color: #00e676;
+    color: var(--green);
     border: 1px solid rgba(0, 230, 118, 0.3);
   }
   .badge-growth.negative {
     background: rgba(255, 61, 87, 0.15);
-    color: #ff3d57;
+    color: var(--red);
     border-color: rgba(255, 61, 87, 0.3);
   }
 
-  /* STRIP INFO QUOTE SNEAK-PEEK (Compatta sotto le 4 card) */
+  /* STRIP INFO QUOTE */
   .quote-summary-strip {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 6px 10px;
     margin-bottom: 10px;
     font-size: 10.5px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-sub);
+    box-shadow: var(--box-shadow-card);
   }
   .quote-summary-item {
     display: flex;
@@ -292,18 +394,19 @@
     gap: 4px;
   }
   .quote-summary-item strong {
-    font-family: var(--mono);
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
   }
 
-  /* GRAFICO ANDAMENTO INTERATTIVO */
+  /* GRAFICO ANDAMENTO INTERATTIVO HIGH-DEF */
   .chart-card-wrapper {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 12px 10px 10px;
     margin-bottom: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--box-shadow-card);
+    transition: all 0.25s ease;
   }
   .chart-header-row {
     display: flex;
@@ -321,13 +424,13 @@
   .chart-main-title {
     font-size: 11.5px;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-title);
     letter-spacing: -0.2px;
   }
   .chart-tabs-group {
     display: flex;
     gap: 3px;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(125, 125, 125, 0.08);
     padding: 2px;
     border-radius: 8px;
     border: 1px solid var(--border);
@@ -335,34 +438,37 @@
   .btn-chart-tab {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-sub);
     font-size: 9.5px;
     font-weight: 700;
     padding: 3px 7px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s;
-    font-family: var(--font);
+    font-family: inherit;
   }
   .btn-chart-tab.active {
     background: var(--accent);
-    color: #000;
+    color: #fff;
     font-weight: 800;
+  }
+  html[data-theme="dark"] .btn-chart-tab.active {
+    color: #000;
   }
   .chart-container-inner {
     position: relative;
-    height: 200px;
+    height: 210px;
     width: 100%;
   }
 
-  /* STEP PROGRESS BOX (DURANTE LA GIORNATA IN CORSO) */
+  /* STEP PROGRESS BOX */
   .step-progress-box {
-    background: linear-gradient(135deg, rgba(255, 215, 64, 0.1), rgba(255, 171, 64, 0.05));
+    background: linear-gradient(135deg, rgba(255, 215, 64, 0.12), rgba(255, 171, 64, 0.06));
     border: 1px solid rgba(255, 215, 64, 0.4);
     border-radius: 12px;
     padding: 10px 12px;
     margin-bottom: 10px;
-    box-shadow: 0 0 16px rgba(255, 215, 64, 0.12);
+    box-shadow: 0 0 16px rgba(255, 215, 64, 0.15);
   }
 
   /* PHASE INDICATOR */
@@ -377,25 +483,25 @@
   .phase-rendita {
     background: rgba(0, 230, 118, 0.1);
     border: 1px solid rgba(0, 230, 118, 0.35);
-    color: #b9f6ca;
+    color: var(--green);
   }
   .phase-safe {
     background: rgba(79, 195, 247, 0.1);
     border: 1px solid rgba(79, 195, 247, 0.35);
-    color: #b3e5fc;
+    color: var(--accent);
   }
   .phase-recupero {
     background: rgba(255, 171, 64, 0.12);
     border: 1px solid rgba(255, 171, 64, 0.4);
-    color: #ffe0b2;
+    color: var(--orange);
   }
   .phase-critica {
     background: rgba(255, 61, 87, 0.15);
     border: 1px solid rgba(255, 61, 87, 0.45);
-    color: #ffcdd2;
+    color: var(--red);
   }
 
-  /* BOTTONI AZIONE PER SMARTPHONE (TOUCH-FRIENDLY, MIN-HEIGHT 48px) */
+  /* BOTTONI AZIONE MOBILE */
   .action-buttons-mobile {
     display: flex;
     flex-direction: column;
@@ -415,7 +521,7 @@
     min-height: 48px;
     padding: 10px 12px;
     border-radius: 12px;
-    font-family: var(--font);
+    font-family: inherit;
     font-size: 12px;
     font-weight: 800;
     cursor: pointer;
@@ -464,27 +570,28 @@
   }
   .btn-sec {
     min-height: 40px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(125, 125, 125, 0.08);
     border: 1px solid var(--border);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-main);
     border-radius: 10px;
     font-size: 11px;
     font-weight: 700;
   }
 
-  /* IMPOSTAZIONI STRATEGIA & QUOTE (COLLAPSIBLE DRAWER PER SMARTPHONE) */
+  /* IMPOSTAZIONI STRATEGIA */
   .config-details {
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
     margin-bottom: 12px;
     overflow: hidden;
+    box-shadow: var(--box-shadow-card);
   }
   .config-summary {
     padding: 10px 12px;
     font-size: 11.5px;
     font-weight: 800;
-    color: #b3e5fc;
+    color: var(--accent);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -492,7 +599,7 @@
     user-select: none;
   }
   .config-summary:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(125, 125, 125, 0.05);
   }
   .config-content {
     padding: 10px 12px 14px;
@@ -512,19 +619,19 @@
   .input-group label {
     font-size: 9.5px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-sub);
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
   .input-group input, .input-group select {
-    background: rgba(0, 0, 0, 0.6);
+    background: var(--bg-input);
     border: 1px solid var(--border);
-    color: #fff;
+    color: var(--text-title);
     border-radius: 8px;
     padding: 7px 8px;
     font-size: 12px;
     font-weight: 700;
-    font-family: var(--mono);
+    font-family: 'JetBrains Mono', monospace;
     outline: none;
     width: 100%;
   }
@@ -534,18 +641,19 @@
   }
   .input-group .sub-note {
     font-size: 8.5px;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--text-muted);
   }
 
   .radio-mode-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(125, 125, 125, 0.05);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 8px 10px;
     font-size: 11px;
+    color: var(--text-main);
   }
   .radio-mode-group label {
     display: flex;
@@ -554,7 +662,7 @@
     cursor: pointer;
   }
 
-  /* TABELLA STORICO OPERAZIONI */
+  /* TABELLA STORICO */
   .history-section-header {
     display: flex;
     align-items: center;
@@ -564,15 +672,16 @@
   .history-title {
     font-size: 11.5px;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-title);
   }
   .table-scroll {
     overflow-x: auto;
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
     max-height: 280px;
     -webkit-overflow-scrolling: touch;
+    box-shadow: var(--box-shadow-card);
   }
   table {
     width: 100%;
@@ -581,14 +690,14 @@
     white-space: nowrap;
   }
   th {
-    background: rgba(18, 26, 43, 0.95);
+    background: var(--table-header-bg);
     position: sticky;
     top: 0;
     z-index: 2;
     padding: 7px 8px;
     text-align: left;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--table-header-text);
     border-bottom: 1px solid var(--border);
     text-transform: uppercase;
     font-size: 9px;
@@ -596,14 +705,15 @@
   }
   td {
     padding: 7px 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    font-family: var(--mono);
+    border-bottom: 1px solid var(--table-row-border);
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-main);
   }
   tr.win { background: rgba(0, 230, 118, 0.04); }
   tr.loss { background: rgba(255, 61, 87, 0.06); }
   tr.prelievo { background: rgba(255, 215, 64, 0.05); }
 
-  /* MODAL PRELIEVO */
+  /* MODAL */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -616,13 +726,13 @@
     padding: 14px;
   }
   .modal-box {
-    background: #0d1527;
+    background: var(--bg-card);
     border: 1px solid rgba(255, 215, 64, 0.4);
     border-radius: 16px;
     padding: 16px 14px;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   }
   .modal-title {
     display: flex;
@@ -635,28 +745,28 @@
   }
   .modal-desc {
     font-size: 10.5px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-sub);
     margin-bottom: 12px;
     line-height: 1.4;
   }
 
-  /* TOAST */
+  /* TOAST NOTIFICATION */
   .toast {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%) translateY(100px);
-    background: #0f1c33;
+    background: var(--bg-card);
     border: 1px solid var(--accent);
-    color: #fff;
-    padding: 8px 16px;
+    color: var(--text-title);
+    padding: 9px 16px;
     border-radius: 12px;
     font-size: 11.5px;
     font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 10000;
     pointer-events: none;
@@ -672,7 +782,7 @@
 <body>
 
 <div class="container">
-  <!-- TOP APP BAR -->
+  <!-- TOP APP BAR CON TEMA TOGGLE & LINK LIVE -->
   <div class="top-app-bar">
     <div class="brand-group">
       <div class="chest-icon-wrap" title="Forziere Cassa 4X System">
@@ -706,32 +816,39 @@
       </div>
     </div>
 
-    <!-- PASSA ALLA WEBAPP NELLA STESSA TAB -->
-    <a href="index.html" target="_self" onclick="if(location.protocol==='file:'&&!location.pathname.includes('team-betting-web')){location.href='https://softwaretechitalia.github.io/team-betting-web/';return false;}" class="btn-switch-webapp" title="Vedi le quote live">
-      <span>📡 Quote Live ➔</span>
-    </a>
+    <!-- AZIONI HEADER: TEMA DARK/LIGHT + LINK QUOTE LIVE -->
+    <div class="top-actions-group">
+      <button id="themeToggleBtn" onclick="toggleTheme()" class="btn-theme-toggle" title="Alterna tra Tema Scuro e Chiaro">
+        <span id="themeToggleIcon">🌙</span>
+        <span class="theme-label" id="themeToggleLabel">DARK</span>
+      </button>
+
+      <a href="index.html" target="_self" onclick="if(location.protocol==='file:'&&!location.pathname.includes('team-betting-web')){location.href='https://softwaretechitalia.github.io/team-betting-web/';return false;}" class="btn-switch-webapp" title="Vedi le quote live">
+        <span>📡 Quote Live ➔</span>
+      </a>
+    </div>
   </div>
 
   <!-- DATABASE STATUS BAR MINIMAL -->
   <div class="db-status-bar">
     <div class="db-status-badge">
-      <span>💾</span> DB Locale: <span id="dbRecordCount" style="color:#fff">0</span> ops
+      <span>💾</span> DB: <span id="dbRecordCount" style="font-weight:800;">0</span> ops
     </div>
     <div class="db-actions-group">
-      <button class="btn-db-action" onclick="exportDatabaseJSON()" title="Esporta file di backup JSON">📤 Backup</button>
+      <button class="btn-db-action" onclick="exportDatabaseJSON()" title="Esporta backup JSON">📤 Backup</button>
       <button class="btn-db-action" onclick="triggerImportJSON()" title="Ripristina backup JSON">📥 Ripristina</button>
-      <button class="btn-db-action danger" onclick="clearDatabaseHistory()" title="Svuota il database">🗑️ Svuota</button>
+      <button class="btn-db-action danger" onclick="clearDatabaseHistory()" title="Svuota lo storico">🗑️ Svuota</button>
     </div>
   </div>
   <input type="file" id="jsonFileInput" accept=".json" style="display:none" onchange="handleImportJSON(event)">
 
-  <!-- 4 PARAMETRI DASHBOARD (IN PRIMO PIANO) -->
+  <!-- I 4 PARAMETRI DELLA DASHBOARD -->
   <div class="dashboard-4-grid">
     <!-- 1. CASSA INIZIALE -->
     <div class="dash-card card-initial">
       <div class="dash-card-header">
         <span class="dash-card-label"><span class="dash-card-icon">🏛️</span> Iniziale</span>
-        <span class="badge-tag">START</span>
+        <span class="badge-tag">BASE</span>
       </div>
       <div class="dash-card-value" id="statCassaIniziale">€ 1.000,00</div>
       <div class="dash-card-footer">
@@ -748,7 +865,7 @@
       <div class="dash-card-value val-cyan" id="statCassa">€ 1.000,00</div>
       <div class="dash-card-footer">
         <span>Saldo live</span>
-        <span id="statCassaProfitBadge" style="color:var(--green);font-family:var(--mono);">+€0</span>
+        <span id="statCassaProfitBadge" style="color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:700;">+€0,00</span>
       </div>
     </div>
 
@@ -761,7 +878,7 @@
       <div class="dash-card-value val-green" id="statPuntata">€ 250,00</div>
       <div class="dash-card-footer">
         <span>Puntata oggi</span>
-        <span id="statCoperturaBadge" style="color:var(--accent);font-family:var(--mono);">4.0 stop</span>
+        <span id="statCoperturaBadge" style="color:var(--accent);font-family:'JetBrains Mono',monospace;">4.0 stop</span>
       </div>
     </div>
 
@@ -769,7 +886,7 @@
     <div class="dash-card card-withdrawn">
       <div class="dash-card-header">
         <span class="dash-card-label"><span class="dash-card-icon">💸</span> Prelevato</span>
-        <span class="badge-tag" style="color:var(--gold);background:rgba(255,215,64,0.1);">INCASSO</span>
+        <span class="badge-tag" style="color:var(--gold);">INCASSO</span>
       </div>
       <div class="dash-card-value val-gold" id="statPrelevato">€ 0,00</div>
       <div class="dash-card-footer">
@@ -778,7 +895,7 @@
     </div>
   </div>
 
-  <!-- COMPACT QUOTE SUMMARY STRIP -->
+  <!-- STRISCIA COMPATTA DI RIEPILOGO QUOTE -->
   <div class="quote-summary-strip">
     <div class="quote-summary-item">
       <span>🎯 Q. Singola:</span>
@@ -790,25 +907,25 @@
     </div>
     <div class="quote-summary-item">
       <span>📊 Schedine:</span>
-      <strong id="stripSchedine" style="color:#fff;">6/gg</strong>
+      <strong id="stripSchedine" style="color:var(--text-title);">6/gg</strong>
     </div>
   </div>
 
   <!-- PHASE INDICATOR -->
   <div id="phaseIndicator" class="phase-indicator phase-rendita"></div>
 
-  <!-- STEP PROGRESS BOX (VISIBILE SOLO CON GIORNATA IN CORSO) -->
+  <!-- STEP PROGRESS BOX (VISIBILE DURANTE LA GIORNATA) -->
   <div id="stepProgressBox" class="step-progress-box" style="display:none;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
       <div style="font-weight:800;font-size:11.5px;color:var(--gold);display:flex;align-items:center;gap:5px;">
         <span>🎯 GIORNATA IN CORSO:</span>
         <span id="stepProgressBadge" style="background:rgba(255,215,64,0.2);border:1px solid var(--gold);padding:1px 7px;border-radius:6px;">0/6 Vinte</span>
       </div>
-      <div style="font-size:10.5px;font-family:var(--mono);color:var(--cyan);" id="stepProgressMolt">×1.0000</div>
+      <div style="font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--cyan);" id="stepProgressMolt">×1.0000</div>
     </div>
-    <div style="font-size:10.5px;color:#fff;line-height:1.4;">
+    <div style="font-size:10.5px;line-height:1.4;">
       Montante maturato: <strong id="stepMontanteVal" style="color:var(--green);">€ 250,00</strong> (<span id="stepProfittoVal" style="color:var(--green);">+€ 0,00</span>).<br>
-      <span style="font-size:9.5px;color:rgba(255,255,255,0.7);" id="stepRemainingNote">Completa tutte le scommesse del giorno per chiudere la sessione e consentire il prelievo.</span>
+      <span style="font-size:9.5px;color:var(--text-sub);" id="stepRemainingNote">Completa tutte le schedine del giorno per chiudere la sessione, incassare e passare al giorno successivo.</span>
     </div>
   </div>
 
@@ -818,7 +935,7 @@
       <button class="btn-touch btn-win-step" id="btnVintaSingola" onclick="vintaUnaScommessa()" title="Registra la vittoria di una singola schedina">
         <span>🎯 Vinta una scommessa</span>
       </button>
-      <button class="btn-touch btn-win-all" id="btnVintoTutte" onclick="giornoVintoTutte()" title="Chiudi tutte le schedine come vinte">
+      <button class="btn-touch btn-win-all" id="btnVintoTutte" onclick="giornoVintoTutte()" title="Chiudi tutte le schedine del giorno come vinte">
         <span>✅ Vinto (Tutte)</span>
       </button>
     </div>
@@ -826,7 +943,7 @@
       <button class="btn-touch btn-lose" id="btnPerso" onclick="giornoPerso()" title="Hai perso il capitale giocato oggi">
         <span>❌ Perso</span>
       </button>
-      <button class="btn-touch btn-withdraw" id="btnPrelevaLibero" onclick="apriModalPrelievoLibero()" title="Preleva un importo a scelta dalla cassa">
+      <button class="btn-touch btn-withdraw" id="btnPrelevaLibero" onclick="apriModalPrelievoLibero()" title="Preleva liberamente una somma dalla cassa">
         <span>💸 Preleva</span>
       </button>
     </div>
@@ -840,7 +957,7 @@
     </div>
   </div>
 
-  <!-- GRAFICO ANDAMENTO CASSA E VINCITE/PERDITE -->
+  <!-- GRAFICO ANDAMENTO CASSA E PERFORMANCE HIGH-DEF -->
   <div class="chart-card-wrapper">
     <div class="chart-header-row">
       <div class="chart-title-box">
@@ -858,18 +975,18 @@
     </div>
   </div>
 
-  <!-- ACCORDION COLLAPSIBILE IMPOSTAZIONI STRATEGIA & QUOTE -->
+  <!-- CASSETTO CONFIGURAZIONE A SCOMPARSA -->
   <details class="config-details" id="configAccordion">
     <summary class="config-summary">
       <span>⚙️ Impostazioni Strategia & Quote</span>
-      <span style="font-size:10px;color:var(--accent);">Tocca per modificare ▾</span>
+      <span style="font-size:10px;">Tocca per modificare ▾</span>
     </summary>
     <div class="config-content">
       <div class="config-grid">
         <div class="input-group">
           <label>📅 Data Giocata</label>
           <input type="date" id="dataGiocataInput" onchange="onDateChanged()">
-          <div class="sub-note">Data delle operazioni</div>
+          <div class="sub-note">Avanza automaticamente a fine giornata</div>
         </div>
         <div class="input-group">
           <label>💶 Cassa Iniziale (€)</label>
@@ -973,13 +1090,13 @@
   <div class="modal-box">
     <div class="modal-title">
       <span>💸 Prelievo Libero (Fuori Sistema)</span>
-      <button onclick="closePrelievoModal()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+      <button onclick="closePrelievoModal()" style="background:none;border:none;color:var(--text-title);font-size:18px;cursor:pointer;">✕</button>
     </div>
     <div class="modal-desc">
-      Preleva una somma a piacere dalla cassa corrente senza vincoli di sistema.
+      Preleva una somma a tua scelta dalla cassa corrente senza vincoli di sistema.
     </div>
-    <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:12px;">
-      <div style="font-size:11px;color:rgba(255,255,255,0.7);display:flex;justify-content:space-between;">
+    <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:12px;">
+      <div style="font-size:11px;color:var(--text-sub);display:flex;justify-content:space-between;">
         <span>Cassa Attuale Disponibile:</span>
         <strong id="modalPrelievoCassaDisp" style="color:var(--green);font-size:13px;">—</strong>
       </div>
@@ -1022,6 +1139,39 @@ let cachedPlays = [];
 const fmt = n => (n < 0 ? '-€ ' : '€ ') + Math.abs(n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const el = id => document.getElementById(id);
 
+/* ========================================================
+   1. GESTIONE TEMA DARK & LIGHT
+   ======================================================== */
+function getActiveTheme() {
+  return document.documentElement.getAttribute('data-theme') || 'dark';
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = el('themeToggleIcon');
+  const label = el('themeToggleLabel');
+  if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
+  if (label) label.textContent = theme === 'light' ? 'LIGHT' : 'DARK';
+  try {
+    localStorage.setItem('cassa_theme_mode', theme);
+  } catch(e) {}
+  
+  // Ridisegna il grafico con la nuova palette del tema
+  if (typeof updateChartWithData === 'function') {
+    updateChartWithData(cachedPlays);
+  }
+}
+
+function toggleTheme() {
+  const current = getActiveTheme();
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  showToast(next === 'light' ? 'Tema Chiaro attivato ☀️' : 'Tema Scuro attivato 🌙', next === 'light' ? '☀️' : '🌙');
+}
+
+/* ========================================================
+   2. GESTIONE DATE & AVANZAMENTO AUTOMATICO AL GIORNO DOPO
+   ======================================================== */
 function getSelectedDate() {
   const v = el('dataGiocataInput')?.value;
   if (!v) return new Date().toLocaleDateString('it-IT');
@@ -1036,12 +1186,43 @@ function onDateChanged() {
   saveSettings();
 }
 
+/**
+ * Avanza la data dell'input al giorno successivo (es. 13/09 -> 14/09).
+ * Eseguito automaticamente al completamento delle schedine della giornata.
+ */
+function advanceDateToNextDay() {
+  const dateInput = el('dataGiocataInput');
+  if (!dateInput) return null;
+  let currentVal = dateInput.value;
+  let d;
+  if (currentVal) {
+    const parts = currentVal.split('-');
+    if (parts.length === 3) {
+      d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    }
+  }
+  if (!d || isNaN(d.getTime())) {
+    d = new Date();
+  }
+  
+  // Aggiungi 1 giorno
+  d.setDate(d.getDate() + 1);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const nextISO = `${yyyy}-${mm}-${dd}`;
+  
+  dateInput.value = nextISO;
+  saveSettings();
+  return `${dd}/${mm}/${yyyy}`;
+}
+
 function showToast(msg, icon='✅'){
   el('toastMsg').textContent = msg;
   el('toastIcon').textContent = icon;
   const t = el('toast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
+  setTimeout(() => t.classList.remove('show'), 2600);
 }
 
 /* ========================================================
@@ -1406,7 +1587,7 @@ function aggiorna() {
   const incassoLordo = puntata * S.molt;
   const profittoPieno = incassoLordo - puntata;
 
-  // I 4 PARAMETRI PRINCIPALI RICHIESTI
+  // I 4 PARAMETRI PRINCIPALI
   if (el('statCassaIniziale')) el('statCassaIniziale').textContent = fmt(S.startCap);
   if (el('statCassa')) el('statCassa').textContent = fmt(S.cassa);
   if (el('statPuntata')) el('statPuntata').textContent = fmt(puntata);
@@ -1441,7 +1622,7 @@ function aggiorna() {
     el('statCoperturaBadge').textContent = copertura().toFixed(1) + ' stop';
   }
 
-  // STRIP DI RIEPILOGO QUOTE SOTTO LA DASHBOARD
+  // STRIP DI RIEPILOGO QUOTE
   if (el('stripQuotaSingola')) el('stripQuotaSingola').textContent = Number(S.quotaMultipla).toFixed(2);
   if (el('stripQuotaGiornata')) el('stripQuotaGiornata').textContent = '×' + S.molt.toFixed(4);
   if (el('stripSchedine')) el('stripSchedine').textContent = `${S.schedine}/gg`;
@@ -1460,7 +1641,7 @@ function aggiorna() {
       if (el('stepProgressMolt')) el('stepProgressMolt').textContent = `Maturata: ×${moltStep.toFixed(4)}`;
       if (el('stepMontanteVal')) el('stepMontanteVal').textContent = fmt(montanteStep);
       if (el('stepProfittoVal')) el('stepProfittoVal').textContent = '+' + fmt(profittoStep);
-      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} schedine a quota ${qSingolaStr}. A fine giornata quota ${qSingolaStr}^${S.schedine} (×${S.molt.toFixed(4)}) con vincita piena.`;
+      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} schedine a quota ${qSingolaStr}. A fine giornata quota ${qSingolaStr}^${S.schedine} (×${S.molt.toFixed(4)}) con vincita piena e passaggio al giorno successivo.`;
     } else {
       stepBox.style.display = 'none';
     }
@@ -1496,7 +1677,7 @@ function aggiorna() {
 }
 
 /* ========================================================
-   GRAFICO INTERATTIVO CHART.JS (ANDAMENTO CASSA & PROFITTI)
+   3. GRAFICO CHART.JS PROFESSIONALE AD ALTA RISOLUZIONE
    ======================================================== */
 function setChartMode(mode) {
   currentChartMode = mode;
@@ -1513,10 +1694,11 @@ function updateChartWithData(records = []) {
   const canvas = el('cassaChart');
   if (!canvas) return;
 
+  const isLight = getActiveTheme() === 'light';
   const labels = ['Inizio'];
   const cassaSeries = [S.startCap || 1000];
   const varSeries = [0];
-  const barColors = ['rgba(79, 195, 247, 0.4)'];
+  const barColors = [isLight ? 'rgba(2, 132, 199, 0.4)' : 'rgba(79, 195, 247, 0.4)'];
 
   records.forEach((r, idx) => {
     const dataLabel = r.data ? r.data.slice(0, 5) : `#${r.giorno || idx + 1}`;
@@ -1525,13 +1707,27 @@ function updateChartWithData(records = []) {
     const v = r.variazione || 0;
     varSeries.push(v);
     if (r.cls === 'prelievo') {
-      barColors.push('rgba(255, 215, 64, 0.85)'); // Gold per prelievi
+      barColors.push('rgba(217, 119, 6, 0.85)'); // Oro per prelievi
     } else if (v >= 0) {
-      barColors.push('rgba(0, 230, 118, 0.85)'); // Verde per vincite
+      barColors.push(isLight ? 'rgba(5, 150, 105, 0.85)' : 'rgba(0, 230, 118, 0.85)'); // Verde vincite
     } else {
-      barColors.push('rgba(255, 61, 87, 0.85)'); // Rosso per perdite
+      barColors.push(isLight ? 'rgba(220, 38, 38, 0.85)' : 'rgba(255, 61, 87, 0.85)'); // Rosso perdite
     }
   });
+
+  const ctx = canvas.getContext('2d');
+  
+  // Gradiente morbido e di alta qualità sotto la curva
+  const gradient = ctx.createLinearGradient(0, 0, 0, 210);
+  if (isLight) {
+    gradient.addColorStop(0, 'rgba(2, 132, 199, 0.32)');
+    gradient.addColorStop(0.5, 'rgba(2, 132, 199, 0.10)');
+    gradient.addColorStop(1, 'rgba(2, 132, 199, 0.00)');
+  } else {
+    gradient.addColorStop(0, 'rgba(0, 229, 255, 0.35)');
+    gradient.addColorStop(0.5, 'rgba(0, 229, 255, 0.10)');
+    gradient.addColorStop(1, 'rgba(0, 229, 255, 0.00)');
+  }
 
   const datasets = [];
 
@@ -1540,15 +1736,17 @@ function updateChartWithData(records = []) {
       type: 'line',
       label: 'Cassa (€)',
       data: cassaSeries,
-      borderColor: '#00e5ff',
-      backgroundColor: 'rgba(0, 229, 255, 0.1)',
+      borderColor: isLight ? '#0284c7' : '#00e5ff',
+      backgroundColor: gradient,
       borderWidth: 2.5,
       fill: true,
-      tension: 0.35,
-      pointBackgroundColor: '#00e5ff',
-      pointBorderColor: '#fff',
+      tension: 0.42,
+      pointBackgroundColor: isLight ? '#0284c7' : '#00e5ff',
+      pointBorderColor: isLight ? '#ffffff' : '#0a101f',
+      pointBorderWidth: 2,
       pointRadius: records.length > 25 ? 1.5 : 3.5,
       pointHoverRadius: 6,
+      pointHoverBorderWidth: 3,
       yAxisID: 'y'
     });
   }
@@ -1560,17 +1758,26 @@ function updateChartWithData(records = []) {
       data: varSeries,
       backgroundColor: barColors,
       borderRadius: 4,
-      barThickness: records.length > 20 ? 'flex' : 12,
-      maxBarThickness: 20,
+      barThickness: records.length > 20 ? 'flex' : 11,
+      maxBarThickness: 18,
       yAxisID: currentChartMode === 'combo' ? 'y1' : 'y'
     });
   }
 
+  const gridColor = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+  const textColor = isLight ? '#475569' : 'rgba(255, 255, 255, 0.65)';
+  const cassaAxisColor = isLight ? '#0284c7' : '#00e5ff';
+  const varAxisColor = isLight ? '#059669' : '#00e676';
+
   const scalesConfig = {
     x: {
-      grid: { color: 'rgba(255, 255, 255, 0.05)' },
+      grid: {
+        color: gridColor,
+        borderDash: [4, 4],
+        drawBorder: false
+      },
       ticks: {
-        color: 'rgba(255, 255, 255, 0.6)',
+        color: textColor,
         font: { family: "'JetBrains Mono', monospace", size: 9 },
         maxRotation: 45,
         autoSkip: true,
@@ -1579,10 +1786,14 @@ function updateChartWithData(records = []) {
     },
     y: {
       position: 'left',
-      grid: { color: 'rgba(255, 255, 255, 0.06)' },
+      grid: {
+        color: gridColor,
+        borderDash: [4, 4],
+        drawBorder: false
+      },
       ticks: {
-        color: '#00e5ff',
-        font: { family: "'JetBrains Mono', monospace", size: 9.5 },
+        color: cassaAxisColor,
+        font: { family: "'JetBrains Mono', monospace", size: 9.5, weight: 'bold' },
         callback: v => '€' + v.toLocaleString('it-IT', { maximumFractionDigits: 0 })
       }
     }
@@ -1591,47 +1802,59 @@ function updateChartWithData(records = []) {
   if (currentChartMode === 'combo') {
     scalesConfig.y1 = {
       position: 'right',
-      grid: { drawOnChartArea: false },
+      grid: { drawOnChartArea: false, drawBorder: false },
       ticks: {
-        color: '#00e676',
+        color: varAxisColor,
         font: { family: "'JetBrains Mono', monospace", size: 9 },
         callback: v => (v >= 0 ? '+' : '') + v.toLocaleString('it-IT', { maximumFractionDigits: 0 })
       }
     };
   }
 
+  const tooltipBg = isLight ? 'rgba(255, 255, 255, 0.96)' : 'rgba(10, 16, 31, 0.95)';
+  const tooltipTitle = isLight ? '#0f172a' : '#ffffff';
+  const tooltipBody = isLight ? '#334155' : '#cbd5e1';
+  const tooltipBorder = isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.15)';
+
   if (cassaChart) {
     cassaChart.data.labels = labels;
     cassaChart.data.datasets = datasets;
     cassaChart.options.scales = scalesConfig;
+    cassaChart.options.plugins.tooltip.backgroundColor = tooltipBg;
+    cassaChart.options.plugins.tooltip.titleColor = tooltipTitle;
+    cassaChart.options.plugins.tooltip.bodyColor = tooltipBody;
+    cassaChart.options.plugins.tooltip.borderColor = tooltipBorder;
+    cassaChart.options.plugins.legend.labels.color = textColor;
     cassaChart.update();
   } else {
-    const ctx = canvas.getContext('2d');
     cassaChart = new Chart(ctx, {
       type: 'line',
       data: { labels, datasets },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        devicePixelRatio: window.devicePixelRatio || 2,
         interaction: { mode: 'index', intersect: false },
+        animation: { duration: 550, easing: 'easeOutQuart' },
         plugins: {
           legend: {
             display: true,
             position: 'top',
             labels: {
               boxWidth: 10,
-              color: 'rgba(255,255,255,0.75)',
-              font: { family: "'Plus Jakarta Sans', sans-serif", size: 10 }
+              color: textColor,
+              font: { family: "'Plus Jakarta Sans', sans-serif", size: 10, weight: 600 }
             }
           },
           tooltip: {
-            backgroundColor: '#0a101f',
-            titleColor: '#fff',
-            bodyColor: '#e0e0e0',
-            borderColor: 'rgba(255,255,255,0.2)',
+            backgroundColor: tooltipBg,
+            titleColor: tooltipTitle,
+            bodyColor: tooltipBody,
+            borderColor: tooltipBorder,
             borderWidth: 1,
-            padding: 8,
-            titleFont: { family: "'JetBrains Mono', monospace", size: 11 },
+            padding: 9,
+            cornerRadius: 10,
+            titleFont: { family: "'JetBrains Mono', monospace", size: 11, weight: 'bold' },
             bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
             callbacks: {
               label: (item) => {
@@ -1659,7 +1882,7 @@ function appendRowToTable(dataStr, cassaInizio, puntata, quotaSingolaVal, quotaG
   const displayQS = quotaSingolaVal && quotaSingolaVal !== '—' ? Number(quotaSingolaVal).toFixed(2) : '—';
   const displayQG = quotaGiornataVal && quotaGiornataVal !== '—' ? (typeof quotaGiornataVal === 'number' ? '×' + quotaGiornataVal.toFixed(4) : quotaGiornataVal) : '—';
   
-  tr.innerHTML = `<td style="color:rgba(255,255,255,0.65);">${displayData}</td>` +
+  tr.innerHTML = `<td style="color:var(--text-sub);">${displayData}</td>` +
     `<td>#${giornoNum || S.giorno}</td>` +
     `<td>${fmt(cassaInizio)}</td>` +
     `<td>${displayPuntata}</td>` +
@@ -1667,8 +1890,8 @@ function appendRowToTable(dataStr, cassaInizio, puntata, quotaSingolaVal, quotaG
     `<td style="color:var(--green);font-weight:700;">${displayQG}</td>` +
     `<td style="text-align:center;">${vinteStr}</td>` +
     `<td style="text-align:left;">${esito}</td>` +
-    `<td style="color:${variazione >= 0 ? '#00e676' : '#ff3d57'};font-weight:700;">${variazione >= 0 ? '+' : ''}${fmt(variazione)}</td>` +
-    `<td style="color:#ffd740;">${fmt(prelevato)}</td>` +
+    `<td style="color:${variazione >= 0 ? 'var(--green)' : 'var(--red)'};font-weight:700;">${variazione >= 0 ? '+' : ''}${fmt(variazione)}</td>` +
+    `<td style="color:var(--gold);">${fmt(prelevato)}</td>` +
     `<td style="font-weight:700;">${fmt(cassaFine)}</td>`;
   const tb = el('historyBody');
   tb.insertBefore(tr, tb.firstChild);
@@ -1698,7 +1921,7 @@ function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine,
 }
 
 /* ========================================================
-   AZIONI GIOCO: VINTA SINGOLA, TUTTE, PERSO, PRELEVA
+   AZIONI GIOCO CON AVANZAMENTO AUTOMATICO DELLA DATA
    ======================================================== */
 function vintaUnaScommessa() {
   if (S.cassa <= 0) return;
@@ -1714,6 +1937,7 @@ function vintaUnaScommessa() {
     showToast(`🎯 Scommessa ${k}/${S.schedine} vinta! (+${fmt(profittoK)})`, '🎯');
     aggiorna();
   } else {
+    // Schedina N completata -> Chiude la giornata e avanza al giorno successivo!
     completaGiornataVinta(puntata, profittoK, moltK);
   }
 }
@@ -1755,7 +1979,11 @@ function completaGiornataVinta(puntata, profit, moltVal) {
   const variazioneReale = profit - prelevato;
   registra(cassaInizio, puntata, esito, variazioneReale, prelevato, S.cassa, 'win', S.schedine);
   S.giorno++;
-  showToast(`🎉 Tutte le ${S.schedine} scommesse vinte! +${fmt(variazioneReale)}`, '🎉');
+  
+  // AVANZAMENTO AUTOMATICO AL GIORNO SUCCESSIVO DOPO LE N MULTIPLE
+  const nextDateStr = advanceDateToNextDay();
+  
+  showToast(`🎉 Tutte le ${S.schedine} scommesse vinte! +${fmt(variazioneReale)} → 📅 ${nextDateStr}`, '🎉');
   aggiorna();
 }
 
@@ -1779,7 +2007,11 @@ function giornoPerso() {
 
   registra(cassaInizio, puntata, esito, -perdita, 0, S.cassa, 'loss', stepPerso);
   S.giorno++;
-  showToast(`Perdita giornata: -${fmt(perdita)}`, '❌');
+  
+  // AVANZAMENTO AUTOMATICO AL GIORNO SUCCESSIVO
+  const nextDateStr = advanceDateToNextDay();
+  
+  showToast(`Perdita giornata: -${fmt(perdita)} → 📅 ${nextDateStr}`, '❌');
   aggiorna();
 }
 
@@ -1875,8 +2107,16 @@ function simulaGiornate() {
 }
 
 window.onload = async () => {
+  // Inizializza tema salvato
+  try {
+    const savedTheme = localStorage.getItem('cassa_theme_mode') || 'dark';
+    applyTheme(savedTheme);
+  } catch(e) {}
+
   const todayISO = new Date().toISOString().slice(0, 10);
-  if (el('dataGiocataInput')) el('dataGiocataInput').value = todayISO;
+  if (el('dataGiocataInput') && !el('dataGiocataInput').value) {
+    el('dataGiocataInput').value = todayISO;
+  }
   
   const hadSettings = loadSettings();
   if (!hadSettings) {
