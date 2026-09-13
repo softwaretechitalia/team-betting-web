@@ -3,28 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>4X System — Forziere Cassa & Money Management Quote 1.01/1.02</title>
+<title>Cassa 4X Pro — Money Management & Andamento Live</title>
 <!-- FAVICON FORZIERE D'ORO SVG NATIVO -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe066'/%3E%3Cstop offset='50%25' stop-color='%23f59e0b'/%3E%3Cstop offset='100%25' stop-color='%23b45309'/%3E%3C/linearGradient%3E%3ClinearGradient id='wood' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2378350f'/%3E%3Cstop offset='100%25' stop-color='%23451a03'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='8' y='24' width='48' height='32' rx='4' fill='url(%23wood)' stroke='%23f59e0b' stroke-width='2'/%3E%3Cpath d='M8 24 C8 12 56 12 56 24 Z' fill='url(%23wood)' stroke='%23f59e0b' stroke-width='2'/%3E%3Crect x='16' y='16' width='6' height='40' fill='url(%23gold)'/%3E%3Crect x='42' y='16' width='6' height='40' fill='url(%23gold)'/%3E%3Crect x='27' y='26' width='10' height='12' rx='2' fill='url(%23gold)' stroke='%2378350f' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='30' r='1.5' fill='%23451a03'/%3E%3Cpath d='M32 31.5 L32 35' stroke='%23451a03' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='22' r='3' fill='%23fde047'/%3E%3Ccircle cx='44' cy='22' r='3' fill='%23fde047'/%3E%3Cpath d='M50 14 L52 10 L54 14 L58 16 L54 18 L52 22 L50 18 L46 16 Z' fill='%23fff' opacity='0.9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<!-- CHART.JS PER GRAFICO ANDAMENTO CASSA E VINCITE/PERDITE -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   :root {
     --bg-main: #060911;
-    --bg-card: rgba(255, 255, 255, 0.04);
+    --bg-card: rgba(18, 26, 43, 0.75);
     --border: rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(79, 195, 247, 0.25);
     --accent: #4fc3f7;
     --accent-glow: rgba(79, 195, 247, 0.25);
     --green: #00e676;
+    --green-glow: rgba(0, 230, 118, 0.25);
     --red: #ff3d57;
     --gold: #ffd740;
+    --gold-glow: rgba(255, 215, 64, 0.25);
     --orange: #ffab40;
     --cyan: #00e5ff;
     --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
     --mono: 'JetBrains Mono', monospace;
-    --radius: 18px;
-    --radius-sm: 12px;
+    --radius: 16px;
+    --radius-sm: 10px;
   }
   
   html, body {
@@ -35,28 +41,23 @@
 
   body {
     font-family: var(--font);
-    background: radial-gradient(circle at 50% 0%, #0c182b 0%, #060911 75%);
+    background: radial-gradient(circle at 50% 0%, #0d1a30 0%, #060911 65%, #04060b 100%);
     min-height: 100vh;
-    padding: 10px 8px 40px;
+    padding: 8px 6px 40px;
     color: #e8f4fd;
     overflow-x: hidden;
   }
 
+  /* OTTIMIZZAZIONE SPECIFICA PER SMARTPHONE (Max-width 480px) */
   .container {
-    max-width: 880px;
+    max-width: 480px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.025);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(13, 21, 38, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-radius: var(--radius);
-    padding: 14px 12px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-    border: 1px solid var(--border);
-  }
-
-  @media (max-width: 480px) {
-    body { padding: 6px 4px 32px; }
-    .container { padding: 10px 8px; border-radius: 14px; }
+    padding: 12px 10px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
   }
 
   /* TOP APP BAR */
@@ -65,10 +66,10 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 8px 12px;
+    border-radius: 12px;
+    padding: 8px 10px;
     margin-bottom: 10px;
   }
   .brand-group {
@@ -78,25 +79,25 @@
     min-width: 0;
   }
   .chest-icon-wrap {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     background: linear-gradient(135deg, #2a1b0a, #451a03);
-    border: 1px solid rgba(255, 215, 64, 0.4);
+    border: 1px solid rgba(255, 215, 64, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 0 16px rgba(255, 215, 64, 0.2);
+    box-shadow: 0 0 14px rgba(255, 215, 64, 0.25);
   }
   .chest-icon-svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
   .brand-text-title {
     font-size: 13px;
     font-weight: 800;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.2px;
     color: #fff;
     white-space: nowrap;
     overflow: hidden;
@@ -105,18 +106,18 @@
   .brand-text-title span { color: var(--gold); }
   .brand-text-sub {
     font-size: 10px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .btn-switch-webapp {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 12px;
+    gap: 5px;
+    padding: 7px 11px;
     background: linear-gradient(135deg, #0288d1, #01579b);
     color: #fff;
     border: 1px solid rgba(79, 195, 247, 0.4);
-    border-radius: 10px;
+    border-radius: 9px;
     font-size: 11px;
     font-weight: 700;
     text-decoration: none;
@@ -126,97 +127,382 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .btn-switch-webapp:hover {
-    background: linear-gradient(135deg, #039be5, #0288d1);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(2, 136, 209, 0.5);
+  .btn-switch-webapp:active {
+    transform: scale(0.96);
   }
 
-  /* DATABASE BAR */
+  /* DATABASE BAR MINIMAL & SLEEK */
   .db-status-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    background: rgba(0, 229, 255, 0.05);
-    border: 1px solid rgba(0, 229, 255, 0.2);
+    gap: 6px;
+    background: rgba(0, 229, 255, 0.04);
+    border: 1px solid rgba(0, 229, 255, 0.15);
     border-radius: 10px;
-    padding: 6px 10px;
-    margin-bottom: 12px;
-    font-size: 11px;
+    padding: 6px 9px;
+    margin-bottom: 10px;
+    font-size: 10.5px;
     color: #b2ebf2;
-    flex-wrap: wrap;
   }
   .db-status-badge {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     font-weight: 600;
   }
   .db-actions-group {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
   }
   .btn-db-action {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.07);
     border: 1px solid var(--border);
     color: #fff;
+    padding: 4px 7px;
     border-radius: 6px;
-    padding: 3px 8px;
     font-size: 10px;
-    cursor: pointer;
     font-weight: 600;
-    transition: all 0.2s;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font);
   }
-  .btn-db-action:hover {
-    background: rgba(255, 255, 255, 0.18);
-  }
+  .btn-db-action:active { background: rgba(255, 255, 255, 0.2); }
   .btn-db-action.danger {
-    background: rgba(255, 61, 87, 0.2);
-    border-color: rgba(255, 61, 87, 0.4);
-    color: #ff8a9a;
-  }
-  .btn-db-action.danger:hover {
-    background: rgba(255, 61, 87, 0.35);
+    background: rgba(255, 61, 87, 0.15);
+    border-color: rgba(255, 61, 87, 0.35);
+    color: #ff8a95;
   }
 
-  h1 {
+  /* 4 PARAMETRI DASHBOARD (RICHIESTI DALL'UTENTE) */
+  .dashboard-4-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .dash-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 11px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+  .dash-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+  }
+  .dash-card.card-initial::after { background: linear-gradient(90deg, #90caf9, transparent); }
+  .dash-card.card-current::after { background: linear-gradient(90deg, #00e5ff, transparent); }
+  .dash-card.card-stake::after { background: linear-gradient(90deg, #00e676, transparent); }
+  .dash-card.card-withdrawn::after { background: linear-gradient(90deg, #ffd740, transparent); }
+
+  .dash-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .dash-card-label {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .dash-card-icon {
+    font-size: 11px;
+  }
+  .dash-card-value {
+    font-family: var(--mono);
     font-size: 18px;
     font-weight: 800;
     color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
     margin-bottom: 4px;
-    letter-spacing: -0.4px;
+  }
+  .dash-card-value.val-cyan { color: #00e5ff; }
+  .dash-card-value.val-green { color: #00e676; }
+  .dash-card-value.val-gold { color: #ffd740; }
+
+  .dash-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .badge-tag {
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: var(--mono);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .badge-growth {
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 800;
+    font-family: var(--mono);
+    background: rgba(0, 230, 118, 0.15);
+    color: #00e676;
+    border: 1px solid rgba(0, 230, 118, 0.3);
+  }
+  .badge-growth.negative {
+    background: rgba(255, 61, 87, 0.15);
+    color: #ff3d57;
+    border-color: rgba(255, 61, 87, 0.3);
+  }
+
+  /* STRIP INFO QUOTE SNEAK-PEEK (Compatta sotto le 4 card) */
+  .quote-summary-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .quote-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .quote-summary-item strong {
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+
+  /* GRAFICO ANDAMENTO INTERATTIVO */
+  .chart-card-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 10px 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  .chart-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chart-title-box {
     display: flex;
     align-items: center;
     gap: 6px;
-    flex-wrap: wrap;
   }
-  .subtitle {
-    font-size: 11px;
+  .chart-main-title {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.2px;
+  }
+  .chart-tabs-group {
+    display: flex;
+    gap: 3px;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 2px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .btn-chart-tab {
+    background: none;
+    border: none;
     color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 12px;
-    line-height: 1.4;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+  .btn-chart-tab.active {
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+  }
+  .chart-container-inner {
+    position: relative;
+    height: 200px;
+    width: 100%;
   }
 
-  /* CONFIG BOX CON CONTROLLI RESPONSIVE E DATA GIOCATA */
-  .config-box {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px;
+  /* STEP PROGRESS BOX (DURANTE LA GIORNATA IN CORSO) */
+  .step-progress-box {
+    background: linear-gradient(135deg, rgba(255, 215, 64, 0.1), rgba(255, 171, 64, 0.05));
+    border: 1px solid rgba(255, 215, 64, 0.4);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 16px rgba(255, 215, 64, 0.12);
+  }
+
+  /* PHASE INDICATOR */
+  .phase-indicator {
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .phase-rendita {
+    background: rgba(0, 230, 118, 0.1);
+    border: 1px solid rgba(0, 230, 118, 0.35);
+    color: #b9f6ca;
+  }
+  .phase-safe {
+    background: rgba(79, 195, 247, 0.1);
+    border: 1px solid rgba(79, 195, 247, 0.35);
+    color: #b3e5fc;
+  }
+  .phase-recupero {
+    background: rgba(255, 171, 64, 0.12);
+    border: 1px solid rgba(255, 171, 64, 0.4);
+    color: #ffe0b2;
+  }
+  .phase-critica {
+    background: rgba(255, 61, 87, 0.15);
+    border: 1px solid rgba(255, 61, 87, 0.45);
+    color: #ffcdd2;
+  }
+
+  /* BOTTONI AZIONE PER SMARTPHONE (TOUCH-FRIENDLY, MIN-HEIGHT 48px) */
+  .action-buttons-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     margin-bottom: 12px;
   }
-  .config-row {
+  .btn-row-primary {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  @media (max-width: 480px) {
-    .config-row {
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-    }
+  .btn-touch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 48px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+    text-align: center;
+    user-select: none;
+  }
+  .btn-touch:active {
+    transform: scale(0.97);
+  }
+  .btn-touch:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn-win-step {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #000;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    border: 1px solid rgba(255, 215, 64, 0.5);
+  }
+  .btn-win-all {
+    background: linear-gradient(135deg, #00e676, #00b0ff);
+    color: #000;
+    box-shadow: 0 4px 14px rgba(0, 230, 118, 0.35);
+    border: 1px solid rgba(0, 230, 118, 0.5);
+  }
+  .btn-lose {
+    background: linear-gradient(135deg, #ff3d57, #d32f2f);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(255, 61, 87, 0.3);
+    border: 1px solid rgba(255, 61, 87, 0.4);
+  }
+  .btn-withdraw {
+    background: linear-gradient(135deg, #ffd740, #ffab00);
+    color: #000;
+    box-shadow: 0 4px 14px rgba(255, 215, 64, 0.3);
+    border: 1px solid rgba(255, 215, 64, 0.6);
+  }
+  .btn-row-secondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .btn-sec {
+    min-height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* IMPOSTAZIONI STRATEGIA & QUOTE (COLLAPSIBLE DRAWER PER SMARTPHONE) */
+  .config-details {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .config-summary {
+    padding: 10px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #b3e5fc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+  .config-summary:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .config-content {
+    padding: 10px 12px 14px;
+    border-top: 1px solid var(--border);
+  }
+  .config-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
   }
   .input-group {
     display: flex;
@@ -224,326 +510,157 @@
     gap: 3px;
   }
   .input-group label {
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 9.5px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.65);
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
   .input-group input, .input-group select {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     border: 1px solid var(--border);
     color: #fff;
     border-radius: 8px;
     padding: 7px 8px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: var(--mono);
     outline: none;
-    transition: all 0.2s;
     width: 100%;
   }
   .input-group input:focus, .input-group select:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 10px var(--accent-glow);
+    box-shadow: 0 0 8px var(--accent-glow);
   }
   .input-group .sub-note {
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: var(--font);
-    line-height: 1.2;
-    margin-top: 1px;
+    font-size: 8.5px;
+    color: rgba(255, 255, 255, 0.45);
   }
 
-  /* RADIO GROUP MODI OPERATIVI */
-  .radio-group {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .radio-group label {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #cfd8dc;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.04);
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    transition: all 0.2s;
-  }
-  .radio-group label:has(input:checked) {
-    background: rgba(79, 195, 247, 0.15);
-    border-color: var(--accent);
-    color: #fff;
-  }
-
-  /* STEP PROGRESS BOX (QUANDO LA GIORNATA È IN CORSO) */
-  .step-progress-box {
-    background: linear-gradient(135deg, rgba(255, 215, 64, 0.08), rgba(0, 229, 255, 0.04));
-    border: 1px solid rgba(255, 215, 64, 0.35);
-    border-radius: 12px;
-    padding: 10px 12px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 14px rgba(255, 215, 64, 0.1);
-  }
-
-  /* STATS GRID */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-  @media (max-width: 600px) {
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-  }
-  .stat-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 8px 10px;
-    position: relative;
-    overflow: hidden;
-  }
-  .stat-card.highlight {
-    background: linear-gradient(135deg, rgba(79, 195, 247, 0.12), rgba(0, 229, 255, 0.04));
-    border-color: rgba(79, 195, 247, 0.4);
-  }
-  .stat-card .label {
-    font-size: 9px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.55);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-bottom: 2px;
-  }
-  .stat-card .value {
-    font-size: 14px;
-    font-weight: 800;
-    font-family: var(--mono);
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .stat-card .value.green { color: var(--green); }
-  .stat-card .value.gold { color: var(--gold); }
-  .stat-card .value.cyan { color: var(--cyan); }
-
-  /* PHASE INDICATOR */
-  .phase-indicator {
-    padding: 8px 10px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-align: center;
-    border: 1px solid transparent;
-  }
-  .phase-rendita { background: rgba(0, 230, 118, 0.1); border-color: rgba(0, 230, 118, 0.3); color: #b9f6ca; }
-  .phase-safe { background: rgba(0, 229, 255, 0.1); border-color: rgba(0, 229, 255, 0.3); color: #84ffff; }
-  .phase-all-in { background: rgba(255, 171, 64, 0.1); border-color: rgba(255, 171, 64, 0.3); color: #ffe082; }
-  .phase-recupero { background: rgba(255, 215, 64, 0.1); border-color: rgba(255, 215, 64, 0.3); color: #fff9c4; }
-  .phase-critica { background: rgba(255, 61, 87, 0.15); border-color: rgba(255, 61, 87, 0.4); color: #ff8a9a; }
-
-  /* PROGRESS BAR */
-  .progress-bar {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--green));
-    transition: width 0.3s ease;
-  }
-
-  /* SIM STATS */
-  .sim-stats {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 6px 8px;
-    margin-bottom: 10px;
-    font-size: 10px;
-    font-weight: 700;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  /* ACTION BUTTONS GRID CON VINTA UNA SCOMMESSA, PERSO, PRELEVA */
-  .btn-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-  @media (max-width: 680px) {
-    .btn-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-  }
-  .btn {
-    padding: 10px 8px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 800;
-    font-family: var(--font);
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s ease;
-    text-align: center;
-    outline: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  .radio-mode-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-  }
-  .btn:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
-  }
-  .btn:active:not(:disabled) {
-    transform: translateY(1px);
-  }
-  .btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  .btn-primary { background: rgba(255, 255, 255, 0.08); color: #fff; border-color: var(--border); }
-  .btn-success { background: linear-gradient(135deg, #00c853, #009624); color: #fff; border-color: rgba(0, 230, 118, 0.4); }
-  .btn-warning { background: linear-gradient(135deg, #0288d1, #01579b); color: #fff; border-color: rgba(79, 195, 247, 0.4); }
-  .btn-danger { background: linear-gradient(135deg, #d50000, #b71c1c); color: #fff; border-color: rgba(255, 61, 87, 0.4); }
-  .btn-cyan { background: linear-gradient(135deg, #00b0ff, #00838f); color: #fff; border-color: rgba(0, 229, 255, 0.4); }
-  .btn-gold { background: linear-gradient(135deg, #ffd740, #ff8f00); color: #000; border-color: #ffd740; }
-
-  /* INFO BOX */
-  .info-box {
-    background: rgba(255, 255, 255, 0.03);
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.4);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 12px;
+    padding: 8px 10px;
     font-size: 11px;
-    line-height: 1.4;
   }
-  .info-box.success {
-    border-color: rgba(0, 230, 118, 0.3);
-    background: rgba(0, 230, 118, 0.05);
+  .radio-mode-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
   }
 
-  /* TABLE SCROLL */
+  /* TABELLA STORICO OPERAZIONI */
+  .history-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .history-title {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #fff;
+  }
   .table-scroll {
     overflow-x: auto;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid var(--border);
     border-radius: 12px;
-    margin-top: 6px;
+    max-height: 280px;
     -webkit-overflow-scrolling: touch;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 10.5px;
     white-space: nowrap;
   }
   th {
-    background: rgba(255, 255, 255, 0.04);
-    padding: 7px 6px;
+    background: rgba(18, 26, 43, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 7px 8px;
     text-align: left;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.6);
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7);
     border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    font-size: 9px;
+    letter-spacing: 0.3px;
   }
   td {
-    padding: 7px 6px;
+    padding: 7px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     font-family: var(--mono);
   }
-  tr:last-child td { border-bottom: none; }
-  tr.win { background: rgba(0, 230, 118, 0.03); }
-  tr.loss { background: rgba(255, 61, 87, 0.05); }
-  tr.step { background: rgba(79, 195, 247, 0.03); }
-  tr.prelievo { background: rgba(255, 215, 64, 0.06); }
-  tr.special { background: rgba(255, 215, 64, 0.05); }
+  tr.win { background: rgba(0, 230, 118, 0.04); }
+  tr.loss { background: rgba(255, 61, 87, 0.06); }
+  tr.prelievo { background: rgba(255, 215, 64, 0.05); }
 
-  /* MODAL */
+  /* MODAL PRELIEVO */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 14px;
-    z-index: 1000;
   }
   .modal-box {
     background: #0d1527;
-    border: 1px solid rgba(79, 195, 247, 0.3);
-    border-radius: var(--radius);
-    padding: 16px;
+    border: 1px solid rgba(255, 215, 64, 0.4);
+    border-radius: 16px;
+    padding: 16px 14px;
     width: 100%;
-    max-width: 440px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    max-width: 400px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
   }
   .modal-title {
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 8px;
   }
   .modal-desc {
-    font-size: 11px;
+    font-size: 10.5px;
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 12px;
     line-height: 1.4;
   }
 
-  /* TOAST NOTIFICA */
+  /* TOAST */
   .toast {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%) translateY(100px);
-    background: rgba(13, 21, 39, 0.95);
+    background: #0f1c33;
     border: 1px solid var(--accent);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-    border-radius: 30px;
-    padding: 8px 18px;
     color: #fff;
-    font-size: 11px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 11.5px;
     font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10000;
     pointer-events: none;
-    z-index: 2000;
+    opacity: 0;
   }
   .toast.show {
     transform: translateX(-50%) translateY(0);
@@ -555,7 +672,7 @@
 <body>
 
 <div class="container">
-  <!-- TOP APP BAR CON ICONA FORZIERE E LINK STESSA TAB -->
+  <!-- TOP APP BAR -->
   <div class="top-app-bar">
     <div class="brand-group">
       <div class="chest-icon-wrap" title="Forziere Cassa 4X System">
@@ -585,20 +702,20 @@
       </div>
       <div>
         <div class="brand-text-title">Cassa <span>4X Pro</span></div>
-        <div class="brand-text-sub">🪙 Forziere & Money Management Compound</div>
+        <div class="brand-text-sub">🪙 Money Management Compound</div>
       </div>
     </div>
 
-    <!-- PASSA ALLA WEBAPP NELLA STESSA TAB (target="_self") -->
-    <a href="index.html" target="_self" onclick="if(location.protocol==='file:'&&!location.pathname.includes('team-betting-web')){location.href='https://softwaretechitalia.github.io/team-betting-web/';return false;}" class="btn-switch-webapp" title="Vedi le quote live nella stessa pagina">
+    <!-- PASSA ALLA WEBAPP NELLA STESSA TAB -->
+    <a href="index.html" target="_self" onclick="if(location.protocol==='file:'&&!location.pathname.includes('team-betting-web')){location.href='https://softwaretechitalia.github.io/team-betting-web/';return false;}" class="btn-switch-webapp" title="Vedi le quote live">
       <span>📡 Quote Live ➔</span>
     </a>
   </div>
 
-  <!-- DATABASE STATUS BAR CON AZIONI BACKUP/RESTORE -->
+  <!-- DATABASE STATUS BAR MINIMAL -->
   <div class="db-status-bar">
     <div class="db-status-badge">
-      <span>💾</span> Database Locale Permanente: <span id="dbRecordCount" style="color:#fff">0</span> operazioni
+      <span>💾</span> DB Locale: <span id="dbRecordCount" style="color:#fff">0</span> ops
     </div>
     <div class="db-actions-group">
       <button class="btn-db-action" onclick="exportDatabaseJSON()" title="Esporta file di backup JSON">📤 Backup</button>
@@ -608,165 +725,226 @@
   </div>
   <input type="file" id="jsonFileInput" accept=".json" style="display:none" onchange="handleImportJSON(event)">
 
-  <h1>🎯 4X System — Cassa Quote 1.01/1.02</h1>
-  <p class="subtitle">Gestione Compound Reale · Step Singoli, Prelievo dopo l'Intera Giornata o Libero Senza Sistema</p>
-
-  <div class="config-box">
-    <div class="config-row">
-      <div class="input-group">
-        <label>📅 Data Giocata</label>
-        <input type="date" id="dataGiocataInput" onchange="onDateChanged()">
-        <div class="sub-note">Data associata alle registrazioni</div>
+  <!-- 4 PARAMETRI DASHBOARD (IN PRIMO PIANO) -->
+  <div class="dashboard-4-grid">
+    <!-- 1. CASSA INIZIALE -->
+    <div class="dash-card card-initial">
+      <div class="dash-card-header">
+        <span class="dash-card-label"><span class="dash-card-icon">🏛️</span> Iniziale</span>
+        <span class="badge-tag">START</span>
       </div>
-      <div class="input-group">
-        <label>💶 Cassa Iniziale (€)</label>
-        <input type="number" id="cassaInput" value="1000" min="10" step="10" onchange="onUserInputChange()">
-      </div>
-      <div class="input-group">
-        <label>📈 Quota Singolo Evento</label>
-        <select id="quotaEventoSelect" onchange="onQuotaEventoChanged()">
-          <option value="1.008">1.008 (Minimo Rischio)</option>
-          <option value="1.010" selected>1.010 (Bet365 Target ⭐)</option>
-          <option value="1.015">1.015 (Ottimale)</option>
-          <option value="1.020">1.020 (Massimo)</option>
-          <option value="custom">Quota Personalizzata...</option>
-        </select>
-        <input type="number" id="quotaEventoCustom" value="1.010" step="0.001" min="1.001" max="1.500" style="display:none;margin-top:3px;" onchange="onQuotaEventoChanged()">
-      </div>
-      <div class="input-group">
-        <label>🎯 Eventi per Multipla</label>
-        <select id="eventiSelect" onchange="onEventiSelectChanged()">
-          <option value="1">1 evento (Singola)</option>
-          <option value="2">2 eventi</option>
-          <option value="3">3 eventi</option>
-          <option value="4">4 eventi</option>
-          <option value="5">5 eventi</option>
-          <option value="6">6 eventi</option>
-          <option value="7">7 eventi</option>
-          <option value="8">8 eventi</option>
-          <option value="9">9 eventi</option>
-          <option value="10" selected>10 eventi (Quota ~1.105)</option>
-        </select>
-        <div class="sub-note">Calcola quota o scrivi quota sotto ⬇️</div>
-      </div>
-      <div class="input-group">
-        <label>🎯 Quota Singola Multipla</label>
-        <input type="number" id="quotaMultiplaInput" value="1.10" step="0.001" min="1.001" max="10.000" onchange="onQuotaMultiplaInputChanged()">
-        <div class="sub-note">Quota singola giocata (es. 1.10) · BE: <strong id="beDisplay" style="color:var(--accent)">90.9%</strong></div>
-      </div>
-      <div class="input-group">
-        <label>📊 Schedine al giorno</label>
-        <input type="number" id="schedineInput" value="6" min="1" max="50" step="1" onchange="onUserInputChange()">
-        <div class="sub-note">Schedine indipendenti / step al giorno</div>
-      </div>
-      <div class="input-group">
-        <label>🪙 Prelievo di Sistema</label>
-        <select id="prelievoSelect" onchange="onPrelievoChanged()">
-          <option value="0" selected>0% (Accumulo 100% - Interesse Composto ⭐)</option>
-          <option value="0.25">25% (Rendita 25% · Accumulo 75%)</option>
-          <option value="0.50">50% (Rendita classica 4X)</option>
-          <option value="0.75">75% (Rendita elevata)</option>
-          <option value="1.00">100% (Prelievo integrale profitti)</option>
-        </select>
-        <div class="sub-note">Applicato a fine giornata su tutte vinte</div>
-      </div>
-      <div class="input-group">
-        <label>🎯 % Vincita stimata</label>
-        <select id="winRateSelect" onchange="onUserInputChange()">
-          <option value="0.92">92% (Prudente)</option>
-          <option value="0.95" selected>95% (Realistico quote ≤ 1.01)</option>
-          <option value="0.98">98% (Quote top tier ⭐)</option>
-          <option value="0.99">99% (Ottimale)</option>
-        </select>
+      <div class="dash-card-value" id="statCassaIniziale">€ 1.000,00</div>
+      <div class="dash-card-footer">
+        <span>Capitale base</span>
       </div>
     </div>
-    
-    <div class="radio-group">
-      <label><input type="radio" name="modo" value="gia4x" checked onchange="onModoChanged()"> ✅ Cassa 4X pronta (Puntata ¼)</label>
-      <label><input type="radio" name="modo" value="costruisci" onchange="onModoChanged()"> 🔨 Costruisco cassa (Verso Target 4X)</label>
-      <label><input type="radio" name="modo" value="sicuro" onchange="onModoChanged()"> 🛡️ Modalità Sicura (Puntata ⅛ protetta)</label>
+
+    <!-- 2. CASSA ATTUALE -->
+    <div class="dash-card card-current">
+      <div class="dash-card-header">
+        <span class="dash-card-label"><span class="dash-card-icon">💰</span> Attuale</span>
+        <span class="badge-growth" id="statCassaDelta">+0.0%</span>
+      </div>
+      <div class="dash-card-value val-cyan" id="statCassa">€ 1.000,00</div>
+      <div class="dash-card-footer">
+        <span>Saldo live</span>
+        <span id="statCassaProfitBadge" style="color:var(--green);font-family:var(--mono);">+€0</span>
+      </div>
+    </div>
+
+    <!-- 3. DA GIOCARE (OGGI) -->
+    <div class="dash-card card-stake">
+      <div class="dash-card-header">
+        <span class="dash-card-label"><span class="dash-card-icon">🎯</span> Da Giocare</span>
+        <span class="badge-tag" id="lblDaGiocareModo">¼ 4X</span>
+      </div>
+      <div class="dash-card-value val-green" id="statPuntata">€ 250,00</div>
+      <div class="dash-card-footer">
+        <span>Puntata oggi</span>
+        <span id="statCoperturaBadge" style="color:var(--accent);font-family:var(--mono);">4.0 stop</span>
+      </div>
+    </div>
+
+    <!-- 4. PRELEVATO -->
+    <div class="dash-card card-withdrawn">
+      <div class="dash-card-header">
+        <span class="dash-card-label"><span class="dash-card-icon">💸</span> Prelevato</span>
+        <span class="badge-tag" style="color:var(--gold);background:rgba(255,215,64,0.1);">INCASSO</span>
+      </div>
+      <div class="dash-card-value val-gold" id="statPrelevato">€ 0,00</div>
+      <div class="dash-card-footer">
+        <span>Rendita cumulata</span>
+      </div>
     </div>
   </div>
 
+  <!-- COMPACT QUOTE SUMMARY STRIP -->
+  <div class="quote-summary-strip">
+    <div class="quote-summary-item">
+      <span>🎯 Q. Singola:</span>
+      <strong id="stripQuotaSingola" style="color:var(--accent);">1.10</strong>
+    </div>
+    <div class="quote-summary-item">
+      <span>⚡ Q. Giornata (Q^N):</span>
+      <strong id="stripQuotaGiornata" style="color:var(--green);">×1.7716</strong>
+    </div>
+    <div class="quote-summary-item">
+      <span>📊 Schedine:</span>
+      <strong id="stripSchedine" style="color:#fff;">6/gg</strong>
+    </div>
+  </div>
+
+  <!-- PHASE INDICATOR -->
   <div id="phaseIndicator" class="phase-indicator phase-rendita"></div>
 
-  <!-- STEP PROGRESS BOX (VISIBILE DURANTE LA GIORNATA IN CORSO) -->
+  <!-- STEP PROGRESS BOX (VISIBILE SOLO CON GIORNATA IN CORSO) -->
   <div id="stepProgressBox" class="step-progress-box" style="display:none;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-      <div style="font-weight:800;font-size:12px;color:var(--gold);display:flex;align-items:center;gap:6px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+      <div style="font-weight:800;font-size:11.5px;color:var(--gold);display:flex;align-items:center;gap:5px;">
         <span>🎯 GIORNATA IN CORSO:</span>
-        <span id="stepProgressBadge" style="background:rgba(255,215,64,0.2);border:1px solid var(--gold);padding:2px 8px;border-radius:6px;">0/6 Vinte</span>
+        <span id="stepProgressBadge" style="background:rgba(255,215,64,0.2);border:1px solid var(--gold);padding:1px 7px;border-radius:6px;">0/6 Vinte</span>
       </div>
-      <div style="font-size:11px;font-family:var(--mono);color:var(--cyan);" id="stepProgressMolt">×1.0000</div>
+      <div style="font-size:10.5px;font-family:var(--mono);color:var(--cyan);" id="stepProgressMolt">×1.0000</div>
     </div>
-    <div style="font-size:11px;color:#fff;line-height:1.4;">
-      Montante maturato oggi: <strong id="stepMontanteVal" style="color:var(--green);">€ 250,00</strong> (<span id="stepProfittoVal" style="color:var(--green);">+€ 0,00</span>).<br>
-      <span style="font-size:10px;color:rgba(255,255,255,0.7);" id="stepRemainingNote">Completa tutte le scommesse del giorno per chiudere la sessione e consentire il prelievo.</span>
+    <div style="font-size:10.5px;color:#fff;line-height:1.4;">
+      Montante maturato: <strong id="stepMontanteVal" style="color:var(--green);">€ 250,00</strong> (<span id="stepProfittoVal" style="color:var(--green);">+€ 0,00</span>).<br>
+      <span style="font-size:9.5px;color:rgba(255,255,255,0.7);" id="stepRemainingNote">Completa tutte le scommesse del giorno per chiudere la sessione e consentire il prelievo.</span>
     </div>
   </div>
 
-  <!-- STATS GRID -->
-  <div class="stats-grid">
-    <div class="stat-card"><div class="label">Cassa Attuale</div><div class="value" id="statCassa">—</div></div>
-    <div class="stat-card highlight"><div class="label" id="lblPuntataOggi">Puntata Oggi (¼)</div><div class="value" id="statPuntata">—</div></div>
-    <div class="stat-card"><div class="label">Quota Singola</div><div class="value cyan" id="statQuotaSingola">1.10</div></div>
-    <div class="stat-card highlight"><div class="label">Quota Giornata (Q^N)</div><div class="value green" id="statMolt">×1.7716</div></div>
-    <div class="stat-card highlight"><div class="label">Guadagno Netto Vinto</div><div class="value green" id="statGuadagno">—</div></div>
-    <div class="stat-card"><div class="label">Incasso Lordo</div><div class="value" id="statIncasso">—</div></div>
-    <div class="stat-card"><div class="label">Prelevato Totale</div><div class="value gold" id="statPrelevato">—</div></div>
-    <div class="stat-card"><div class="label">Copertura Stop</div><div class="value cyan" id="statCopertura">—</div></div>
+  <!-- BOTTONI AZIONE PER SMARTPHONE -->
+  <div class="action-buttons-mobile">
+    <div class="btn-row-primary">
+      <button class="btn-touch btn-win-step" id="btnVintaSingola" onclick="vintaUnaScommessa()" title="Registra la vittoria di una singola schedina">
+        <span>🎯 Vinta una scommessa</span>
+      </button>
+      <button class="btn-touch btn-win-all" id="btnVintoTutte" onclick="giornoVintoTutte()" title="Chiudi tutte le schedine come vinte">
+        <span>✅ Vinto (Tutte)</span>
+      </button>
+    </div>
+    <div class="btn-row-primary">
+      <button class="btn-touch btn-lose" id="btnPerso" onclick="giornoPerso()" title="Hai perso il capitale giocato oggi">
+        <span>❌ Perso</span>
+      </button>
+      <button class="btn-touch btn-withdraw" id="btnPrelevaLibero" onclick="apriModalPrelievoLibero()" title="Preleva un importo a scelta dalla cassa">
+        <span>💸 Preleva</span>
+      </button>
+    </div>
+    <div class="btn-row-secondary">
+      <button class="btn-touch btn-sec" id="btnResetAction" onclick="resetButtonAction()">
+        <span>↺ Reset Cassa</span>
+      </button>
+      <button class="btn-touch btn-sec" id="btnSimula" onclick="simulaGiornate()">
+        <span>🎲 Simula 30gg</span>
+      </button>
+    </div>
   </div>
 
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:100%"></div></div>
-
-  <!-- SIM STATS -->
-  <div class="sim-stats">
-    <div>Giornate: <span id="simCount" style="color:#00e5ff;">0</span></div>
-    <div>Vinte: <span id="simVinti" style="color:#00e676;">0</span></div>
-    <div>Perse: <span id="simPersi" style="color:#ff3d57;">0</span></div>
-    <div>Crescita: <span id="simCrescita" style="color:#ffd740;">+0%</span></div>
-    <div>Profitto: <span id="simProfitto" style="color:#ffd740;">€0,00</span></div>
+  <!-- GRAFICO ANDAMENTO CASSA E VINCITE/PERDITE -->
+  <div class="chart-card-wrapper">
+    <div class="chart-header-row">
+      <div class="chart-title-box">
+        <span style="font-size:14px;">📈</span>
+        <span class="chart-main-title">Andamento Cassa & Performance</span>
+      </div>
+      <div class="chart-tabs-group">
+        <button class="btn-chart-tab active" id="tabChartCombo" onclick="setChartMode('combo')">🔄 Entrambi</button>
+        <button class="btn-chart-tab" id="tabChartCassa" onclick="setChartMode('cassa')">📈 Cassa</button>
+        <button class="btn-chart-tab" id="tabChartVar" onclick="setChartMode('var')">📊 +/- Giorn.</button>
+      </div>
+    </div>
+    <div class="chart-container-inner">
+      <canvas id="cassaChart"></canvas>
+    </div>
   </div>
 
-  <!-- ACTION BUTTONS GRID: RESET, VINTA UNA SCOMMESSA, VINTO TUTTE, PERSO, PRELEVA, SIMULA -->
-  <div class="btn-grid">
-    <button class="btn btn-primary" id="btnResetAction" onclick="resetButtonAction()" title="Ripristina la cassa iniziale">
-      <span>↺ Reset</span>
-    </button>
-    <button class="btn btn-warning" id="btnVintaSingola" onclick="vintaUnaScommessa()" title="Registra la vittoria di una singola schedina del giorno">
-      <span>🎯 Vinta una scommessa</span>
-    </button>
-    <button class="btn btn-success" id="btnVintoTutte" onclick="giornoVintoTutte()" title="Registra tutte le schedine della giornata come vinte in una volta">
-      <span>✅ Vinto (Tutte)</span>
-    </button>
-    <button class="btn btn-danger" id="btnPerso" onclick="giornoPerso()" title="Hai perso il capitale giocato oggi">
-      <span>❌ Perso</span>
-    </button>
-    <button class="btn btn-gold" id="btnPrelevaLibero" onclick="apriModalPrelievoLibero()" title="Preleva un importo a piacere senza seguire il sistema">
-      <span>💸 Preleva</span>
-    </button>
-    <button class="btn btn-cyan" id="btnSimula" onclick="simulaGiornate()" title="Simula 30 giorni consecutivi">
-      <span>🎲 Simula 30gg</span>
-    </button>
-  </div>
+  <!-- ACCORDION COLLAPSIBILE IMPOSTAZIONI STRATEGIA & QUOTE -->
+  <details class="config-details" id="configAccordion">
+    <summary class="config-summary">
+      <span>⚙️ Impostazioni Strategia & Quote</span>
+      <span style="font-size:10px;color:var(--accent);">Tocca per modificare ▾</span>
+    </summary>
+    <div class="config-content">
+      <div class="config-grid">
+        <div class="input-group">
+          <label>📅 Data Giocata</label>
+          <input type="date" id="dataGiocataInput" onchange="onDateChanged()">
+          <div class="sub-note">Data delle operazioni</div>
+        </div>
+        <div class="input-group">
+          <label>💶 Cassa Iniziale (€)</label>
+          <input type="number" id="cassaInput" value="1000" min="10" step="10" onchange="onUserInputChange()">
+          <div class="sub-note">Capitale iniziale base</div>
+        </div>
+        <div class="input-group">
+          <label>📈 Quota Singolo Evento</label>
+          <select id="quotaEventoSelect" onchange="onQuotaEventoChanged()">
+            <option value="1.008">1.008 (Minimo)</option>
+            <option value="1.010" selected>1.010 (Target ⭐)</option>
+            <option value="1.015">1.015 (Ottimale)</option>
+            <option value="1.020">1.020 (Massimo)</option>
+            <option value="custom">Personalizzata...</option>
+          </select>
+          <input type="number" id="quotaEventoCustom" value="1.010" step="0.001" min="1.001" max="1.500" style="display:none;margin-top:3px;" onchange="onQuotaEventoChanged()">
+        </div>
+        <div class="input-group">
+          <label>🎯 Eventi per Multipla</label>
+          <select id="eventiSelect" onchange="onEventiSelectChanged()">
+            <option value="1">1 evento (Singola)</option>
+            <option value="2">2 eventi</option>
+            <option value="3">3 eventi</option>
+            <option value="4">4 eventi</option>
+            <option value="5">5 eventi</option>
+            <option value="6">6 eventi</option>
+            <option value="7">7 eventi</option>
+            <option value="8">8 eventi</option>
+            <option value="9">9 eventi</option>
+            <option value="10" selected>10 eventi (~1.105)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>🎯 Quota Singola Multipla</label>
+          <input type="number" id="quotaMultiplaInput" value="1.10" step="0.001" min="1.001" max="10.000" onchange="onQuotaMultiplaInputChanged()">
+          <div class="sub-note">BE: <strong id="beDisplay" style="color:var(--accent)">90.9%</strong></div>
+        </div>
+        <div class="input-group">
+          <label>📊 Schedine al giorno</label>
+          <input type="number" id="schedineInput" value="6" min="1" max="50" step="1" onchange="onUserInputChange()">
+          <div class="sub-note">Step per giornata</div>
+        </div>
+        <div class="input-group">
+          <label>🪙 Prelievo di Sistema</label>
+          <select id="prelievoSelect" onchange="onPrelievoChanged()">
+            <option value="0" selected>0% (100% Compound ⭐)</option>
+            <option value="0.25">25% (Rendita 25%)</option>
+            <option value="0.50">50% (Rendita 50%)</option>
+            <option value="0.75">75% (Rendita 75%)</option>
+            <option value="1.00">100% (Prelievo tutto)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>🎯 % Vincita stimata</label>
+          <select id="winRateSelect" onchange="onUserInputChange()">
+            <option value="0.92">92% (Prudente)</option>
+            <option value="0.95" selected>95% (Realistico)</option>
+            <option value="0.98">98% (Top tier ⭐)</option>
+            <option value="0.99">99% (Ottimale)</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="radio-mode-group">
+        <label><input type="radio" name="modo" value="gia4x" checked onchange="onModoChanged()"> ✅ Cassa 4X pronta (Puntata ¼)</label>
+        <label><input type="radio" name="modo" value="costruisci" onchange="onModoChanged()"> 🔨 Costruisco cassa (Verso Target 4X)</label>
+        <label><input type="radio" name="modo" value="sicuro" onchange="onModoChanged()"> 🛡️ Modalità Sicura (Puntata ⅛ protetta)</label>
+      </div>
+    </div>
+  </details>
 
-  <div class="use-cassa-box hidden" id="useCassaBox" style="text-align:center;margin:10px 0;padding:12px;background:rgba(255,215,0,.08);border:2px dashed #ffd700;border-radius:12px;font-size:12px;">
-    🎉 <b>Obiettivo 4X Raggiunto!</b> La cassa costruita è pronta per la rendita quotidiana.<br><br>
-    <button class="btn btn-gold" onclick="usaComeCassa()" style="margin:0 auto;">💰 USA COME CASSA → Passa alla Rendita</button>
-  </div>
-
-  <div class="info-box success" id="infoBoxExplanation">
-    <strong>🎯 Formula Compound & Distinzione Quote:</strong><br>
-    • <strong>Quota Singola Giocata:</strong> Quota di ciascuna singola schedina o multipla (es. <strong>1.10</strong>).<br>
-    • <strong>Quota Intera Giornata (Q^N):</strong> Quota complessiva data da quota singola elevata alle schedine del giorno (es. <strong>1.10^6 ≈ 1.7716</strong> su 6 multiple).<br>
-    • Ad esempio con <strong>€ 250</strong> giocati a quota 1.10 per 6 volte:<br>
-      — Incasso Lordo: <code>€ 250 × 1.10^6 = € 442,89</code><br>
-      — Guadagno Netto: <code>€ 442,89 − € 250 = +€ 192,89</code> accreditato direttamente alla cassa a fine giornata.
-  </div>
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:6px;">
-    <h3 style="font-size:12px;font-weight:700;">📜 Storico Operazioni (Database Locale Permanente)</h3>
-    <button class="btn-db-action danger" style="padding:4px 10px;font-size:11px;" onclick="clearDatabaseHistory()">🗑️ Svuota Storico</button>
+  <!-- STORICO OPERAZIONI -->
+  <div class="history-section-header">
+    <span class="history-title">📜 Storico Operazioni</span>
+    <button class="btn-db-action danger" onclick="clearDatabaseHistory()">🗑️ Svuota</button>
   </div>
   <div class="table-scroll">
     <table>
@@ -776,11 +954,11 @@
           <th>Giorno</th>
           <th>Cassa Inizio</th>
           <th>Puntata</th>
-          <th>Quota Singola</th>
-          <th>Quota Giornata (Q^N)</th>
+          <th>Quota Sing.</th>
+          <th>Quota Q^N</th>
           <th>Vinte</th>
           <th>Esito</th>
-          <th>Variazione Reale</th>
+          <th>Variazione</th>
           <th>Prelevato</th>
           <th>Cassa Fine</th>
         </tr>
@@ -790,7 +968,7 @@
   </div>
 </div>
 
-<!-- MODAL PRELIEVO LIBERO (SENZA SEGUIRE IL SISTEMA) -->
+<!-- MODAL PRELIEVO LIBERO -->
 <div id="prelievoModal" class="modal-overlay" style="display:none;">
   <div class="modal-box">
     <div class="modal-title">
@@ -798,7 +976,7 @@
       <button onclick="closePrelievoModal()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
     </div>
     <div class="modal-desc">
-      Preleva una somma a tua scelta dalla cassa corrente senza vincoli di sistema.
+      Preleva una somma a piacere dalla cassa corrente senza vincoli di sistema.
     </div>
     <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:12px;">
       <div style="font-size:11px;color:rgba(255,255,255,0.7);display:flex;justify-content:space-between;">
@@ -813,7 +991,7 @@
         <button type="button" class="btn-db-action" onclick="setPercentPrelievo(0.25)">25%</button>
         <button type="button" class="btn-db-action" onclick="setPercentPrelievo(0.50)">50%</button>
         <button type="button" class="btn-db-action" onclick="setPercentPrelievo(0.75)">75%</button>
-        <button type="button" class="btn-db-action" onclick="setPercentPrelievo(1.00)">100% Tutto</button>
+        <button type="button" class="btn-db-action" onclick="setPercentPrelievo(1.00)">100%</button>
       </div>
     </div>
     <div class="input-group" style="margin-bottom:10px;">
@@ -822,11 +1000,11 @@
     </div>
     <div class="input-group" style="margin-bottom:14px;">
       <label>📝 Nota / Causale (opzionale)</label>
-      <input type="text" id="prelievoLiberoNota" placeholder="Es. Bonifico personale, spesa, rendita...">
+      <input type="text" id="prelievoLiberoNota" placeholder="Es. Bonifico, spesa, rendita...">
     </div>
     <div style="display:flex;gap:6px;">
-      <button class="btn btn-gold" style="flex:1;" onclick="confermaPrelievoLibero()">💸 Conferma Prelievo</button>
-      <button class="btn btn-primary" style="flex:1;" onclick="closePrelievoModal()">Annulla</button>
+      <button class="btn-touch btn-withdraw" style="flex:1;" onclick="confermaPrelievoLibero()">💸 Conferma</button>
+      <button class="btn-touch btn-sec" style="flex:1;" onclick="closePrelievoModal()">Annulla</button>
     </div>
   </div>
 </div>
@@ -837,6 +1015,10 @@
 let S = {};
 let simStats = { total:0, vinti:0, persi:0 };
 let db = null;
+let cassaChart = null;
+let currentChartMode = 'combo'; // 'combo', 'cassa', 'var'
+let cachedPlays = [];
+
 const fmt = n => (n < 0 ? '-€ ' : '€ ') + Math.abs(n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const el = id => document.getElementById(id);
 
@@ -906,7 +1088,7 @@ function loadSettings() {
 }
 
 /* ========================================================
-   DATABASE GRATIS E PERMANENTE (INDEXEDDB NATIVO)
+   DATABASE INDEXEDDB
    ======================================================== */
 function initIndexedDB(){
   return new Promise((resolve) => {
@@ -937,8 +1119,13 @@ function savePlayToDB(playData){
   try {
     const tx = db.transaction('plays', 'readwrite');
     const store = tx.objectStore('plays');
-    store.add({ ...playData, timestamp: Date.now() });
-    tx.oncomplete = () => updateDbCount();
+    const fullPlay = { ...playData, timestamp: Date.now() };
+    store.add(fullPlay);
+    cachedPlays.push(fullPlay);
+    tx.oncomplete = () => {
+      updateDbCount();
+      updateChartWithData(cachedPlays);
+    };
   } catch (err) {
     console.warn('Errore salvataggio IndexedDB', err);
   }
@@ -964,8 +1151,9 @@ function loadHistoryFromDB(){
     const getReq = store.getAll();
     getReq.onsuccess = () => {
       const records = getReq.result || [];
+      cachedPlays = [...records];
+      el('historyBody').innerHTML = '';
       if (records.length > 0) {
-        el('historyBody').innerHTML = '';
         records.forEach(item => {
           const qSingola = item.quotaSingola || item.quota || (item.molt ? Math.pow(item.molt, 1/(item.schedine||6)) : '—');
           const qGiornata = item.molt || (item.quota ? Math.pow(item.quota, item.schedine || S.schedine || 6) : '—');
@@ -979,14 +1167,16 @@ function loadHistoryFromDB(){
           aggiorna();
         }
       }
+      updateChartWithData(cachedPlays);
     };
   } catch (e) {}
 }
 
 function clearDatabaseHistory(){
-  if (!confirm("⚠️ ATTENZIONE: Vuoi cancellare definitivamente lo storico delle giocate dal database per iniziare da zero?\n\nLa cassa tornerà al valore iniziale impostato.")) {
+  if (!confirm("⚠️ Vuoi cancellare definitivamente lo storico delle giocate per iniziare da zero?\n\nLa cassa tornerà al valore iniziale impostato.")) {
     return;
   }
+  cachedPlays = [];
   if (db) {
     try {
       const tx = db.transaction('plays', 'readwrite');
@@ -994,7 +1184,7 @@ function clearDatabaseHistory(){
       tx.oncomplete = () => {
         el('historyBody').innerHTML = '';
         updateDbCount();
-        showToast('Storico svuotato con successo!', '🗑️');
+        showToast('Storico svuotato!', '🗑️');
         reset();
       };
     } catch(e) {
@@ -1033,7 +1223,7 @@ function exportDatabaseJSON(){
     a.download = `forziere-cassa-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast('Backup JSON esportato!', '📤');
+    showToast('Backup esportato!', '📤');
   };
 }
 
@@ -1071,7 +1261,7 @@ function handleImportJSON(e){
 }
 
 /* ========================================================
-   LOGICA DI CONFIGURAZIONE & CALCOLO COMPOUND
+   LOGICA CONFIGURAZIONE & CALCOLO COMPOUND
    ======================================================== */
 function getQuotaEvento() {
   const sel = el('quotaEventoSelect').value;
@@ -1154,11 +1344,9 @@ function reset() {
   if (c.modo === 'gia4x') {
     target = c.cassa;
   } else {
-    // Modo costruisci o sicuro: Obiettivo 4X
     target = c.cassa * 4;
   }
 
-  // Moltiplicatore Totale: Quota Multipla ^ Schedine
   const molt = Math.pow(c.quotaMultipla, c.schedine);
 
   S = {
@@ -1181,11 +1369,9 @@ function reset() {
   
   simStats = { total:0, vinti:0, persi:0 };
   aggiorna();
+  updateChartWithData(cachedPlays);
 }
 
-/* ========================================================
-   REGOLE PUNTATA & DELEVERAGE EFFICACE
-   ======================================================== */
 function getDeleverageMultiplier(losses) {
   if (losses <= 0) return 1.0;
   if (losses === 1) return 0.75;
@@ -1197,9 +1383,9 @@ function puntataOdierna() {
   if (S.cassa <= 0) return 0;
   let base;
   if (S.mode === 'sicuro') {
-    base = S.cassa / 8; // Modalità Sicura: 1/8 (12.5%)
+    base = S.cassa / 8;
   } else {
-    base = S.cassa / 4; // Cassa 4X pronta o Costruzione: 1/4 (25%)
+    base = S.cassa / 4;
   }
   const delev = getDeleverageMultiplier(S.perditeConsecutive);
   return Math.min(S.cassa, base * delev);
@@ -1211,47 +1397,56 @@ function copertura() {
   return S.cassa / p;
 }
 
+/* ========================================================
+   AGGIORNA I 4 PARAMETRI DASHBOARD E L'INTERFACCIA
+   ======================================================== */
 function aggiorna() {
   const puntata = puntataOdierna();
-  const breakEven = 1 / S.quotaMultipla;
-  const edge = S.winRate - breakEven;
-
-  // Moltiplicatore Esatto: Quota multipla elevata al numero di schedine (Q^N)
   S.molt = Math.pow(S.quotaMultipla, S.schedine);
   const incassoLordo = puntata * S.molt;
   const profittoPieno = incassoLordo - puntata;
 
+  // I 4 PARAMETRI PRINCIPALI RICHIESTI
+  if (el('statCassaIniziale')) el('statCassaIniziale').textContent = fmt(S.startCap);
   if (el('statCassa')) el('statCassa').textContent = fmt(S.cassa);
   if (el('statPuntata')) el('statPuntata').textContent = fmt(puntata);
-  if (el('statTarget')) el('statTarget').textContent = fmt(S.target);
-  if (el('statQuotaSingola')) el('statQuotaSingola').textContent = Number(S.quotaMultipla).toFixed(2);
-  if (el('statCopertura')) el('statCopertura').textContent = copertura().toFixed(1) + ' stop';
-  if (el('statMolt')) el('statMolt').textContent = '×' + S.molt.toFixed(4);
-  if (el('statGuadagno')) el('statGuadagno').textContent = '+' + fmt(profittoPieno);
-  if (el('statIncasso')) el('statIncasso').textContent = fmt(incassoLordo);
   if (el('statPrelevato')) el('statPrelevato').textContent = fmt(S.prelevatoTot);
-  if (el('statSicurezza')) el('statSicurezza').textContent = (edge >= 0 ? '+' : '') + (edge * 100).toFixed(2) + '%';
 
-  const lblPuntata = el('lblPuntataOggi');
-  if (lblPuntata) {
-    if (S.mode === 'sicuro') {
-      lblPuntata.textContent = 'Puntata Oggi (⅛ Sicura)';
+  // BADGE DELTA CASSA ATTUALE
+  const netDelta = (S.cassa + S.prelevatoTot) - S.startCap;
+  const pctGrowth = S.startCap > 0 ? (netDelta / S.startCap * 100) : 0;
+  const deltaBadge = el('statCassaDelta');
+  if (deltaBadge) {
+    deltaBadge.textContent = (pctGrowth >= 0 ? '+' : '') + pctGrowth.toFixed(1) + '%';
+    if (pctGrowth < 0) {
+      deltaBadge.className = 'badge-growth negative';
     } else {
-      lblPuntata.textContent = 'Puntata Oggi (¼ 4X)';
+      deltaBadge.className = 'badge-growth';
     }
   }
+  if (el('statCassaProfitBadge')) {
+    el('statCassaProfitBadge').textContent = (netDelta >= 0 ? '+' : '') + fmt(netDelta);
+    el('statCassaProfitBadge').style.color = netDelta >= 0 ? 'var(--green)' : 'var(--red)';
+  }
 
-  const progress = Math.min((S.cassa / S.target) * 100, 100);
-  if (el('progressFill')) el('progressFill').style.width = progress + '%';
+  // BADGE MODO PUNTATA
+  if (el('lblDaGiocareModo')) {
+    if (S.mode === 'sicuro') {
+      el('lblDaGiocareModo').textContent = '⅛ Sicura';
+    } else {
+      el('lblDaGiocareModo').textContent = '¼ 4X';
+    }
+  }
+  if (el('statCoperturaBadge')) {
+    el('statCoperturaBadge').textContent = copertura().toFixed(1) + ' stop';
+  }
 
-  if (el('simCount')) el('simCount').textContent = simStats.total;
-  if (el('simVinti')) el('simVinti').textContent = simStats.vinti;
-  if (el('simPersi')) el('simPersi').textContent = simStats.persi;
-  const crescita = S.startCap > 0 ? ((S.cassa + S.prelevatoTot - S.startCap) / S.startCap * 100) : 0;
-  if (el('simCrescita')) el('simCrescita').textContent = (crescita >= 0 ? '+' : '') + crescita.toFixed(2) + '%';
-  if (el('simProfitto')) el('simProfitto').textContent = fmt(S.cassa + S.prelevatoTot - S.startCap);
+  // STRIP DI RIEPILOGO QUOTE SOTTO LA DASHBOARD
+  if (el('stripQuotaSingola')) el('stripQuotaSingola').textContent = Number(S.quotaMultipla).toFixed(2);
+  if (el('stripQuotaGiornata')) el('stripQuotaGiornata').textContent = '×' + S.molt.toFixed(4);
+  if (el('stripSchedine')) el('stripSchedine').textContent = `${S.schedine}/gg`;
 
-  // Aggiornamento Box Progresso Step Giornaliero
+  // STEP PROGRESS BOX
   const stepBox = el('stepProgressBox');
   if (stepBox) {
     if (S.stepOggi > 0 && S.stepOggi < S.schedine) {
@@ -1262,56 +1457,199 @@ function aggiorna() {
       const mancano = S.schedine - S.stepOggi;
       const qSingolaStr = Number(S.quotaMultipla).toFixed(2);
       if (el('stepProgressBadge')) el('stepProgressBadge').textContent = `${S.stepOggi}/${S.schedine} Vinte`;
-      if (el('stepProgressMolt')) el('stepProgressMolt').textContent = `Quota Singola: ${qSingolaStr} | Quota Maturata: ×${moltStep.toFixed(4)}`;
+      if (el('stepProgressMolt')) el('stepProgressMolt').textContent = `Maturata: ×${moltStep.toFixed(4)}`;
       if (el('stepMontanteVal')) el('stepMontanteVal').textContent = fmt(montanteStep);
       if (el('stepProfittoVal')) el('stepProfittoVal').textContent = '+' + fmt(profittoStep);
-      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} scommesse a quota ${qSingolaStr}. A fine giornata la quota complessiva sarà ${qSingolaStr}^${S.schedine} (×${S.molt.toFixed(4)}) con vincita piena.`;
+      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} schedine a quota ${qSingolaStr}. A fine giornata quota ${qSingolaStr}^${S.schedine} (×${S.molt.toFixed(4)}) con vincita piena.`;
     } else {
       stepBox.style.display = 'none';
     }
   }
 
+  // PHASE INDICATOR
   const ind = el('phaseIndicator');
   const delev = getDeleverageMultiplier(S.perditeConsecutive);
 
   if (S.cassa <= 0) {
     ind.className = 'phase-indicator phase-critica';
-    ind.innerHTML = '🔴 CASSA ESAURITA — Premi Reset per ricominciare.';
+    ind.innerHTML = '🔴 CASSA ESAURITA — Premi Reset per ripartire.';
   } else if (S.perditeConsecutive > 0) {
     ind.className = 'phase-indicator phase-recupero';
-    ind.innerHTML = `🟠 DELEVERAGE ATTIVO (${S.perditeConsecutive} perdita cons.) — Puntata ridotta a ×${delev.toFixed(2)}.` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Puntata prudenziale: ${fmt(puntata)} per proteggere la cassa residua.</div>`;
+    ind.innerHTML = `🟠 DELEVERAGE ATTIVO (${S.perditeConsecutive} perdite) — Puntata protetta a ×${delev.toFixed(2)} (${fmt(puntata)}).`;
   } else if (S.mode === 'sicuro') {
     ind.className = 'phase-indicator phase-safe';
-    ind.innerHTML = `🛡️ MODALITÀ SICURA ATTIVA — Cassa ${fmt(S.cassa)} → Target ${fmt(S.target)}` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Puntata protetta ad ⅛: ${fmt(puntata)} | Guadagno netto stimato: +${fmt(profittoPieno)}</div>`;
+    ind.innerHTML = `🛡️ MODALITÀ SICURA — Puntata ⅛ (${fmt(puntata)}) · Protezione massimizzata`;
   } else if (S.cassa >= S.target && S.mode !== 'costruisci') {
     ind.className = 'phase-indicator phase-rendita';
-    const prelievoDesc = (S.prelievoPerc || 0) > 0 ? `Prelievo ${(S.prelievoPerc*100).toFixed(0)}% a fine giornata (${fmt(profittoPieno * S.prelievoPerc)})` : `Accumulo composto 100% (+${fmt(profittoPieno)})`;
-    ind.innerHTML = `🟢 CASSA PRONTA — Cassa ${fmt(S.cassa)}.` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · ${prelievoDesc}</div>`;
-  } else if (S.mode === 'costruisci') {
-    ind.className = 'phase-indicator phase-all-in';
-    const giorni = profittoPieno > 0 ? Math.ceil((S.target - S.cassa) / profittoPieno) : 0;
-    ind.innerHTML = `🔨 FASE COSTRUZIONE — Cassa ${fmt(S.cassa)} → Obiettivo ${fmt(S.target)}` +
-                    ` (${giorni > 0 ? '~' + giorni + ' giorni vincenti' : '✅ RAGGIUNTO!'})` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} | Guadagno netto: +${fmt(profittoPieno)} reinvestito al 100%.</div>`;
+    ind.innerHTML = `🟢 CASSA PRONTA — Punti ${fmt(puntata)} · Quota Giornata ×${S.molt.toFixed(4)}`;
   } else {
     ind.className = 'phase-indicator phase-rendita';
-    ind.innerHTML = `✅ CASSA 4X PRONTA — Cassa ${fmt(S.cassa)}.` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · Moltiplicatore: ×${S.molt.toFixed(4)} | Guadagno netto: +${fmt(profittoPieno)}</div>`;
+    ind.innerHTML = `✅ FASE RENDITA — Puntata ¼ (${fmt(puntata)}) · Quota Giornata ×${S.molt.toFixed(4)}`;
   }
 
-  el('useCassaBox').classList.toggle('hidden', !(S.mode === 'costruisci' && S.cassa >= S.target));
-
   const dead = S.cassa <= 0;
-  el('btnVintaSingola').disabled = dead;
-  el('btnVintoTutte').disabled = dead;
-  el('btnPerso').disabled = dead;
-  el('btnPrelevaLibero').disabled = dead;
-  el('btnSimula').disabled = dead;
+  if (el('btnVintaSingola')) el('btnVintaSingola').disabled = dead;
+  if (el('btnVintoTutte')) el('btnVintoTutte').disabled = dead;
+  if (el('btnPerso')) el('btnPerso').disabled = dead;
+  if (el('btnPrelevaLibero')) el('btnPrelevaLibero').disabled = dead;
+  if (el('btnSimula')) el('btnSimula').disabled = dead;
 }
 
+/* ========================================================
+   GRAFICO INTERATTIVO CHART.JS (ANDAMENTO CASSA & PROFITTI)
+   ======================================================== */
+function setChartMode(mode) {
+  currentChartMode = mode;
+  ['tabChartCombo', 'tabChartCassa', 'tabChartVar'].forEach(id => {
+    if (el(id)) el(id).classList.remove('active');
+  });
+  if (mode === 'combo' && el('tabChartCombo')) el('tabChartCombo').classList.add('active');
+  if (mode === 'cassa' && el('tabChartCassa')) el('tabChartCassa').classList.add('active');
+  if (mode === 'var' && el('tabChartVar')) el('tabChartVar').classList.add('active');
+  updateChartWithData(cachedPlays);
+}
+
+function updateChartWithData(records = []) {
+  const canvas = el('cassaChart');
+  if (!canvas) return;
+
+  const labels = ['Inizio'];
+  const cassaSeries = [S.startCap || 1000];
+  const varSeries = [0];
+  const barColors = ['rgba(79, 195, 247, 0.4)'];
+
+  records.forEach((r, idx) => {
+    const dataLabel = r.data ? r.data.slice(0, 5) : `#${r.giorno || idx + 1}`;
+    labels.push(`#${r.giorno || idx + 1} (${dataLabel})`);
+    cassaSeries.push(r.cassaFine != null ? r.cassaFine : S.cassa);
+    const v = r.variazione || 0;
+    varSeries.push(v);
+    if (r.cls === 'prelievo') {
+      barColors.push('rgba(255, 215, 64, 0.85)'); // Gold per prelievi
+    } else if (v >= 0) {
+      barColors.push('rgba(0, 230, 118, 0.85)'); // Verde per vincite
+    } else {
+      barColors.push('rgba(255, 61, 87, 0.85)'); // Rosso per perdite
+    }
+  });
+
+  const datasets = [];
+
+  if (currentChartMode === 'combo' || currentChartMode === 'cassa') {
+    datasets.push({
+      type: 'line',
+      label: 'Cassa (€)',
+      data: cassaSeries,
+      borderColor: '#00e5ff',
+      backgroundColor: 'rgba(0, 229, 255, 0.1)',
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.35,
+      pointBackgroundColor: '#00e5ff',
+      pointBorderColor: '#fff',
+      pointRadius: records.length > 25 ? 1.5 : 3.5,
+      pointHoverRadius: 6,
+      yAxisID: 'y'
+    });
+  }
+
+  if (currentChartMode === 'combo' || currentChartMode === 'var') {
+    datasets.push({
+      type: 'bar',
+      label: 'Variazione (+/- €)',
+      data: varSeries,
+      backgroundColor: barColors,
+      borderRadius: 4,
+      barThickness: records.length > 20 ? 'flex' : 12,
+      maxBarThickness: 20,
+      yAxisID: currentChartMode === 'combo' ? 'y1' : 'y'
+    });
+  }
+
+  const scalesConfig = {
+    x: {
+      grid: { color: 'rgba(255, 255, 255, 0.05)' },
+      ticks: {
+        color: 'rgba(255, 255, 255, 0.6)',
+        font: { family: "'JetBrains Mono', monospace", size: 9 },
+        maxRotation: 45,
+        autoSkip: true,
+        maxTicksLimit: 7
+      }
+    },
+    y: {
+      position: 'left',
+      grid: { color: 'rgba(255, 255, 255, 0.06)' },
+      ticks: {
+        color: '#00e5ff',
+        font: { family: "'JetBrains Mono', monospace", size: 9.5 },
+        callback: v => '€' + v.toLocaleString('it-IT', { maximumFractionDigits: 0 })
+      }
+    }
+  };
+
+  if (currentChartMode === 'combo') {
+    scalesConfig.y1 = {
+      position: 'right',
+      grid: { drawOnChartArea: false },
+      ticks: {
+        color: '#00e676',
+        font: { family: "'JetBrains Mono', monospace", size: 9 },
+        callback: v => (v >= 0 ? '+' : '') + v.toLocaleString('it-IT', { maximumFractionDigits: 0 })
+      }
+    };
+  }
+
+  if (cassaChart) {
+    cassaChart.data.labels = labels;
+    cassaChart.data.datasets = datasets;
+    cassaChart.options.scales = scalesConfig;
+    cassaChart.update();
+  } else {
+    const ctx = canvas.getContext('2d');
+    cassaChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              boxWidth: 10,
+              color: 'rgba(255,255,255,0.75)',
+              font: { family: "'Plus Jakarta Sans', sans-serif", size: 10 }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#0a101f',
+            titleColor: '#fff',
+            bodyColor: '#e0e0e0',
+            borderColor: 'rgba(255,255,255,0.2)',
+            borderWidth: 1,
+            padding: 8,
+            titleFont: { family: "'JetBrains Mono', monospace", size: 11 },
+            bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
+            callbacks: {
+              label: (item) => {
+                const val = item.raw || 0;
+                return ` ${item.dataset.label}: ${fmt(val)}`;
+              }
+            }
+          }
+        },
+        scales: scalesConfig
+      }
+    });
+  }
+}
+
+/* ========================================================
+   TABELLA STORICO OPERAZIONI
+   ======================================================== */
 function appendRowToTable(dataStr, cassaInizio, puntata, quotaSingolaVal, quotaGiornataVal, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
   const tr = document.createElement('tr');
   tr.className = cls;
@@ -1321,12 +1659,12 @@ function appendRowToTable(dataStr, cassaInizio, puntata, quotaSingolaVal, quotaG
   const displayQS = quotaSingolaVal && quotaSingolaVal !== '—' ? Number(quotaSingolaVal).toFixed(2) : '—';
   const displayQG = quotaGiornataVal && quotaGiornataVal !== '—' ? (typeof quotaGiornataVal === 'number' ? '×' + quotaGiornataVal.toFixed(4) : quotaGiornataVal) : '—';
   
-  tr.innerHTML = `<td style="color:rgba(255,255,255,0.7);">${displayData}</td>` +
+  tr.innerHTML = `<td style="color:rgba(255,255,255,0.65);">${displayData}</td>` +
     `<td>#${giornoNum || S.giorno}</td>` +
     `<td>${fmt(cassaInizio)}</td>` +
     `<td>${displayPuntata}</td>` +
-    `<td style="font-family:var(--mono);color:var(--accent);font-weight:700;">${displayQS}</td>` +
-    `<td style="font-family:var(--mono);color:var(--green);font-weight:700;">${displayQG}</td>` +
+    `<td style="color:var(--accent);font-weight:700;">${displayQS}</td>` +
+    `<td style="color:var(--green);font-weight:700;">${displayQG}</td>` +
     `<td style="text-align:center;">${vinteStr}</td>` +
     `<td style="text-align:left;">${esito}</td>` +
     `<td style="color:${variazione >= 0 ? '#00e676' : '#ff3d57'};font-weight:700;">${variazione >= 0 ? '+' : ''}${fmt(variazione)}</td>` +
@@ -1360,7 +1698,7 @@ function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine,
 }
 
 /* ========================================================
-   1. VINTA UNA SCOMMESSA (STEP GIORNALIERO)
+   AZIONI GIOCO: VINTA SINGOLA, TUTTE, PERSO, PRELEVA
    ======================================================== */
 function vintaUnaScommessa() {
   if (S.cassa <= 0) return;
@@ -1373,18 +1711,13 @@ function vintaUnaScommessa() {
   const profittoK = montanteK - puntata;
 
   if (k < S.schedine) {
-    // Scommessa vinta, ma la giornata è ancora in corso
     showToast(`🎯 Scommessa ${k}/${S.schedine} vinta! (+${fmt(profittoK)})`, '🎯');
     aggiorna();
   } else {
-    // Tutte le schedine del giorno sono state completate!
     completaGiornataVinta(puntata, profittoK, moltK);
   }
 }
 
-/* ========================================================
-   2. VINTO (TUTTE) — CHIUDE L'INTERA GIORNATA SUBITO
-   ======================================================== */
 function giornoVintoTutte() {
   if (S.cassa <= 0) return;
   const puntata = puntataOdierna();
@@ -1398,7 +1731,6 @@ function completaGiornataVinta(puntata, profit, moltVal) {
   const cassaInizio = S.cassa;
   S.molt = moltVal;
   
-  // Il prelievo è consentito solo dopo aver fatto tutte le schedine del giorno
   const pPerc = S.prelievoPerc || 0;
   let prelevato = 0;
   let esito = '';
@@ -1409,14 +1741,9 @@ function completaGiornataVinta(puntata, profit, moltVal) {
     S.cassa += accreditoCassa;
     esito = `✅ GIORNATA COMPLETA (+${fmt(profit)} | Prelievo ${fmt(prelevato)})`;
   } else {
-    // 100% Accumulo composto
     prelevato = 0;
     S.cassa += profit;
-    if (S.mode === 'costruisci' && S.cassa >= S.target) {
-      esito = '🎯 OBIETTIVO 4X RAGGIUNTO!';
-    } else {
-      esito = `✅ GIORNATA COMPLETA (+${fmt(profit)})`;
-    }
+    esito = `✅ GIORNATA COMPLETA (+${fmt(profit)})`;
   }
 
   S.prelevatoTot += prelevato;
@@ -1428,18 +1755,15 @@ function completaGiornataVinta(puntata, profit, moltVal) {
   const variazioneReale = profit - prelevato;
   registra(cassaInizio, puntata, esito, variazioneReale, prelevato, S.cassa, 'win', S.schedine);
   S.giorno++;
-  showToast(`🎉 Tutte le ${S.schedine} schedine vinte! +${fmt(variazioneReale)}`, '🎉');
+  showToast(`🎉 Tutte le ${S.schedine} scommesse vinte! +${fmt(variazioneReale)}`, '🎉');
   aggiorna();
 }
 
-/* ========================================================
-   3. PERSO (PERDI IL CAPITALE GIOCATO, ES. 250€)
-   ======================================================== */
 function giornoPerso() {
   if (S.cassa <= 0) return;
   const cassaInizio = S.cassa;
-  const puntata = puntataOdierna(); // Es. 250€
-  const perdita = puntata; // Hai perso esattamente quel capitale
+  const puntata = puntataOdierna();
+  const perdita = puntata;
 
   S.cassa = Math.max(0, S.cassa - perdita);
   S.perditeConsecutive++;
@@ -1447,7 +1771,7 @@ function giornoPerso() {
   simStats.persi++;
 
   const stepPerso = S.stepOggi;
-  S.stepOggi = 0; // Reset step giornaliero
+  S.stepOggi = 0;
 
   const esito = stepPerso > 0 
     ? `❌ PERSO (Step ${stepPerso}/${S.schedine})` 
@@ -1459,9 +1783,6 @@ function giornoPerso() {
   aggiorna();
 }
 
-/* ========================================================
-   4. PRELIEVO LIBERO (SENZA SEGUIRE IL SISTEMA)
-   ======================================================== */
 function apriModalPrelievoLibero() {
   if (el('modalPrelievoCassaDisp')) el('modalPrelievoCassaDisp').textContent = fmt(S.cassa);
   if (el('prelievoLiberoImporto')) {
@@ -1496,9 +1817,8 @@ function confermaPrelievoLibero() {
     return;
   }
 
-  // Se c'è una giornata in corso, avvisa l'utente
   if (S.stepOggi > 0 && S.stepOggi < S.schedine) {
-    if (!confirm(`⚠️ Attenzione: hai la giornata in corso (${S.stepOggi}/${S.schedine} scommesse vinte).\nIl prelievo ordinario è previsto a fine giornata.\n\nVuoi comunque effettuare questo prelievo libero di ${fmt(imp)} adesso?`)) {
+    if (!confirm(`⚠️ Hai una sessione in corso (${S.stepOggi}/${S.schedine} scommesse vinte).\n\nVuoi comunque prelevare ${fmt(imp)} adesso?`)) {
       return;
     }
   }
@@ -1523,9 +1843,6 @@ function confermaPrelievoLibero() {
   aggiorna();
 }
 
-/* ========================================================
-   SIMULATORE 30 GIORNI
-   ======================================================== */
 function simulaGiornate() {
   const giorni = 30;
   let count = 0;
@@ -1557,20 +1874,7 @@ function simulaGiornate() {
   }, 75);
 }
 
-function usaComeCassa() {
-  const cassaInizio = S.cassa;
-  S.mode = 'gia4x';
-  S.target = S.cassa;
-  const radio = document.querySelector('input[name="modo"][value="gia4x"]');
-  if (radio) radio.checked = true;
-  registra(cassaInizio, 0, '💰 CASSA IMPOSTATA (4X)', 0, 0, S.cassa, 'special', S.schedine);
-  aggiorna();
-  saveSettings();
-  showToast('Cassa impostata per la rendita!', '💰');
-}
-
 window.onload = async () => {
-  // Imposta la data di oggi come predefinita
   const todayISO = new Date().toISOString().slice(0, 10);
   if (el('dataGiocataInput')) el('dataGiocataInput').value = todayISO;
   
