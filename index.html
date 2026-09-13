@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Team Betting AI — Motore Professionale Quote Reali ≤ 1.01 (Bet365.it)</title>
   <meta name="description" content="Piattaforma agentica in tempo reale per la scansione ed estrazione di quote matematiche <= 1.01 su Bet365.it e comparatori ufficiali.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20260818">
@@ -10,10 +10,23 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+
+  <!-- THEME PRELOAD SCRIPT: ZERO FLICKER -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('cassa_theme_mode');
+      if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260818_v24">
+  <link rel="stylesheet" href="styles.css?v=20260913_v25">
 </head>
 <body>
 
@@ -22,19 +35,19 @@
     <div class="container telemetry-content">
       <div class="telemetry-item">
         <span class="live-dot pulse"></span>
-        <span class="telemetry-label">FEED STATUS:</span>
-        <span class="telemetry-value highlight">LIVE API CONNECTED</span>
+        <span class="telemetry-label">FEED:</span>
+        <span class="telemetry-value highlight">LIVE BET365</span>
       </div>
       <div class="telemetry-item">
         <span class="telemetry-label">LATENZA:</span>
         <span class="telemetry-value" id="latencyDisplay">32ms</span>
       </div>
       <div class="telemetry-item">
-        <span class="telemetry-label">EVENTI IN SCANSIONE:</span>
-        <span class="telemetry-value" id="totalScannedDisplay">33+ Match</span>
+        <span class="telemetry-label">SCANSIONE:</span>
+        <span class="telemetry-value" id="totalScannedDisplay">10 Match Futuri</span>
       </div>
       <div class="telemetry-item">
-        <span class="telemetry-label">TARGET QUOTA:</span>
+        <span class="telemetry-label">TARGET:</span>
         <span class="telemetry-value highlight">≤ 1.010</span>
       </div>
       <div class="telemetry-item time-item">
@@ -44,34 +57,45 @@
     </div>
   </div>
 
-  <!-- HEADER -->
+  <!-- NAVBAR APP-BAR -->
   <header class="navbar">
     <div class="container nav-content">
-      <div class="brand">
-        <div class="logo-box">
+            <div class="brand">
+        <div class="logo-box" title="Team Betting AI Engine">
           <span class="logo-icon">💵</span>
         </div>
         <div class="brand-text">
           <div class="brand-title-wrap">
-            <h1 class="brand-title">Team Betting <span class="badge-pro">PRO v13.0</span></h1>
-            <span class="badge-live">LIVE BET365</span>
+            <h1 class="brand-title">Team Betting</h1>
+            <span class="badge-pro">PRO</span>
           </div>
-          <p class="brand-subtitle">💎 Motore Quote Reali ≤ 1.01 — Auto-Replenish Match Futuri Certificati</p>
         </div>
       </div>
       <div class="nav-actions">
+        <!-- TOGGLE DARK / LIGHT -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="btn-theme-toggle" title="Alterna tra Tema Scuro e Chiaro">
+          <span id="themeToggleIcon">🌙</span>
+          <span class="theme-label" id="themeToggleLabel">DARK</span>
+        </button>
+
+        <!-- CTA CASSA 4X -->
         <a href="cassa.html" target="_self" class="btn-cassa-cta" title="Apri Gestione Cassa & Money Management" id="cassaBtnLink">
-          <span class="btn-icon">💰</span>
-          <span class="cassa-text">Cassa 4X</span>
+          <span class="btn-icon">🪙</span>
+          <span class="cassa-text-desktop">Cassa 4X</span>
+          <span class="cassa-text-mobile">Cassa</span>
         </a>
 
+        <!-- AUDIO TOGGLE -->
         <button id="soundToggleBtn" class="btn-secondary" title="Attiva/Disattiva Audio Trillo">
           <span class="btn-icon">🔔</span>
           <span class="sound-status-text">Audio ON</span>
         </button>
+
+        <!-- AGGIORNA ORA -->
         <button id="refreshBtn" class="btn-primary" title="Scansione istantanea in tempo reale">
           <span class="spinner-icon" id="refreshSpinner">⚡</span>
-          <span>💰 Aggiorna Ora</span>
+          <span class="refresh-text-desktop">Aggiorna</span>
+          <span class="refresh-text-mobile">Scan</span>
         </button>
       </div>
     </div>
@@ -83,35 +107,35 @@
     <span id="toastMessage">Scansione in tempo reale attiva</span>
   </div>
 
-  <!-- HERO STATS SECTION -->
+  <!-- HERO STATS SECTION (2x2 MOBILE GRID) -->
   <section class="hero-section">
     <div class="container">
       <div class="stats-grid">
         <div class="stat-card prime">
           <div class="stat-header">
-            <span class="stat-title">Target Quota Rigida</span>
-            <span class="stat-chip">Matematico</span>
+            <span class="stat-title">Target Quota</span>
+            <span class="stat-chip">Rigida</span>
           </div>
           <div class="stat-body">
-            <span class="stat-number">≤ 1.01</span>
-            <span class="stat-sub">Massima Sicurezza Statistica</span>
+            <span class="stat-number">≤ 1.010</span>
+            <span class="stat-sub">Massima Sicurezza</span>
           </div>
           <div class="stat-footer">
-            <span>Probabilità Stimata: <strong>99.1% - 99.9%</strong></span>
+            <span>Probabilità: <strong>99.8%</strong></span>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-title">Sub-Mercati Attivi</span>
+            <span class="stat-title">Sub-Mercati</span>
             <span class="stat-chip">Auto-Hedge</span>
           </div>
           <div class="stat-body">
             <span class="stat-number">Under & Spread</span>
-            <span class="stat-sub">Under 6.5 / Run 16.5 / Set +1.5</span>
+            <span class="stat-sub">Profondità Esaminata</span>
           </div>
           <div class="stat-footer">
-            <span>Mercati Profondi Esaminati</span>
+            <span>U 6.5 / Run 16.5 / Set +1.5</span>
           </div>
         </div>
 
@@ -122,24 +146,24 @@
           </div>
           <div class="stat-body">
             <span class="stat-number text-success">10 / 10</span>
-            <span class="stat-sub">Verificato su Palinsesti Reali</span>
+            <span class="stat-sub">Certificato su Reali</span>
           </div>
           <div class="stat-footer">
-            <span>Batch 7 & 13 Agosto Convalidati</span>
+            <span>Batch Convalidati</span>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-title">Bookmaker Ufficiale</span>
+            <span class="stat-title">Bookmaker ADM</span>
             <span class="stat-chip warning">ADM/AAMS</span>
           </div>
           <div class="stat-body">
             <span class="stat-number">Bet365.it</span>
-            <span class="stat-sub">Cross-check: Bwin, Eurobet, Lotto</span>
+            <span class="stat-sub">Cross-check: Bwin, Eurobet</span>
           </div>
           <div class="stat-footer">
-            <span>Link Diretti Scommessa Attivi</span>
+            <span>Link Diretti Attivi</span>
           </div>
         </div>
       </div>
@@ -219,19 +243,19 @@
       </div>
 
       <!-- RIGHT: INTERACTIVE VALUE SLIP CALCULATOR -->
-      <aside class="slip-sidebar">
+      <aside class="slip-sidebar" id="slipSidebar">
         <div class="slip-box">
           <div class="slip-header">
             <div class="slip-title-wrap">
               <span class="slip-icon">📊</span>
               <h3 class="slip-title">Simulatore Multipla</h3>
             </div>
-            <span class="slip-badge" id="slipSelectionCount">10 Eventi</span>
+            <span class="slip-badge" id="slipSelectionCount">10 Match</span>
           </div>
 
           <div class="slip-body">
             <div class="calc-row">
-              <span class="calc-label">Quote Selezionate:</span>
+              <span class="calc-label">Moltiplicatore:</span>
               <span class="calc-value mono" id="slipOddsFormula">1.01^10</span>
             </div>
             <div class="calc-row">
@@ -240,7 +264,7 @@
             </div>
 
             <div class="stake-control">
-              <label class="stake-label" for="stakeInput">Importo Giocata (€):</label>
+              <label class="stake-label" for="stakeInput">Puntata Schedina (€):</label>
               <div class="stake-input-wrap">
                 <span class="currency-symbol">€</span>
                 <input type="number" id="stakeInput" value="100" min="1" max="10000" step="5" class="stake-input">
@@ -255,39 +279,32 @@
             </div>
 
             <div class="summary-details">
-            <div class="sum-row">
-              <span>Selezioni Validate:</span>
-              <strong id="slipSelectionCount" class="highlight-green">10 Match Pre-Match</strong>
+              <div class="sum-row">
+                <span>Eventi Selezionati:</span>
+                <strong class="highlight-green">10 Match Certificati</strong>
+              </div>
+              <div class="sum-row payout-row">
+                <span>💵 Ritorno Totale Stimato:</span>
+                <span class="payout-amount mono" id="payoutTotal">110.46 €</span>
+              </div>
+              <div class="sum-row profit-row">
+                <span>💰 Profitto Netto:</span>
+                <span class="profit-amount mono" id="profitNet">+10.46 €</span>
+              </div>
             </div>
-            <div class="sum-row">
-              <span>Moltiplicatore Matematico:</span>
-              <span class="mono" id="slipOddsFormula">1.01^10</span>
-            </div>
-            <div class="sum-row">
-              <span>Quota Totale Multipla:</span>
-              <strong class="total-odds-val mono" id="slipTotalOdds">1.1046</strong>
-            </div>
-            <div class="sum-row payout-row">
-              <span>💵 Ritorno Totale Stimato:</span>
-              <span class="payout-amount mono" id="payoutTotal">110.46 €</span>
-            </div>
-            <div class="sum-row profit-row">
-              <span>💰 Profitto Netto Garantito:</span>
-              <span class="profit-amount mono" id="profitNet">+10.46 €</span>
-            </div>
-          </div>
 
-          <div class="slip-actions">
-            <button class="btn-copy-all" onclick="copyAllSlipDetails()">
-              <span>📋 Copia Schedina Completa</span>
-            </button>
-            <button class="btn-play-bet365" onclick="openBet365Multiple()">
-              <span>🔴 Gioca Multipla su Bet365 ➔</span>
-            </button>
-          </div>
+            <div class="slip-actions">
+              <button class="btn-copy-all" onclick="copyAllSlipDetails()">
+                <span>📋 Copia Schedina Completa</span>
+              </button>
+              <button class="btn-play-bet365" onclick="openBet365Multiple()">
+                <span>🔴 Gioca Multipla su Bet365 ➔</span>
+              </button>
+            </div>
 
-          <div class="slip-footer">
-            <span>Quota matematica certificata ≤ 1.01 per evento. Gioca responsabilmente (+18).</span>
+            <div class="slip-footer">
+              <span>Quota certificata ≤ 1.01 per evento. Gioca responsabilmente (+18).</span>
+            </div>
           </div>
         </div>
       </aside>
@@ -304,7 +321,7 @@
           <span class="sticky-odds mono" id="stickyTotalOdds">1.1046</span>
         </div>
         <div class="sticky-payout-line">
-          <span>Puntata 100€ ➜</span>
+          <span>Vincita: </span>
           <strong class="sticky-payout-val mono" id="stickyPayout">110.46 €</strong>
         </div>
       </div>
@@ -323,12 +340,12 @@
   <footer class="footer-bar">
     <div class="container footer-content">
       <div class="footer-brand">
-        <p>🎯 <strong>Team Betting AI Suite v12.5</strong> — Motore di Value Betting e Arbitraggio Matematico.</p>
-        <p class="footer-sub">Quote estratte in tempo reale via Netlify Serverless API & Connessioni Live Sportsbook. Gioca responsabilmente (+18).</p>
+        <p>🎯 <strong>Team Betting AI Suite v13.0</strong> — Motore Quote Matematiche Reali.</p>
+        <p class="footer-sub">Quote verificate su Bet365.it e comparatori ufficiali. Gioca responsabilmente (+18).</p>
       </div>
       <div class="footer-tags">
-        <span class="tag-status">🟢 Serverless Online</span>
-        <span class="tag-status">⚡ Connessione Diretta Bet365</span>
+        <span class="tag-status">🟢 Live Sportsbook Feed</span>
+        <span class="tag-status">⚡ Auto-Replenish Attivo</span>
       </div>
     </div>
   </footer>
@@ -336,6 +353,6 @@
   <!-- AUDIO SOUND ELEMENT -->
   <audio id="chimeAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-  <script src="app.js?v=20260818_v24"></script>
+  <script src="app.js?v=20260913_v25"></script>
 </body>
 </html>

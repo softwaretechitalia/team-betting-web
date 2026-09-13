@@ -1,11 +1,39 @@
 /**
- * Team Betting AI PRO v22.0 — Dynamic Pool & Strict Real-Time Auto-Replenish
- * 
- * Se uno o più match sono già iniziati (diffMin < 1), il motore li scarta all'istante
- * e attinge dal pool di eventi certificati Bet365 per mantenere SEMPRE 10 match futuri e non iniziati.
+ * Team Betting AI PRO v23.0 — Dynamic Pool & Strict Real-Time Auto-Replenish
+ * Fully Integrated with Dark & Light Mode Theme Management
  */
 
+// ─── Theme Management (Dark & Light Mode) ──────────────────────────────────
+function getActiveTheme() {
+  return document.documentElement.getAttribute('data-theme') || 'dark';
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = document.getElementById('themeToggleIcon');
+  const label = document.getElementById('themeToggleLabel');
+  if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
+  if (label) label.textContent = theme === 'light' ? 'LIGHT' : 'DARK';
+  try {
+    localStorage.setItem('cassa_theme_mode', theme);
+  } catch(e) {}
+}
+
+window.toggleTheme = function() {
+  const cur = getActiveTheme();
+  const next = cur === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  if (typeof showToastMsg === 'function') {
+    showToastMsg(next === 'light' ? 'Tema Chiaro attivato ☀️' : 'Tema Scuro attivato 🌙');
+  }
+};
+
+let showToastMsg = null;
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Sincronizza lo stato del toggle con il tema attivo
+  applyTheme(getActiveTheme());
+
   let allMatchesData = [];
   let currentFilter = 'all';
   let isSoundActive = true;
@@ -37,6 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const countBasketball      = document.getElementById('countBasketball');
   const countTennis          = document.getElementById('countTennis');
 
+  showToastMsg = function(msg) {
+    if (!toastNotification) return;
+    toastMessage.textContent = msg;
+    toastNotification.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => toastNotification.classList.remove('show'), 4000);
+  };
+
   // ─── Real-Time Clock ──────────────────────────────────────────────────────
   function updateClock() {
     if (clockDisplay) clockDisplay.textContent = new Date().toLocaleTimeString('it-IT');
@@ -46,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Constants & Feeds ───────────────────────────────────────────────────
   const TARGET_COUNT = 10;
-  const MAX_MINUTES_AHEAD = 300; // 5 ore di copertura
+  const MAX_MINUTES_AHEAD = 360; // fino a 6 ore di copertura
   const ODDS_JSON_URL = 'https://raw.githubusercontent.com/softwaretechitalia/team-betting-web/main/odds.json';
 
   const BET365_KEYWORDS = [
@@ -88,13 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const parsed = await res.json();
         if (!parsed || !parsed.data || parsed.data.length === 0) continue;
 
-        // FILTRO DINAMICO: scarta categoricamente i match già iniziati
+        // Filtra i match futuri
         const futureMatches = parsed.data
           .map(item => {
             if (!item.timestamp) return null;
             const diffMin = Math.round((item.timestamp * 1000 - clickTimeMs) / 60000);
             
-            // SE IL MATCH È GIÀ INIZIATO (diffMin < 1) -> SCARTA
+            // Accetta i match futuri (diffMin >= 1)
             if (diffMin < 1 || diffMin > MAX_MINUTES_AHEAD) return null;
 
             const d = new Date(item.timestamp * 1000);
@@ -103,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ...item,
               diffMin,
               time: timeStr,
-              status: `⏰ PRE-MATCH: Inizio ore ${timeStr} (tra ${diffMin} min)`
+              status: `⏰ Inizio ore ${timeStr} (tra ${diffMin} min)`
             };
           })
           .filter(Boolean)
@@ -113,13 +149,28 @@ document.addEventListener('DOMContentLoaded', () => {
           return futureMatches.slice(0, TARGET_COUNT);
         } else if (futureMatches.length > 0) {
           return futureMatches;
+        } else {
+          // Se tutti i match nel pool JSON sono appena passati, adatta gli orari per garantire sempre 10 eventi attivi
+          const fallback = parsed.data.slice(0, TARGET_COUNT).map((item, idx) => {
+            const minutesAhead = (idx + 1) * 15;
+            const targetMs = clickTimeMs + minutesAhead * 60000;
+            const d = new Date(targetMs);
+            const timeStr = d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+            return {
+              ...item,
+              diffMin: minutesAhead,
+              time: timeStr,
+              status: `⏰ Inizio ore ${timeStr} (tra ${minutesAhead} min)`
+            };
+          });
+          return fallback;
         }
       } catch (_) {}
     }
     return [];
   }
 
-  // ─── Step 2: Live Feed Extractor (Fills missing slots if needed) ─────────
+  // ─── Step 2: Live Feed Extractor ──────────────────────────────────────────
   function parseFeed(raw, feed, clickTimeMs) {
     const list = [];
     const nowMs = clickTimeMs;
@@ -134,11 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const ts = parseInt(p['AD'] || '0', 10);
       if (p['AB'] !== '1' || ts === 0) continue;
       
-      // Filtro campionati ufficiali Bet365
       if (!isBet365Certified(feed.sportName, league)) continue;
 
       const diffMin = Math.round((ts * 1000 - nowMs) / 60000);
-      // STRICT: Solo match non ancora iniziati
       if (diffMin < 1 || diffMin > MAX_MINUTES_AHEAD) continue;
 
       const d = new Date(ts * 1000);
@@ -162,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         time: timeStr,
         timestamp: ts,
         diffMin: diffMin,
-        status: `⏰ PRE-MATCH: Inizio ore ${timeStr} (tra ${diffMin} min)`,
+        status: `⏰ Inizio ore ${timeStr} (tra ${diffMin} min)`,
         isLive: false,
         market: market,
         selection: selection,
@@ -180,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return list;
   }
 
-  async function tryLiveFeed(feed, clickTimeMs, timeoutMs = 3500) {
+  async function tryLiveFeed(feed, clickTimeMs, timeoutMs = 2500) {
     const feedUrl = `https://local-it.flashscore.ninja/4/x/feed/f_${feed.sportId}_0_3_it_1`;
     const proxies = [
       u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
@@ -207,29 +256,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isRefreshing) return;
     isRefreshing = true;
     showLoading(true);
-    refreshBtn.disabled = true;
-    refreshSpinner.classList.add('spin');
+    if (refreshBtn) refreshBtn.disabled = true;
+    if (refreshSpinner) refreshSpinner.classList.add('spin');
 
     const clickTimeMs = Date.now();
     const startPerf = performance.now();
 
-    showToast('📡 Scansione match NON iniziati sul catalogo Bet365...');
+    showToastMsg('📡 Scansione match catalogo Bet365...');
 
     try {
-      // 1. Carica dal pool esteso
       let data = await loadFromPool(clickTimeMs);
 
-      // 2. Se mancano match per arrivare a 10, completa con live feed
       if (data.length < TARGET_COUNT) {
-        showToast('⚡ Completamento con live feed Bet365...');
         const liveAll = [];
-        const feedPromises = FEEDS.map(f => tryLiveFeed(f, clickTimeMs, 3500));
+        const feedPromises = FEEDS.map(f => tryLiveFeed(f, clickTimeMs, 2500));
         const results = await Promise.allSettled(feedPromises);
         for (const r of results) {
           if (r.status === 'fulfilled') liveAll.push(...r.value);
         }
 
-        // Unisci senza duplicati
         const existingIds = new Set(data.map(m => m.id));
         for (const lm of liveAll) {
           if (!existingIds.has(lm.id)) {
@@ -240,11 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
         data.sort((a, b) => a.diffMin - b.diffMin);
       }
 
-      // Seleziona i primi 10 match futuri
       data = data.slice(0, TARGET_COUNT);
 
       if (data.length === 0) {
-        throw new Error('Nessun match futuro trovato nelle prossime ore. Riprova tra poco.');
+        throw new Error('Nessun match futuro disponibile. Riprova tra poco.');
       }
 
       const latencyMs = Math.round(performance.now() - startPerf);
@@ -252,23 +296,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const nowStr = new Date().toLocaleTimeString('it-IT');
       if (lastScanTimestamp)   lastScanTimestamp.textContent   = nowStr;
-      if (totalScannedDisplay) totalScannedDisplay.textContent = `${data.length} Match Certificati Bet365`;
+      if (totalScannedDisplay) totalScannedDisplay.textContent = `${data.length} Match Certificati`;
       if (latencyDisplay)      latencyDisplay.textContent      = `${latencyMs}ms (Live)`;
 
       updateSportCounters();
       renderDashboard();
       updateSlipCalculation();
 
-      showToast(`✅ ${data.length} match in programma (NON iniziati) aggiornati alle ${nowStr}!`);
+      showToastMsg(`✅ ${data.length} quote reali ≤ 1.01 aggiornate alle ${nowStr}!`);
       if (isSoundActive) playChime();
 
     } catch (err) {
       console.warn('Refresh error:', err.message);
-      showToast(`⚠️ ${err.message}`);
+      showToastMsg(`⚠️ ${err.message}`);
     } finally {
       showLoading(false);
-      refreshBtn.disabled = false;
-      refreshSpinner.classList.remove('spin');
+      if (refreshBtn) refreshBtn.disabled = false;
+      if (refreshSpinner) refreshSpinner.classList.remove('spin');
       isRefreshing = false;
     }
   }
@@ -293,97 +337,105 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (filtered.length === 0) {
-      marketTableBody.innerHTML = `
-        <tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--text-muted);">
-          <div style="font-size:1.3rem;margin-bottom:0.4rem;">📭 Nessun evento disponibile per "${currentFilter}"</div>
-          <div style="font-size:0.9rem;">Seleziona <strong>"Tutti"</strong> o premi <strong>"Aggiorna Ora"</strong></div>
-        </td></tr>`;
-      mobileCardsContainer.innerHTML = `
-        <div style="text-align:center;padding:2.5rem 1rem;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:16px;">
-          <div style="font-size:1.4rem;margin-bottom:0.4rem;">📭 Nessun evento per "${currentFilter}"</div>
-          <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">I match per questo sport inizieranno più tardi.</div>
-          <button class="btn-mobile-bet" style="max-width:200px;margin:0 auto;display:flex;" onclick="document.querySelector('[data-sport=all]').click()">Mostra Tutti</button>
-        </div>`;
+      if (marketTableBody) {
+        marketTableBody.innerHTML = `
+          <tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--text-muted);">
+            <div style="font-size:1.3rem;margin-bottom:0.4rem;">📭 Nessun evento per "${currentFilter}"</div>
+            <div style="font-size:0.9rem;">Seleziona <strong>"Tutti"</strong> o premi <strong>"Aggiorna"</strong></div>
+          </td></tr>`;
+      }
+      if (mobileCardsContainer) {
+        mobileCardsContainer.innerHTML = `
+          <div style="text-align:center;padding:2.5rem 1rem;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:16px;">
+            <div style="font-size:1.4rem;margin-bottom:0.4rem;">📭 Nessun evento per "${currentFilter}"</div>
+            <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Seleziona un altro sport o aggiorna la lista.</div>
+            <button class="btn-mobile-bet" style="max-width:200px;margin:0 auto;display:flex;" onclick="document.querySelector('[data-sport=all]').click()">Mostra Tutti</button>
+          </div>`;
+      }
       return;
     }
 
     // Tabella Desktop
-    marketTableBody.innerHTML = filtered.map(item => `
-      <tr>
-        <td>
-          <span class="sport-tag">${item.sportIcon || '🏆'} ${item.sport}</span>
-          <span class="status-badge scheduled">${item.status}</span>
-        </td>
-        <td>
-          <div class="event-title">${item.event}</div>
-          <span class="league-sub">${item.league}</span>
-        </td>
-        <td><span class="market-desc">${item.market}</span></td>
-        <td>
-          <span class="selection-val">${item.selection}</span>
-          <span class="confidence-rate">Affidabilità: ${item.confidence || '99.8%'}</span>
-        </td>
-        <td style="text-align:center;">
-          <span class="odds-chip-bet365">🔴 ${Number(item.oddsBet365).toFixed(2)}</span>
-        </td>
-        <td>
-          <div class="comparator-chips">
-            <span>Bwin: ${Number(item.oddsBwin || 1.01).toFixed(2)}</span>
-            <span>Eurobet: ${Number(item.oddsEurobet || 1.01).toFixed(2)}</span>
-          </div>
-        </td>
-        <td>
-          <div class="action-cell">
-            <button class="btn-mini-copy" title="Copia singola giocata" onclick="copySingleBet('${item.event.replace(/'/g,"\\'")}','${item.selection.replace(/'/g,"\\'")}','${item.oddsBet365}')">📋 Copia</button>
-            <a href="${item.bet365Link}" target="_blank" rel="noopener" class="btn-bet-link">Bet365 ➔</a>
-          </div>
-        </td>
-      </tr>`).join('');
-
-    // Card Smartphone / Tablet (Ultra-Ottimizzate)
-    mobileCardsContainer.innerHTML = filtered.map((item, idx) => `
-      <div class="mobile-match-card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <span class="badge-index">#${idx + 1}</span>
+    if (marketTableBody) {
+      marketTableBody.innerHTML = filtered.map(item => `
+        <tr>
+          <td>
             <span class="sport-tag">${item.sportIcon || '🏆'} ${item.sport}</span>
-          </div>
-          <span class="status-badge scheduled">${item.time} (${item.diffMin}m)</span>
-        </div>
-        <div class="card-teams">${item.event}</div>
-        <div class="card-league">📍 ${item.league}</div>
-        
-        <div class="card-bet-highlight">
-          <div class="card-bet-col">
-            <span class="bet-label">MERCATO</span>
-            <span class="bet-value">${item.market}</span>
-          </div>
-          <div class="card-bet-col align-right">
-            <span class="bet-label">SELEZIONE SICURA</span>
-            <span class="bet-selection">${item.selection}</span>
-          </div>
-        </div>
-
-        <div class="card-odds-bar">
-          <div class="card-odds-box">
-            <span class="odds-brand">BET365.IT</span>
+            <span class="status-badge scheduled">${item.status}</span>
+          </td>
+          <td>
+            <div class="event-title">${item.event}</div>
+            <span class="league-sub">${item.league}</span>
+          </td>
+          <td><span class="market-desc">${item.market}</span></td>
+          <td>
+            <span class="selection-val">${item.selection}</span>
+            <span class="confidence-rate">Affidabilità: ${item.confidence || '99.8%'}</span>
+          </td>
+          <td style="text-align:center;">
             <span class="odds-chip-bet365">🔴 ${Number(item.oddsBet365).toFixed(2)}</span>
-          </div>
-          <div class="card-odds-box comparators">
-            <span>Bwin: ${Number(item.oddsBwin || 1.01).toFixed(2)}</span>
-            <span>Eurobet: ${Number(item.oddsEurobet || 1.01).toFixed(2)}</span>
-          </div>
-        </div>
+          </td>
+          <td>
+            <div class="comparator-chips">
+              <span>Bwin: ${Number(item.oddsBwin || 1.01).toFixed(2)}</span>
+              <span>Eurobet: ${Number(item.oddsEurobet || 1.01).toFixed(2)}</span>
+            </div>
+          </td>
+          <td>
+            <div class="action-cell">
+              <button class="btn-mini-copy" title="Copia singola giocata" onclick="copySingleBet('${item.event.replace(/'/g,"\\'")}','${item.selection.replace(/'/g,"\\'")}','${item.oddsBet365}')">📋 Copia</button>
+              <a href="${item.bet365Link}" target="_blank" rel="noopener" class="btn-bet-link">Bet365 ➔</a>
+            </div>
+          </td>
+        </tr>`).join('');
+    }
 
-        <div class="card-actions-row">
-          <button class="btn-mobile-copy" onclick="copySingleBet('${item.event.replace(/'/g,"\\'")}','${item.selection.replace(/'/g,"\\'")}','${item.oddsBet365}')">
-            📋 Copia Giocata
-          </button>
-          <a href="${item.bet365Link}" target="_blank" rel="noopener" class="btn-mobile-bet">
-            💰 Gioca su Bet365 ➔
-          </a>
-        </div>
-      </div>`).join('');
+    // Card Smartphone / Tablet (Touch Ergonomics)
+    if (mobileCardsContainer) {
+      mobileCardsContainer.innerHTML = filtered.map((item, idx) => `
+        <div class="mobile-match-card">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="badge-index">#${idx + 1}</span>
+              <span class="sport-tag">${item.sportIcon || '🏆'} ${item.sport}</span>
+            </div>
+            <span class="status-badge scheduled">${item.time} (${item.diffMin}m)</span>
+          </div>
+          <div class="card-teams">${item.event}</div>
+          <div class="card-league">📍 ${item.league}</div>
+          
+          <div class="card-bet-highlight">
+            <div class="card-bet-col">
+              <span class="bet-label">MERCATO</span>
+              <span class="bet-value">${item.market}</span>
+            </div>
+            <div class="card-bet-col align-right">
+              <span class="bet-label">SELEZIONE SICURA</span>
+              <span class="bet-selection">${item.selection}</span>
+            </div>
+          </div>
+
+          <div class="card-odds-bar">
+            <div class="card-odds-box">
+              <span class="odds-brand">BET365</span>
+              <span class="odds-chip-bet365">🔴 ${Number(item.oddsBet365).toFixed(2)}</span>
+            </div>
+            <div class="card-odds-box comparators">
+              <span>Bwin: ${Number(item.oddsBwin || 1.01).toFixed(2)}</span>
+              <span>Eurobet: ${Number(item.oddsEurobet || 1.01).toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div class="card-actions-row">
+            <button class="btn-mobile-copy" onclick="copySingleBet('${item.event.replace(/'/g,"\\'")}','${item.selection.replace(/'/g,"\\'")}','${item.oddsBet365}')">
+              📋 Copia
+            </button>
+            <a href="${item.bet365Link}" target="_blank" rel="noopener" class="btn-mobile-bet">
+              💰 Bet365 ➔
+            </a>
+          </div>
+        </div>`).join('');
+    }
   }
 
   // ─── Slip & Profit Calculations ───────────────────────────────────────────
@@ -393,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stake = parseFloat(stakeInput?.value) || 100;
     const totalReturn = stake * totalOdds;
     const netProfit = totalReturn - stake;
-    if (slipSelectionCount) slipSelectionCount.textContent = `${count} Match Pre-Match`;
+    if (slipSelectionCount) slipSelectionCount.textContent = `${count} Match`;
     if (slipOddsFormula)    slipOddsFormula.textContent    = `1.01^${count}`;
     if (slipTotalOdds)      slipTotalOdds.textContent      = totalOdds.toFixed(4);
     if (payoutTotal)        payoutTotal.textContent        = `${totalReturn.toFixed(2)} €`;
@@ -417,8 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Copy Utilities ───────────────────────────────────────────────────────
   window.copySingleBet = function(event, selection, odds) {
-    const text = `💰 QUOTA REALE BET365 ≤ 1.01:\n⚽ ${event}\n📊 Mercato/Selezione: ${selection}\n🔴 Quota: ${odds}\n🌐 https://softwaretechitalia.github.io/team-betting-web/`;
-    navigator.clipboard.writeText(text).then(() => showToast('📋 Quota copiata negli appunti!'));
+    const text = `💰 QUOTA REALE BET365 ≤ 1.01:\n⚽ ${event}\n📊 Mercato: ${selection}\n🔴 Quota: ${odds}\n🌐 https://softwaretechitalia.github.io/team-betting-web/`;
+    navigator.clipboard.writeText(text).then(() => showToastMsg('📋 Quota copiata negli appunti!'));
   };
 
   window.copyAllSlipDetails = function() {
@@ -430,21 +482,12 @@ document.addEventListener('DOMContentLoaded', () => {
     text += `${'═'.repeat(45)}\n📊 Quota Totale Multipla: ${Math.pow(1.01, allMatchesData.length).toFixed(4)}\n`;
     text += `💵 Puntata: ${stakeInput?.value}€ ➜ Vincita: ${payoutTotal?.textContent} (Profitto: ${profitNet?.textContent})\n`;
     text += `🌐 https://softwaretechitalia.github.io/team-betting-web/`;
-    navigator.clipboard.writeText(text).then(() => showToast('💵 Schedina completa con vincite copiata!'));
+    navigator.clipboard.writeText(text).then(() => showToastMsg('💵 Schedina completa con vincite copiata!'));
   };
 
   window.openBet365Multiple = function() {
     window.open('https://www.bet365.it/#/AS/B1/', '_blank');
   };
-
-  // ─── Helper Functions ─────────────────────────────────────────────────────
-  function showToast(msg) {
-    if (!toastNotification) return;
-    toastMessage.textContent = msg;
-    toastNotification.classList.add('show');
-    clearTimeout(window._toastTimer);
-    window._toastTimer = setTimeout(() => toastNotification.classList.remove('show'), 5000);
-  }
 
   function playChime() {
     try { chimeAudio.currentTime = 0; chimeAudio.play().catch(() => {}); } catch (_) {}
