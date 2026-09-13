@@ -650,9 +650,9 @@
         <div class="sub-note">Calcola quota o scrivi quota sotto ⬇️</div>
       </div>
       <div class="input-group">
-        <label>⚡ Quota Multipla Totale</label>
-        <input type="number" id="quotaMultiplaInput" value="1.105" step="0.001" min="1.001" max="10.000" onchange="onQuotaMultiplaInputChanged()">
-        <div class="sub-note">BE Reale: <strong id="beDisplay" style="color:var(--accent)">90.5%</strong></div>
+        <label>🎯 Quota Singola Multipla</label>
+        <input type="number" id="quotaMultiplaInput" value="1.10" step="0.001" min="1.001" max="10.000" onchange="onQuotaMultiplaInputChanged()">
+        <div class="sub-note">Quota singola giocata (es. 1.10) · BE: <strong id="beDisplay" style="color:var(--accent)">90.9%</strong></div>
       </div>
       <div class="input-group">
         <label>📊 Schedine al giorno</label>
@@ -709,10 +709,10 @@
   <div class="stats-grid">
     <div class="stat-card"><div class="label">Cassa Attuale</div><div class="value" id="statCassa">—</div></div>
     <div class="stat-card highlight"><div class="label" id="lblPuntataOggi">Puntata Oggi (¼)</div><div class="value" id="statPuntata">—</div></div>
-    <div class="stat-card"><div class="label">Moltiplicatore (Q^N)</div><div class="value cyan" id="statMolt">—</div></div>
+    <div class="stat-card"><div class="label">Quota Singola</div><div class="value cyan" id="statQuotaSingola">1.10</div></div>
+    <div class="stat-card highlight"><div class="label">Quota Giornata (Q^N)</div><div class="value green" id="statMolt">×1.7716</div></div>
     <div class="stat-card highlight"><div class="label">Guadagno Netto Vinto</div><div class="value green" id="statGuadagno">—</div></div>
     <div class="stat-card"><div class="label">Incasso Lordo</div><div class="value" id="statIncasso">—</div></div>
-    <div class="stat-card"><div class="label">Target Obiettivo</div><div class="value" id="statTarget">—</div></div>
     <div class="stat-card"><div class="label">Prelevato Totale</div><div class="value gold" id="statPrelevato">—</div></div>
     <div class="stat-card"><div class="label">Copertura Stop</div><div class="value cyan" id="statCopertura">—</div></div>
   </div>
@@ -756,10 +756,12 @@
   </div>
 
   <div class="info-box success" id="infoBoxExplanation">
-    <strong>🎯 Regole Operative Compound & Prelievi:</strong><br>
-    • <strong>🎯 Vinta una scommessa:</strong> fa avanzare il montante della giornata moltiplicando la puntata per la quota. Il prelievo di sistema è consentito <strong>solo dopo aver completato tutte le schedine del giorno</strong>.<br>
-    • <strong>❌ Perso:</strong> perdi l'intero capitale puntato nella giornata (es. € 250 giocati = -€ 250 dalla cassa).<br>
-    • <strong>💸 Preleva:</strong> ti consente in qualsiasi momento di prelevare liberamente un importo a tua scelta (anche fuori dal sistema).
+    <strong>🎯 Formula Compound & Distinzione Quote:</strong><br>
+    • <strong>Quota Singola Giocata:</strong> Quota di ciascuna singola schedina o multipla (es. <strong>1.10</strong>).<br>
+    • <strong>Quota Intera Giornata (Q^N):</strong> Quota complessiva data da quota singola elevata alle schedine del giorno (es. <strong>1.10^6 ≈ 1.7716</strong> su 6 multiple).<br>
+    • Ad esempio con <strong>€ 250</strong> giocati a quota 1.10 per 6 volte:<br>
+      — Incasso Lordo: <code>€ 250 × 1.10^6 = € 442,89</code><br>
+      — Guadagno Netto: <code>€ 442,89 − € 250 = +€ 192,89</code> accreditato direttamente alla cassa a fine giornata.
   </div>
 
   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:6px;">
@@ -774,7 +776,8 @@
           <th>Giorno</th>
           <th>Cassa Inizio</th>
           <th>Puntata</th>
-          <th>Quota/Molt (Q^N)</th>
+          <th>Quota Singola</th>
+          <th>Quota Giornata (Q^N)</th>
           <th>Vinte</th>
           <th>Esito</th>
           <th>Variazione Reale</th>
@@ -964,9 +967,10 @@ function loadHistoryFromDB(){
       if (records.length > 0) {
         el('historyBody').innerHTML = '';
         records.forEach(item => {
-          const moltVal = item.molt || (item.quota ? Math.pow(item.quota, item.schedine || S.schedine || 6) : null);
+          const qSingola = item.quotaSingola || item.quota || (item.molt ? Math.pow(item.molt, 1/(item.schedine||6)) : '—');
+          const qGiornata = item.molt || (item.quota ? Math.pow(item.quota, item.schedine || S.schedine || 6) : '—');
           const dataStr = item.data || (item.timestamp ? new Date(item.timestamp).toLocaleDateString('it-IT') : new Date().toLocaleDateString('it-IT'));
-          appendRowToTable(dataStr, item.cassaInizio, item.puntata, moltVal, item.esito, item.variazione, item.prelevato, item.cassaFine, item.cls, item.vinte, item.giorno);
+          appendRowToTable(dataStr, item.cassaInizio, item.puntata, qSingola, qGiornata, item.esito, item.variazione, item.prelevato, item.cassaFine, item.cls, item.vinte, item.giorno);
         });
         const last = records[records.length - 1];
         if (last && last.cassaFine != null) {
@@ -1123,7 +1127,7 @@ function onUserInputChange() {
 
 function getConfig() {
   const cassa = Math.max(10, parseFloat(el('cassaInput').value) || 1000);
-  const quotaMultipla = Math.max(1.001, parseFloat(el('quotaMultiplaInput').value) || 1.105);
+  const quotaMultipla = Math.max(1.001, parseFloat(el('quotaMultiplaInput').value) || 1.10);
   const schedine = Math.max(1, parseInt(el('schedineInput').value) || 6);
   const winRate = Math.max(0.50, parseFloat(el('winRateSelect').value) || 0.95);
   const modoRadio = document.querySelector('input[name="modo"]:checked');
@@ -1220,6 +1224,7 @@ function aggiorna() {
   if (el('statCassa')) el('statCassa').textContent = fmt(S.cassa);
   if (el('statPuntata')) el('statPuntata').textContent = fmt(puntata);
   if (el('statTarget')) el('statTarget').textContent = fmt(S.target);
+  if (el('statQuotaSingola')) el('statQuotaSingola').textContent = Number(S.quotaMultipla).toFixed(2);
   if (el('statCopertura')) el('statCopertura').textContent = copertura().toFixed(1) + ' stop';
   if (el('statMolt')) el('statMolt').textContent = '×' + S.molt.toFixed(4);
   if (el('statGuadagno')) el('statGuadagno').textContent = '+' + fmt(profittoPieno);
@@ -1255,11 +1260,12 @@ function aggiorna() {
       const montanteStep = puntata * moltStep;
       const profittoStep = montanteStep - puntata;
       const mancano = S.schedine - S.stepOggi;
+      const qSingolaStr = Number(S.quotaMultipla).toFixed(2);
       if (el('stepProgressBadge')) el('stepProgressBadge').textContent = `${S.stepOggi}/${S.schedine} Vinte`;
-      if (el('stepProgressMolt')) el('stepProgressMolt').textContent = `×${moltStep.toFixed(4)}`;
+      if (el('stepProgressMolt')) el('stepProgressMolt').textContent = `Quota Singola: ${qSingolaStr} | Quota Maturata: ×${moltStep.toFixed(4)}`;
       if (el('stepMontanteVal')) el('stepMontanteVal').textContent = fmt(montanteStep);
       if (el('stepProfittoVal')) el('stepProfittoVal').textContent = '+' + fmt(profittoStep);
-      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} scommesse per completare la giornata e abilitare il prelievo.`;
+      if (el('stepRemainingNote')) el('stepRemainingNote').textContent = `Mancano ${mancano} scommesse a quota ${qSingolaStr}. A fine giornata la quota complessiva sarà ${qSingolaStr}^${S.schedine} (×${S.molt.toFixed(4)}) con vincita piena.`;
     } else {
       stepBox.style.display = 'none';
     }
@@ -1306,19 +1312,21 @@ function aggiorna() {
   el('btnSimula').disabled = dead;
 }
 
-function appendRowToTable(dataStr, cassaInizio, puntata, moltVal, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
+function appendRowToTable(dataStr, cassaInizio, puntata, quotaSingolaVal, quotaGiornataVal, esito, variazione, prelevato, cassaFine, cls, vinte, giornoNum) {
   const tr = document.createElement('tr');
   tr.className = cls;
   const vinteStr = vinte !== undefined && vinte !== null ? (typeof vinte === 'string' ? vinte : vinte + '/' + S.schedine) : '—';
   const displayData = dataStr || getSelectedDate();
   const displayPuntata = puntata > 0 ? fmt(puntata) : '—';
-  const displayMolt = moltVal ? (typeof moltVal === 'number' ? '×' + moltVal.toFixed(4) : moltVal) : '—';
+  const displayQS = quotaSingolaVal && quotaSingolaVal !== '—' ? Number(quotaSingolaVal).toFixed(2) : '—';
+  const displayQG = quotaGiornataVal && quotaGiornataVal !== '—' ? (typeof quotaGiornataVal === 'number' ? '×' + quotaGiornataVal.toFixed(4) : quotaGiornataVal) : '—';
   
   tr.innerHTML = `<td style="color:rgba(255,255,255,0.7);">${displayData}</td>` +
     `<td>#${giornoNum || S.giorno}</td>` +
     `<td>${fmt(cassaInizio)}</td>` +
     `<td>${displayPuntata}</td>` +
-    `<td style="font-family:var(--mono)">${displayMolt}</td>` +
+    `<td style="font-family:var(--mono);color:var(--accent);font-weight:700;">${displayQS}</td>` +
+    `<td style="font-family:var(--mono);color:var(--green);font-weight:700;">${displayQG}</td>` +
     `<td style="text-align:center;">${vinteStr}</td>` +
     `<td style="text-align:left;">${esito}</td>` +
     `<td style="color:${variazione >= 0 ? '#00e676' : '#ff3d57'};font-weight:700;">${variazione >= 0 ? '+' : ''}${fmt(variazione)}</td>` +
@@ -1328,16 +1336,19 @@ function appendRowToTable(dataStr, cassaInizio, puntata, moltVal, esito, variazi
   tb.insertBefore(tr, tb.firstChild);
 }
 
-function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine, cls, vinte, customData) {
+function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine, cls, vinte, customData, customQS, customQG) {
   const dataStr = customData || getSelectedDate();
-  appendRowToTable(dataStr, cassaInizio, puntata, S.molt, esito, variazione, prelevato, cassaFine, cls, vinte, S.giorno);
+  const qSingola = customQS !== undefined ? customQS : S.quotaMultipla;
+  const qGiornata = customQG !== undefined ? customQG : S.molt;
+  appendRowToTable(dataStr, cassaInizio, puntata, qSingola, qGiornata, esito, variazione, prelevato, cassaFine, cls, vinte, S.giorno);
   savePlayToDB({
     data: dataStr,
     giorno: S.giorno,
     cassaInizio,
     puntata,
-    molt: S.molt,
-    quota: S.quotaMultipla,
+    quotaSingola: qSingola,
+    quota: qSingola,
+    molt: qGiornata,
     schedine: S.schedine,
     esito,
     variazione,
@@ -1507,7 +1518,7 @@ function confermaPrelievoLibero() {
   const esito = nota ? `💸 PRELIEVO LIBERO (${nota})` : `💸 PRELIEVO LIBERO`;
 
   closePrelievoModal();
-  registra(cassaInizio, 0, esito, -imp, imp, S.cassa, 'prelievo', null, customDate);
+  registra(cassaInizio, 0, esito, -imp, imp, S.cassa, 'prelievo', null, customDate, '—', '—');
   showToast(`💸 Prelevati ${fmt(imp)} con successo!`, '💸');
   aggiorna();
 }
@@ -1566,7 +1577,7 @@ window.onload = async () => {
   const hadSettings = loadSettings();
   if (!hadSettings) {
     el('cassaInput').value = '1000';
-    el('quotaMultiplaInput').value = '1.105';
+    el('quotaMultiplaInput').value = '1.10';
     el('schedineInput').value = '6';
     el('eventiSelect').value = '10';
   }
