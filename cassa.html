@@ -107,118 +107,119 @@
   }
   .brand-text-sub {
     font-size: 10px;
-    color: var(--gold);
-    opacity: 0.9;
-    font-weight: 700;
-    line-height: 1.1;
+    color: rgba(255, 255, 255, 0.5);
   }
 
-  /* 🚀 PULSANTE PER PASSARE ALLA WEBAPP QUOTE NELLA STESSA TAB */
   .btn-switch-webapp {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    background: linear-gradient(135deg, var(--accent), #00e5ff);
-    color: #051324;
+    gap: 6px;
+    padding: 7px 12px;
+    background: linear-gradient(135deg, #0288d1, #01579b);
+    color: #fff;
+    border: 1px solid rgba(79, 195, 247, 0.4);
+    border-radius: 10px;
     font-size: 11px;
-    font-weight: 800;
-    padding: 8px 11px;
-    border-radius: 9px;
+    font-weight: 700;
     text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(2, 136, 209, 0.3);
+    transition: all 0.2s ease;
     white-space: nowrap;
     flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(79, 195, 247, 0.3);
-    transition: transform 0.15s ease;
   }
-  .btn-switch-webapp:active {
-    transform: scale(0.95);
+  .btn-switch-webapp:hover {
+    background: linear-gradient(135deg, #039be5, #0288d1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(2, 136, 209, 0.5);
   }
 
-  /* DATABASE STATUS STRIP */
+  /* DATABASE BAR */
   .db-status-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(0, 230, 118, 0.08);
-    border: 1px solid rgba(0, 230, 118, 0.25);
+    gap: 8px;
+    background: rgba(0, 229, 255, 0.05);
+    border: 1px solid rgba(0, 229, 255, 0.2);
     border-radius: 10px;
     padding: 6px 10px;
+    margin-bottom: 12px;
     font-size: 11px;
-    margin-bottom: 10px;
+    color: #b2ebf2;
     flex-wrap: wrap;
-    gap: 6px;
   }
   .db-status-badge {
-    color: var(--green);
-    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 11px;
+    gap: 6px;
+    font-weight: 600;
   }
   .db-actions-group {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
   }
   .btn-db-action {
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #e0f2fe;
-    padding: 4px 8px;
+    border: 1px solid var(--border);
+    color: #fff;
     border-radius: 6px;
+    padding: 3px 8px;
     font-size: 10px;
     cursor: pointer;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    transition: background 0.15s;
+    font-weight: 600;
+    transition: all 0.2s;
   }
-  .btn-db-action:active {
-    background: rgba(255, 255, 255, 0.2);
+  .btn-db-action:hover {
+    background: rgba(255, 255, 255, 0.18);
   }
-  .btn-db-action.danger:active {
-    background: rgba(255, 61, 87, 0.3);
-    color: #ff3d57;
+  .btn-db-action.danger {
+    background: rgba(255, 61, 87, 0.2);
+    border-color: rgba(255, 61, 87, 0.4);
+    color: #ff8a9a;
+  }
+  .btn-db-action.danger:hover {
+    background: rgba(255, 61, 87, 0.35);
   }
 
-  /* TITLE */
   h1 {
-    text-align: center;
-    margin: 4px 0 2px;
-    font-size: 20px;
-    background: linear-gradient(135deg, #ffd740, #ffb300, #ffe082);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 18px;
     font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
     letter-spacing: -0.4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
   }
   .subtitle {
-    text-align: center;
-    opacity: .75;
-    margin-bottom: 12px;
     font-size: 11px;
-    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 12px;
+    line-height: 1.4;
   }
-  
-  /* CONFIG BOX */
+
+  /* CONFIG BOX CON CONTROLLI RESPONSIVE */
   .config-box {
-    background: rgba(0, 0, 0, 0.45);
-    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     padding: 12px;
-    margin-bottom: 10px;
-    border: 1px solid rgba(79, 195, 247, 0.14);
+    margin-bottom: 12px;
   }
   .config-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 8px;
   }
-  @media(min-width: 600px){
-    .config-row { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 480px) {
+    .config-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
   }
-  
   .input-group {
     display: flex;
     flex-direction: column;
@@ -227,323 +228,278 @@
   .input-group label {
     font-size: 10px;
     font-weight: 700;
-    opacity: .85;
+    color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--accent);
+    letter-spacing: 0.3px;
   }
-  .input-group input[type=number], .input-group select {
-    width: 100%;
-    padding: 9px 8px;
+  .input-group input, .input-group select {
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid var(--border);
-    border-radius: 9px;
-    background: rgba(255, 255, 255, 0.07);
     color: #fff;
-    font-size: 14px;
-    font-family: var(--font);
-    font-weight: 700;
-    transition: 0.2s;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  .input-group input[type=number]:focus, .input-group select:focus {
+    border-radius: 8px;
+    padding: 7px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--mono);
     outline: none;
-    border-color: #4fc3f7;
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.25);
+    transition: all 0.2s;
+    width: 100%;
   }
-  .input-group select option {
-    background: #0d1424;
-    color: #fff;
+  .input-group input:focus, .input-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
   }
   .input-group .sub-note {
-    font-size: 9.5px;
-    opacity: .7;
-    margin-top: 1px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--font);
     line-height: 1.2;
+    margin-top: 1px;
   }
-  
-  /* RADIO PILLS (MODI STRATEGIA) */
+
+  /* RADIO GROUP MODI OPERATIVI */
   .radio-group {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
     flex-wrap: wrap;
   }
   .radio-group label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    padding: 8px 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 9px;
+    gap: 5px;
     font-size: 11px;
     font-weight: 700;
+    color: #cfd8dc;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 6px 10px;
+    border-radius: 8px;
     border: 1px solid var(--border);
-    transition: 0.2s;
-    flex: 1;
-    min-width: 110px;
-    justify-content: center;
-  }
-  .radio-group input[type=radio] {
-    width: 15px;
-    height: 15px;
-    accent-color: #4fc3f7;
+    transition: all 0.2s;
   }
   .radio-group label:has(input:checked) {
-    background: rgba(79, 195, 247, 0.16);
-    border-color: #4fc3f7;
-    color: #4fc3f7;
+    background: rgba(79, 195, 247, 0.15);
+    border-color: var(--accent);
+    color: #fff;
   }
-  
+
   /* STATS GRID */
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 6px;
-    margin: 8px 0;
+    margin-bottom: 12px;
   }
-  @media(min-width: 480px){
-    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 600px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
   }
   .stat-card {
-    background: rgba(255, 255, 255, 0.035);
-    padding: 8px 6px;
-    border-radius: 11px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    position: relative;
+    overflow: hidden;
   }
   .stat-card.highlight {
-    background: rgba(79, 195, 247, 0.12);
-    border-color: #4fc3f7;
+    background: linear-gradient(135deg, rgba(79, 195, 247, 0.12), rgba(0, 229, 255, 0.04));
+    border-color: rgba(79, 195, 247, 0.4);
   }
   .stat-card .label {
-    font-size: 8.5px;
+    font-size: 9px;
     font-weight: 700;
-    opacity: .75;
+    color: rgba(255, 255, 255, 0.55);
     text-transform: uppercase;
-    letter-spacing: .4px;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
   }
   .stat-card .value {
-    font-family: var(--mono);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
-    margin-top: 2px;
+    font-family: var(--mono);
     color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .stat-card .value.green { color: #00e676; }
-  .stat-card .value.gold  { color: #ffd740; }
-  .stat-card .value.red   { color: #ff3d57; }
-  .stat-card .value.cyan  { color: #00e5ff; }
-  
+  .stat-card .value.green { color: var(--green); }
+  .stat-card .value.gold { color: var(--gold); }
+  .stat-card .value.cyan { color: var(--cyan); }
+
   /* PHASE INDICATOR */
   .phase-indicator {
-    text-align: center;
-    padding: 10px 12px;
-    border-radius: 11px;
-    margin: 8px 0;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 11px;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 1.45;
+    margin-bottom: 10px;
+    text-align: center;
+    border: 1px solid transparent;
   }
-  .phase-safe { background: rgba(0, 230, 118, .1); border: 1px solid #00e676; }
-  .phase-rendita { background: rgba(79, 195, 247, .12); border: 1px solid #4fc3f7; }
-  .phase-recupero { background: rgba(255, 171, 64, .12); border: 1px solid #ffab40; }
-  .phase-critica { background: rgba(255, 61, 87, .14); border: 1px solid #ff3d57; }
-  .phase-all-in { background: rgba(206, 147, 216, .14); border: 1px solid #ce93d8; }
-  .hidden { display: none !important; }
-  
+  .phase-rendita { background: rgba(0, 230, 118, 0.1); border-color: rgba(0, 230, 118, 0.3); color: #b9f6ca; }
+  .phase-safe { background: rgba(0, 229, 255, 0.1); border-color: rgba(0, 229, 255, 0.3); color: #84ffff; }
+  .phase-all-in { background: rgba(255, 171, 64, 0.1); border-color: rgba(255, 171, 64, 0.3); color: #ffe082; }
+  .phase-recupero { background: rgba(255, 215, 64, 0.1); border-color: rgba(255, 215, 64, 0.3); color: #fff9c4; }
+  .phase-critica { background: rgba(255, 61, 87, 0.15); border-color: rgba(255, 61, 87, 0.4); color: #ff8a9a; }
+
   /* PROGRESS BAR */
   .progress-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 99px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
     overflow: hidden;
-    margin: 6px 0 8px;
+    margin-bottom: 10px;
   }
   .progress-fill {
     height: 100%;
-    border-radius: 99px;
-    transition: width 0.4s ease;
-    background: linear-gradient(90deg, #4fc3f7, #00e676);
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    transition: width 0.3s ease;
   }
-  
+
   /* SIM STATS */
   .sim-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     background: rgba(0, 0, 0, 0.3);
-    border-radius: 11px;
-    padding: 8px;
-    margin: 6px 0;
     border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 8px;
+    margin-bottom: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    flex-wrap: wrap;
+    gap: 4px;
   }
-  @media(min-width: 480px){
-    .sim-stats { grid-template-columns: repeat(6, 1fr); }
-  }
-  .sim-stats div {
-    text-align: center;
-    font-size: 9.5px;
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .sim-stats div span {
-    font-family: var(--mono);
-    font-weight: 800;
-    font-size: 13px;
-    display: block;
-    margin-top: 1px;
-  }
-  
+
   /* ACTION BUTTONS GRID */
   .btn-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
     gap: 6px;
-    margin: 10px 0;
+    margin-bottom: 12px;
   }
-  @media(min-width: 550px){
-    .btn-grid { grid-template-columns: repeat(5, 1fr); }
+  @media (max-width: 480px) {
+    .btn-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .btn-grid button:last-child {
+      grid-column: span 2;
+    }
   }
   .btn {
-    min-height: 44px;
-    padding: 9px 10px;
-    border: none;
+    padding: 10px 8px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
+    font-family: var(--font);
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    line-height: 1.2;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    text-align: center;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
-  .btn:active {
-    transform: scale(0.95);
+  .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
   }
   .btn:disabled {
-    opacity: .35;
+    opacity: 0.4;
     cursor: not-allowed;
-    transform: none !important;
   }
-  .btn-primary { background: #4fc3f7; color: #061220; }
-  .btn-success { background: #00e676; color: #021a0c; }
-  .btn-danger  { background: #ff3d57; color: #fff; }
-  .btn-warning { background: #ffab40; color: #1f0e00; }
-  .btn-gold    { background: linear-gradient(135deg, #ffd740, #ff8f00); color: #160c00; }
-  .btn-cyan    { background: linear-gradient(135deg, #26c6da, #00838f); color: #fff; }
-  
+  .btn-primary { background: rgba(255, 255, 255, 0.08); color: #fff; border-color: var(--border); }
+  .btn-success { background: linear-gradient(135deg, #00c853, #009624); color: #fff; border-color: rgba(0, 230, 118, 0.4); }
+  .btn-warning { background: linear-gradient(135deg, #ff8f00, #e65100); color: #fff; border-color: rgba(255, 171, 64, 0.4); }
+  .btn-danger { background: linear-gradient(135deg, #d50000, #b71c1c); color: #fff; border-color: rgba(255, 61, 87, 0.4); }
+  .btn-cyan { background: linear-gradient(135deg, #00b0ff, #00838f); color: #fff; border-color: rgba(0, 229, 255, 0.4); }
+  .btn-gold { background: linear-gradient(135deg, #ffd740, #ff8f00); color: #000; border-color: #ffd740; }
+
   /* INFO BOX */
   .info-box {
-    background: rgba(79, 195, 247, .07);
-    border-left: 3px solid #4fc3f7;
-    padding: 8px 10px;
-    border-radius: 8px;
-    margin: 8px 0;
-    font-size: 10.5px;
-    line-height: 1.45;
-  }
-  .info-box.warning { background: rgba(255, 171, 64, .07); border-left-color: #ffab40; }
-  .info-box.success { background: rgba(0, 230, 118, .07); border-left-color: #00e676; }
-
-  /* TABLE */
-  .table-scroll {
-    max-height: 260px;
-    overflow-y: auto;
-    overflow-x: auto;
-    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .info-box.success {
+    border-color: rgba(0, 230, 118, 0.3);
+    background: rgba(0, 230, 118, 0.05);
+  }
+
+  /* TABLE SCROLL */
+  .table-scroll {
+    overflow-x: auto;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     margin-top: 6px;
+    -webkit-overflow-scrolling: touch;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(0, 0, 0, .35);
-    font-size: 11px;
-    min-width: 480px;
-  }
-  th, td {
-    padding: 7px 6px;
-    text-align: right;
-    border-bottom: 1px solid rgba(255, 255, 255, .04);
+    font-size: 10px;
+    white-space: nowrap;
   }
   th {
-    background: rgba(0, 0, 0, .6);
-    font-weight: 700;
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #8ab4d8;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  }
-  th:first-child, td:first-child {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 7px 6px;
     text-align: left;
-    white-space: nowrap;
-  }
-  tr.win { background: rgba(0, 230, 118, .06); }
-  tr.loss { background: rgba(255, 61, 87, .07); }
-  tr.special { background: rgba(255, 215, 0, .05); }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: rgba(10, 20, 35, 0.96);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 16px;
-    font-size: 11.5px;
     font-weight: 700;
-    white-space: nowrap;
-    opacity: 0;
-    transition: 0.25s ease;
-    pointer-events: none;
-    z-index: 300;
-    backdrop-filter: blur(16px);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    color: rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid var(--border);
   }
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+  td {
+    padding: 7px 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-family: var(--mono);
   }
+  tr:last-child td { border-bottom: none; }
+  tr.win { background: rgba(0, 230, 118, 0.03); }
+  tr.loss { background: rgba(255, 61, 87, 0.05); }
+  tr.special { background: rgba(255, 215, 64, 0.05); }
 
   /* MODAL */
   .modal-overlay {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 500;
     padding: 14px;
+    z-index: 1000;
   }
   .modal-box {
-    background: #0d1726;
-    border: 1px solid var(--border);
-    border-radius: 14px;
+    background: #0d1527;
+    border: 1px solid rgba(79, 195, 247, 0.3);
+    border-radius: var(--radius);
     padding: 16px;
-    max-width: 400px;
     width: 100%;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    max-width: 440px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
   }
   .modal-title {
     font-size: 14px;
     font-weight: 800;
-    margin-bottom: 8px;
+    color: #fff;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -552,39 +508,77 @@
     font-size: 11px;
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 12px;
-    line-height: 1.35;
+    line-height: 1.4;
   }
   .modal-grid-btns {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 6px;
     margin-bottom: 12px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 2px;
   }
   .modal-btn-choice {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
-    color: #fff;
-    padding: 8px 6px;
     border-radius: 8px;
+    padding: 8px 6px;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-size: 11px;
+  }
+  .modal-btn-choice:hover {
+    background: rgba(79, 195, 247, 0.15);
+    border-color: var(--accent);
+  }
+  .modal-btn-choice.danger {
+    border-color: rgba(255, 61, 87, 0.4);
+    background: rgba(255, 61, 87, 0.1);
+  }
+  .modal-btn-choice.success {
+    border-color: rgba(0, 230, 118, 0.4);
+    background: rgba(0, 230, 118, 0.1);
+  }
+
+  /* TOAST NOTIFICA */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(13, 21, 39, 0.95);
+    border: 1px solid var(--accent);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    border-radius: 30px;
+    padding: 8px 18px;
+    color: #fff;
     font-size: 11px;
     font-weight: 700;
-    cursor: pointer;
-    transition: 0.15s;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    z-index: 2000;
   }
-  .modal-btn-choice:hover, .modal-btn-choice:active {
-    background: rgba(79, 195, 247, 0.2);
-    border-color: #4fc3f7;
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
   }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <!-- 🌟 APP BAR CON FORZIERE E NAVIGAZIONE NELLA STESSA TAB -->
+<div class="container">
+  <!-- 🌟 APP BAR CON ICONA FORZIERE E LINK STESSA TAB -->
   <div class="top-app-bar">
     <div class="brand-group">
-      <div class="chest-icon-wrap" title="Forziere Cassa 4X">
+      <div class="chest-icon-wrap" title="Forziere Cassa 4X System">
         <svg class="chest-icon-svg" viewBox="0 0 64 64">
           <defs>
             <linearGradient id="goldG" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -611,7 +605,7 @@
       </div>
       <div>
         <div class="brand-text-title">Cassa <span>4X Pro</span></div>
-        <div class="brand-text-sub">🪙 Forziere & Money Management</div>
+        <div class="brand-text-sub">🪙 Forziere & Money Management Compound</div>
       </div>
     </div>
 
@@ -624,7 +618,7 @@
   <!-- DATABASE STATUS BAR CON AZIONI BACKUP/RESTORE -->
   <div class="db-status-bar">
     <div class="db-status-badge">
-      <span>💾</span> Database Gratis: <span id="dbRecordCount" style="color:#fff">0</span> giocate
+      <span>💾</span> Database Locale Permanente: <span id="dbRecordCount" style="color:#fff">0</span> giocate
     </div>
     <div class="db-actions-group">
       <button class="btn-db-action" onclick="exportDatabaseJSON()" title="Esporta file di backup JSON">📤 Backup</button>
@@ -635,13 +629,13 @@
   <input type="file" id="jsonFileInput" accept=".json" style="display:none" onchange="handleImportJSON(event)">
 
   <h1>🎯 4X System — Cassa Quote 1.01/1.02</h1>
-  <p class="subtitle">Gestione Budget & Money Management Reale · Nessun Rischio di Bruciare il Capitale</p>
+  <p class="subtitle">Gestione Compound Reale · Guadagni Autentici Calcolati su Quota Multipla ^ Schedine</p>
 
   <div class="config-box">
     <div class="config-row">
       <div class="input-group">
         <label>💶 Cassa Iniziale (€)</label>
-        <input type="number" id="cassaInput" value="1000" min="10" step="10" onchange="reset()">
+        <input type="number" id="cassaInput" value="1000" min="10" step="10" onchange="onUserInputChange()">
       </div>
       <div class="input-group">
         <label>📈 Quota Singolo Evento</label>
@@ -661,28 +655,39 @@
           <option value="2">2 eventi</option>
           <option value="3">3 eventi</option>
           <option value="4">4 eventi</option>
-          <option value="5" selected>5 eventi</option>
+          <option value="5">5 eventi</option>
           <option value="6">6 eventi</option>
           <option value="7">7 eventi</option>
           <option value="8">8 eventi</option>
           <option value="9">9 eventi</option>
-          <option value="10">10 eventi</option>
+          <option value="10" selected>10 eventi (Quota ~1.105)</option>
         </select>
-        <div class="sub-note">Oppure imposta quota multipla sotto ⬇️</div>
+        <div class="sub-note">Calcola quota o scrivi quota sotto ⬇️</div>
       </div>
       <div class="input-group">
         <label>⚡ Quota Multipla Totale</label>
-        <input type="number" id="quotaMultiplaInput" value="1.051" step="0.001" min="1.001" max="10.000" onchange="onQuotaMultiplaInputChanged()">
-        <div class="sub-note">BE Reale: <strong id="beDisplay" style="color:var(--accent)">95.1%</strong></div>
+        <input type="number" id="quotaMultiplaInput" value="1.105" step="0.001" min="1.001" max="10.000" onchange="onQuotaMultiplaInputChanged()">
+        <div class="sub-note">BE Reale: <strong id="beDisplay" style="color:var(--accent)">90.5%</strong></div>
       </div>
       <div class="input-group">
         <label>📊 Schedine al giorno</label>
-        <input type="number" id="schedineInput" value="5" min="1" max="50" step="1" onchange="reset()">
+        <input type="number" id="schedineInput" value="6" min="1" max="50" step="1" onchange="onUserInputChange()">
         <div class="sub-note">Schedine indipendenti giocate al giorno</div>
       </div>
       <div class="input-group">
+        <label>🪙 Prelievo / Rendita</label>
+        <select id="prelievoSelect" onchange="onPrelievoChanged()">
+          <option value="0" selected>0% (Accumulo 100% - Interesse Composto ⭐)</option>
+          <option value="0.25">25% (Rendita 25% · Accumulo 75%)</option>
+          <option value="0.50">50% (Rendita classica 4X)</option>
+          <option value="0.75">75% (Rendita elevata)</option>
+          <option value="1.00">100% (Prelievo integrale profitti)</option>
+        </select>
+        <div class="sub-note">Default 0%: tutto il profitto aumenta la cassa</div>
+      </div>
+      <div class="input-group">
         <label>🎯 % Vincita stimata</label>
-        <select id="winRateSelect" onchange="reset()">
+        <select id="winRateSelect" onchange="onUserInputChange()">
           <option value="0.92">92% (Prudente)</option>
           <option value="0.95" selected>95% (Realistico quote ≤ 1.01)</option>
           <option value="0.98">98% (Quote top tier ⭐)</option>
@@ -692,9 +697,9 @@
     </div>
     
     <div class="radio-group">
-      <label><input type="radio" name="modo" value="gia4x" checked onchange="onModoChanged()"> ✅ Cassa 4X pronta</label>
-      <label><input type="radio" name="modo" value="costruisci" onchange="onModoChanged()"> 🔨 Costruisco cassa</label>
-      <label><input type="radio" name="modo" value="sicuro" onchange="onModoChanged()"> 🛡️ Modalità Sicura</label>
+      <label><input type="radio" name="modo" value="gia4x" checked onchange="onModoChanged()"> ✅ Cassa 4X pronta (Puntata ¼)</label>
+      <label><input type="radio" name="modo" value="costruisci" onchange="onModoChanged()"> 🔨 Costruisco cassa (Verso Target 4X)</label>
+      <label><input type="radio" name="modo" value="sicuro" onchange="onModoChanged()"> 🛡️ Modalità Sicura (Puntata ⅛ protetta)</label>
     </div>
   </div>
 
@@ -704,12 +709,12 @@
   <div class="stats-grid">
     <div class="stat-card"><div class="label">Cassa Attuale</div><div class="value" id="statCassa">—</div></div>
     <div class="stat-card highlight"><div class="label" id="lblPuntataOggi">Puntata Oggi (¼)</div><div class="value" id="statPuntata">—</div></div>
-    <div class="stat-card"><div class="label">Obiettivo 4X</div><div class="value" id="statTarget">—</div></div>
-    <div class="stat-card"><div class="label">Copertura Stop</div><div class="value" id="statCopertura">—</div></div>
     <div class="stat-card"><div class="label">Moltiplicatore (Q^N)</div><div class="value cyan" id="statMolt">—</div></div>
-    <div class="stat-card"><div class="label">Profitto 100% Vinto</div><div class="value green" id="statGuadagno">—</div></div>
+    <div class="stat-card highlight"><div class="label">Guadagno Netto Vinto</div><div class="value green" id="statGuadagno">—</div></div>
+    <div class="stat-card"><div class="label">Incasso Lordo</div><div class="value" id="statIncasso">—</div></div>
+    <div class="stat-card"><div class="label">Target Obiettivo</div><div class="value" id="statTarget">—</div></div>
     <div class="stat-card"><div class="label">Prelevato Forziere</div><div class="value gold" id="statPrelevato">—</div></div>
-    <div class="stat-card"><div class="label">Sicurezza / Edge</div><div class="value cyan" id="statSicurezza">—</div></div>
+    <div class="stat-card"><div class="label">Copertura Stop</div><div class="value cyan" id="statCopertura">—</div></div>
   </div>
 
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:100%"></div></div>
@@ -739,21 +744,28 @@
   </div>
 
   <div class="info-box success" id="infoBoxExplanation">
-    <strong>🎯 Formula Compound 4X System:</strong> In modalità standard punti <strong>¼ della cassa</strong>, in modalità sicura <strong>⅛ della cassa</strong>. Il moltiplicatore complessivo della giornata è dato da <strong>Quota Multipla elevata al numero di schedine giocate</strong> (<code>Q^N</code>). La vincita piena con tutte le schedine vinte genera esattamente <code>Puntata × (Quota^N − 1)</code>.
+    <strong>🎯 Formula Compound 4X System Verificata:</strong> La quota totale della giornata è data da <strong>Quota Multipla elevata al numero di schedine giocate (<code>Q^N</code>)</strong>.<br>
+    Ad esempio con <strong>€ 250</strong> puntati su <strong>6 schedine a quota 1.105</strong>:<br>
+    • Moltiplicatore: <code>1.105^6 ≈ 1.8204</code><br>
+    • Incasso Lordo: <code>€ 250 × 1.8204 = € 455,11</code><br>
+    • Guadagno Netto: <code>€ 455,11 − € 250 = +€ 205,11</code> aggiunto direttamente alla cassa (se Prelievo = 0%).
   </div>
 
-  <h3 style="margin-top:12px;font-size:12px;font-weight:700;">📜 Storico Operazioni (Database Locale Permanente)</h3>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:6px;">
+    <h3 style="font-size:12px;font-weight:700;">📜 Storico Operazioni (Database Locale Permanente)</h3>
+    <button class="btn-db-action danger" style="padding:4px 10px;font-size:11px;" onclick="clearDatabaseHistory()">🗑️ Svuota Storico</button>
+  </div>
   <div class="table-scroll">
     <table>
       <thead>
-        <tr><th>Giorno</th><th>Cassa Inizio</th><th>Puntata</th><th>Molt (Q^N)</th><th>Vinte</th><th>Esito</th><th>Variazione</th><th>Prelevato</th><th>Cassa Fine</th></tr>
+        <tr><th>Giorno</th><th>Cassa Inizio</th><th>Puntata</th><th>Quota/Molt (Q^N)</th><th>Vinte</th><th>Esito</th><th>Variazione Reale</th><th>Prelevato</th><th>Cassa Fine</th></tr>
       </thead>
       <tbody id="historyBody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- MODAL MISTO PERFEZIONATO -->
+<!-- MODAL MISTO PERFEZIONATO CON CALCOLI REALI -->
 <div id="mistoModal" class="modal-overlay" style="display:none;">
   <div class="modal-box">
     <div class="modal-title">
@@ -761,7 +773,7 @@
       <button onclick="closeMistoModal()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
     </div>
     <div class="modal-desc">
-      Quante delle <strong id="modalTotalSchedine">5</strong> schedine giocate oggi sono risultate vinte?
+      Scegli l'esito reale della giornata su <strong id="modalTotalSchedine">6</strong> schedine giocate (Take Profit o Stop):
     </div>
     <div id="mistoBtnGrid" class="modal-grid-btns"></div>
     <div style="display:flex;gap:6px;">
@@ -785,7 +797,48 @@ function showToast(msg, icon='✅'){
   el('toastIcon').textContent = icon;
   const t = el('toast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ========================================================
+   LOCAL STORAGE PERSISTENCE (Impedisce sovrascritture indesiderate)
+   ======================================================== */
+function saveSettings() {
+  const cfg = {
+    cassa: el('cassaInput').value,
+    quotaMultipla: el('quotaMultiplaInput').value,
+    schedine: el('schedineInput').value,
+    winRate: el('winRateSelect').value,
+    modo: document.querySelector('input[name="modo"]:checked')?.value || 'gia4x',
+    prelievo: el('prelievoSelect')?.value || '0',
+    quotaEvento: el('quotaEventoSelect')?.value || '1.010',
+    eventi: el('eventiSelect')?.value || '10'
+  };
+  try {
+    localStorage.setItem('forziere_settings_v2', JSON.stringify(cfg));
+  } catch(e) {}
+}
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem('forziere_settings_v2');
+    if (!raw) return false;
+    const cfg = JSON.parse(raw);
+    if (cfg.cassa) el('cassaInput').value = cfg.cassa;
+    if (cfg.quotaMultipla) el('quotaMultiplaInput').value = cfg.quotaMultipla;
+    if (cfg.schedine) el('schedineInput').value = cfg.schedine;
+    if (cfg.winRate) el('winRateSelect').value = cfg.winRate;
+    if (cfg.prelievo && el('prelievoSelect')) el('prelievoSelect').value = cfg.prelievo;
+    if (cfg.modo) {
+      const r = document.querySelector(`input[name="modo"][value="${cfg.modo}"]`);
+      if (r) r.checked = true;
+    }
+    if (cfg.eventi && el('eventiSelect')) el('eventiSelect').value = cfg.eventi;
+    if (cfg.quotaEvento && el('quotaEventoSelect')) el('quotaEventoSelect').value = cfg.quotaEvento;
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 /* ========================================================
@@ -850,7 +903,8 @@ function loadHistoryFromDB(){
       if (records.length > 0) {
         el('historyBody').innerHTML = '';
         records.forEach(item => {
-          appendRowToTable(item.cassaInizio, item.puntata, item.quota, item.esito, item.variazione, item.prelevato, item.cassaFine, item.cls, item.vinte, item.giorno);
+          const moltVal = item.molt || Math.pow(item.quota || 1.105, item.schedine || S.schedine || 6);
+          appendRowToTable(item.cassaInizio, item.puntata, moltVal, item.esito, item.variazione, item.prelevato, item.cassaFine, item.cls, item.vinte, item.giorno);
         });
         const last = records[records.length - 1];
         if (last && last.cassaFine != null) {
@@ -864,7 +918,7 @@ function loadHistoryFromDB(){
 }
 
 function clearDatabaseHistory(){
-  if (!confirm("⚠️ ATTENZIONE: Sei sicuro di voler cancellare definitivamente TUTTE le giocate dal database?\n\nQuesta operazione non può essere annullata.")) {
+  if (!confirm("⚠️ ATTENZIONE: Vuoi cancellare definitivamente lo storico delle giocate dal database per iniziare da zero?\n\nLa cassa tornerà al valore iniziale impostato.")) {
     return;
   }
   if (db) {
@@ -874,16 +928,18 @@ function clearDatabaseHistory(){
       tx.oncomplete = () => {
         el('historyBody').innerHTML = '';
         updateDbCount();
-        showToast('Database svuotato con successo', '🗑️');
+        showToast('Storico svuotato con successo!', '🗑️');
         reset();
       };
     } catch(e) {
       el('historyBody').innerHTML = '';
       showToast('Storico azzerato', '🗑️');
+      reset();
     }
   } else {
     el('historyBody').innerHTML = '';
     showToast('Storico azzerato', '🗑️');
+    reset();
   }
 }
 
@@ -898,7 +954,7 @@ function exportDatabaseJSON(){
   req.onsuccess = () => {
     const plays = req.result || [];
     const backupData = {
-      version: '4X-BPS-Real-2.0',
+      version: '4X-BPS-Compound-2.1',
       exportedAt: new Date().toISOString(),
       currentState: S,
       playsCount: plays.length,
@@ -949,8 +1005,7 @@ function handleImportJSON(e){
 }
 
 /* ========================================================
-   LOGICA DI CONFIGURAZIONE FLESSIBILE
-   (L'utente imposta liberamente quota e schedine)
+   LOGICA DI CONFIGURAZIONE & CALCOLO COMPOUND
    ======================================================== */
 function getQuotaEvento() {
   const sel = el('quotaEventoSelect').value;
@@ -968,12 +1023,12 @@ function onQuotaEventoChanged() {
     el('quotaEventoCustom').style.display = 'none';
   }
   recalcQuotaMultiplaFromEvents();
-  reset();
+  onUserInputChange();
 }
 
 function onEventiSelectChanged() {
   recalcQuotaMultiplaFromEvents();
-  reset();
+  onUserInputChange();
 }
 
 function recalcQuotaMultiplaFromEvents() {
@@ -986,27 +1041,36 @@ function recalcQuotaMultiplaFromEvents() {
 }
 
 function onQuotaMultiplaInputChanged() {
-  const qMultipla = Math.max(1.001, parseFloat(el('quotaMultiplaInput').value) || 1.051);
+  const qMultipla = Math.max(1.001, parseFloat(el('quotaMultiplaInput').value) || 1.105);
   el('beDisplay').textContent = ((1 / qMultipla) * 100).toFixed(1) + '%';
-  reset();
+  onUserInputChange();
 }
 
 function onModoChanged() {
-  // Cambiare modalità NON altera né schedine né quota scelte dall'utente!
+  onUserInputChange();
+}
+
+function onPrelievoChanged() {
+  onUserInputChange();
+}
+
+function onUserInputChange() {
+  saveSettings();
   reset();
 }
 
 function getConfig() {
   const cassa = Math.max(10, parseFloat(el('cassaInput').value) || 1000);
-  const quotaMultipla = Math.max(1.001, parseFloat(el('quotaMultiplaInput').value) || 1.051);
-  const schedine = Math.max(1, parseInt(el('schedineInput').value) || 5);
+  const quotaMultipla = Math.max(1.001, parseFloat(el('quotaMultiplaInput').value) || 1.105);
+  const schedine = Math.max(1, parseInt(el('schedineInput').value) || 6);
   const winRate = Math.max(0.50, parseFloat(el('winRateSelect').value) || 0.95);
   const modoRadio = document.querySelector('input[name="modo"]:checked');
   const modo = modoRadio ? modoRadio.value : 'gia4x';
-  const eventi = Math.max(1, parseInt(el('eventiSelect').value) || 5);
+  const prelievoPerc = Math.max(0, Math.min(1, parseFloat(el('prelievoSelect')?.value || '0') || 0));
+  const eventi = Math.max(1, parseInt(el('eventiSelect').value) || 10);
   const quotaEvento = getQuotaEvento();
 
-  return { cassa, quotaMultipla, schedine, winRate, modo, eventi, quotaEvento };
+  return { cassa, quotaMultipla, schedine, winRate, modo, prelievoPerc, eventi, quotaEvento };
 }
 
 function resetButtonAction(){
@@ -1023,13 +1087,12 @@ function reset() {
   let target;
   if (c.modo === 'gia4x') {
     target = c.cassa;
-  } else if (c.modo === 'costruisci') {
-    target = c.cassa * 4;
   } else {
-    // Modo sicuro: protezione raddoppio / 4X
+    // Modo costruisci o sicuro: Obiettivo 4X
     target = c.cassa * 4;
   }
 
+  // Moltiplicatore Totale: Quota Multipla ^ Schedine
   const molt = Math.pow(c.quotaMultipla, c.schedine);
 
   S = {
@@ -1042,6 +1105,7 @@ function reset() {
     schedine: c.schedine,
     eventi: c.eventi,
     winRate: c.winRate,
+    prelievoPerc: c.prelievoPerc,
     molt: molt,
     giorno: 1,
     prelevatoTot: 0,
@@ -1066,18 +1130,12 @@ function puntataOdierna() {
   if (S.cassa <= 0) return 0;
   let base;
   if (S.mode === 'sicuro') {
-    base = S.cassa / 8; // Modalità Sicura: 1/8
-  } else if (S.mode === 'costruisci') {
-    base = S.cassa / 4; // Costruzione: 1/4 (o intera se esplicitato)
+    base = S.cassa / 8; // Modalità Sicura: 1/8 (12.5%)
   } else {
-    base = S.cassa / 4; // Cassa 4X pronta: 1/4
+    base = S.cassa / 4; // Cassa 4X pronta o Costruzione: 1/4 (25%)
   }
   const delev = getDeleverageMultiplier(S.perditeConsecutive);
   return Math.min(S.cassa, base * delev);
-}
-
-function puntataPerSchedina() {
-  return puntataOdierna() / Math.max(1, S.schedine);
 }
 
 function copertura() {
@@ -1088,22 +1146,23 @@ function copertura() {
 
 function aggiorna() {
   const puntata = puntataOdierna();
-  const puntataSingola = puntataPerSchedina();
   const breakEven = 1 / S.quotaMultipla;
   const edge = S.winRate - breakEven;
 
-  // Moltiplicatore: Quota multipla elevata al numero di schedine (Q^N)
+  // Moltiplicatore Esatto: Quota multipla elevata al numero di schedine (Q^N)
   S.molt = Math.pow(S.quotaMultipla, S.schedine);
-  const profittoPieno = puntata * (S.molt - 1);
+  const incassoLordo = puntata * S.molt;
+  const profittoPieno = incassoLordo - puntata;
 
-  el('statCassa').textContent = fmt(S.cassa);
-  el('statPuntata').textContent = fmt(puntata);
-  el('statTarget').textContent = fmt(S.target);
-  el('statCopertura').textContent = copertura().toFixed(1) + ' stop';
-  el('statMolt').textContent = '×' + S.molt.toFixed(4);
-  el('statGuadagno').textContent = '+' + fmt(profittoPieno);
-  el('statPrelevato').textContent = fmt(S.prelevatoTot);
-  el('statSicurezza').textContent = (edge >= 0 ? '+' : '') + (edge * 100).toFixed(2) + '%';
+  if (el('statCassa')) el('statCassa').textContent = fmt(S.cassa);
+  if (el('statPuntata')) el('statPuntata').textContent = fmt(puntata);
+  if (el('statTarget')) el('statTarget').textContent = fmt(S.target);
+  if (el('statCopertura')) el('statCopertura').textContent = copertura().toFixed(1) + ' stop';
+  if (el('statMolt')) el('statMolt').textContent = '×' + S.molt.toFixed(4);
+  if (el('statGuadagno')) el('statGuadagno').textContent = '+' + fmt(profittoPieno);
+  if (el('statIncasso')) el('statIncasso').textContent = fmt(incassoLordo);
+  if (el('statPrelevato')) el('statPrelevato').textContent = fmt(S.prelevatoTot);
+  if (el('statSicurezza')) el('statSicurezza').textContent = (edge >= 0 ? '+' : '') + (edge * 100).toFixed(2) + '%';
 
   const lblPuntata = el('lblPuntataOggi');
   if (S.mode === 'sicuro') {
@@ -1131,26 +1190,27 @@ function aggiorna() {
     ind.innerHTML = '🔴 CASSA ESAURITA — Premi Reset per ricominciare.';
   } else if (S.perditeConsecutive > 0) {
     ind.className = 'phase-indicator phase-recupero';
-    ind.innerHTML = `🟠 DELEVERAGE ATTIVO (${S.perditeConsecutive} perdita cons.) — Puntata prudenziale ridotta a ×${delev.toFixed(2)}.` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.) per proteggere la cassa.</div>`;
+    ind.innerHTML = `🟠 DELEVERAGE ATTIVO (${S.perditeConsecutive} perdita cons.) — Puntata ridotta a ×${delev.toFixed(2)}.` +
+                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Puntata prudenziale: ${fmt(puntata)} per proteggere la cassa residua.</div>`;
   } else if (S.mode === 'sicuro') {
     ind.className = 'phase-indicator phase-safe';
     ind.innerHTML = `🛡️ MODALITÀ SICURA ATTIVA — Cassa ${fmt(S.cassa)} → Target ${fmt(S.target)}` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Puntata protetta ad ⅛: ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.)</div>`;
+                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Puntata protetta ad ⅛: ${fmt(puntata)} | Guadagno netto stimato: +${fmt(profittoPieno)}</div>`;
   } else if (S.cassa >= S.target && S.mode !== 'costruisci') {
     ind.className = 'phase-indicator phase-rendita';
-    ind.innerHTML = `🟢 FASE RENDITA (Target Raggiunto!) — Cassa ${fmt(S.cassa)}.` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · Prelievo 50% profitti per consolidare il guadagno.</div>`;
+    const prelievoDesc = (S.prelievoPerc || 0) > 0 ? `Prelievo ${(S.prelievoPerc*100).toFixed(0)}% attivo (${fmt(profittoPieno * S.prelievoPerc)})` : `Accumulo composto 100% (+${fmt(profittoPieno)})`;
+    ind.innerHTML = `🟢 CASSA PRONTA — Cassa ${fmt(S.cassa)}.` +
+                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · ${prelievoDesc}</div>`;
   } else if (S.mode === 'costruisci') {
     ind.className = 'phase-indicator phase-all-in';
     const giorni = profittoPieno > 0 ? Math.ceil((S.target - S.cassa) / profittoPieno) : 0;
     ind.innerHTML = `🔨 FASE COSTRUZIONE — Cassa ${fmt(S.cassa)} → Obiettivo ${fmt(S.target)}` +
-                    ` (${giorni > 0 ? '~' + giorni + ' giorni' : '✅ RAGGIUNTO!'})` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.) ad accumulo integrale.</div>`;
+                    ` (${giorni > 0 ? '~' + giorni + ' giorni vincenti' : '✅ RAGGIUNTO!'})` +
+                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} | Guadagno netto: +${fmt(profittoPieno)} reinvestito al 100%.</div>`;
   } else {
     ind.className = 'phase-indicator phase-rendita';
-    ind.innerHTML = `✅ CASSA 4X PRONTA — Cassa ${fmt(S.cassa)} (${progress.toFixed(1)}% di ${fmt(S.target)}).` +
-                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} (${S.schedine} schedine da ${fmt(puntataSingola)} cad.) | Profitto stimato: +${fmt(profittoPieno)}</div>`;
+    ind.innerHTML = `✅ CASSA 4X PRONTA — Cassa ${fmt(S.cassa)}.` +
+                    `<div style="font-size:11px;opacity:.85;margin-top:2px;">Punti ${fmt(puntata)} · Moltiplicatore: ×${S.molt.toFixed(4)} | Guadagno netto: +${fmt(profittoPieno)}</div>`;
   }
 
   el('useCassaBox').classList.toggle('hidden', !(S.mode === 'costruisci' && S.cassa >= S.target));
@@ -1187,6 +1247,7 @@ function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine,
     puntata,
     molt: S.molt,
     quota: S.quotaMultipla,
+    schedine: S.schedine,
     esito,
     variazione,
     prelevato,
@@ -1196,52 +1257,36 @@ function registra(cassaInizio, puntata, esito, variazione, prelevato, cassaFine,
   });
 }
 
-/* GIORNO VINTO (100% SCHEDINE VINTE): QUOTA MULTIPLA ELEVATA AL NUMERO DI SCHEDINE PER LA PUNTATA */
+/* ========================================================
+   GIORNO VINTO: FORMULA REALE QUOTA^SCHEDINE × PUNTATA
+   ======================================================== */
 function giornoVinto() {
   if (S.cassa <= 0) return;
   const cassaInizio = S.cassa;
   const puntata = puntataOdierna();
   
-  // Calcolo Quota Multipla elevato al numero di schedine giocate per la somma giocata
+  // Formula autentica ed effettiva: Quota Multipla ^ Schedine
   S.molt = Math.pow(S.quotaMultipla, S.schedine);
-  const profit = puntata * (S.molt - 1);
+  const incassoLordo = puntata * S.molt;
+  const profit = incassoLordo - puntata; // Esempio: € 250 * (1.105^6 - 1) = +€ 205,11
+  
+  const pPerc = S.prelievoPerc || 0;
   let prelevato = 0;
-  let esito;
+  let esito = '';
 
-  if (S.mode === 'costruisci') {
-    S.cassa += profit;
-    if (S.cassa >= S.target) {
-      prelevato = S.cassa - S.target;
-      S.cassa = S.target;
-      esito = '🎯 OBIETTIVO 4X RAGGIUNTO!';
-      S.mode = 'gia4x';
-    } else {
-      esito = '✅ VINTO — accumulo';
-    }
-  } else if (S.mode === 'sicuro') {
-    S.cassa += profit;
-    if (S.cassa >= S.target) {
-      prelevato = S.cassa - S.target;
-      S.cassa = S.target;
-      esito = '🎯 OBIETTIVO SICURO RAGGIUNTO!';
-    } else {
-      esito = '✅ VINTO (⅛) — + ' + fmt(profit);
-    }
+  if (pPerc > 0) {
+    prelevato = profit * pPerc;
+    const accreditoCassa = profit - prelevato;
+    S.cassa += accreditoCassa;
+    esito = `✅ VINTO (+${fmt(profit)} | Prelievo ${fmt(prelevato)})`;
   } else {
-    // gia4x (Rendita)
-    if (S.cassa >= S.target) {
-      prelevato = profit * 0.50; // 50% prelievo
-      S.cassa += (profit - prelevato);
-      esito = '✅ VINTO — prelevato ' + fmt(prelevato);
+    // 100% Accumulo Composto diretto in cassa
+    prelevato = 0;
+    S.cassa += profit;
+    if (S.mode === 'costruisci' && S.cassa >= S.target) {
+      esito = '🎯 OBIETTIVO 4X RAGGIUNTO!';
     } else {
-      S.cassa += profit;
-      if (S.cassa >= S.target) {
-        prelevato = S.cassa - S.target;
-        S.cassa = S.target;
-        esito = '🎯 RECUPERO COMPLETATO!';
-      } else {
-        esito = '✅ VINTO — recupero';
-      }
+      esito = `✅ VINTO (+${fmt(profit)})`;
     }
   }
 
@@ -1250,13 +1295,16 @@ function giornoVinto() {
   simStats.total++;
   simStats.vinti++;
 
-  registra(cassaInizio, puntata, esito, profit - prelevato, prelevato, S.cassa, 'win', S.schedine);
+  const variazioneReale = profit - prelevato;
+  registra(cassaInizio, puntata, esito, variazioneReale, prelevato, S.cassa, 'win', S.schedine);
   S.giorno++;
-  showToast(`Vinto! +${fmt(profit - prelevato)}`, '✅');
+  showToast(`Vinto! Guadagno: +${fmt(variazioneReale)}`, '✅');
   aggiorna();
 }
 
-/* GIORNO PERSO (TUTTE LE SCHEDINE PERSE) */
+/* ========================================================
+   GIORNO PERSO: PERDITA DELLA SOLA PUNTATA GIORNALIERA
+   ======================================================== */
 function giornoPerso() {
   if (S.cassa <= 0) return;
   const cassaInizio = S.cassa;
@@ -1268,28 +1316,51 @@ function giornoPerso() {
   simStats.total++;
   simStats.persi++;
 
-  const labelEsito = S.mode === 'sicuro' ? '❌ PERDUTO (⅛)' : (S.mode === 'costruisci' ? '❌ PERDUTO' : '❌ PERDUTO (¼)');
+  const labelEsito = S.mode === 'sicuro' ? '❌ PERDUTO (⅛)' : '❌ PERDUTO (¼)';
   registra(cassaInizio, puntata, labelEsito, -perdita, 0, S.cassa, 'loss', 0);
   S.giorno++;
   showToast(`Perdita giornata: -${fmt(perdita)}`, '❌');
   aggiorna();
 }
 
-/* GIORNO MISTO CON MODALE E CALCOLO REALE */
+/* ========================================================
+   GIORNO MISTO: OPZIONI CHIARE E VERIFICATE
+   ======================================================== */
 function openMistoModal() {
   el('modalTotalSchedine').textContent = S.schedine;
   const grid = el('mistoBtnGrid');
   grid.innerHTML = '';
   const puntata = puntataOdierna();
-  for (let w = 0; w <= S.schedine; w++) {
+
+  // 1. Scalata Saltata (perdita della puntata della giornata)
+  const btnLoss = document.createElement('button');
+  btnLoss.className = 'modal-btn-choice danger';
+  btnLoss.innerHTML = `<strong>❌ Scalata Saltata (0/${S.schedine})</strong><div style="font-size:10px;margin-top:2px;color:#ff3d57">Perdi puntata: -${fmt(puntata)}</div>`;
+  btnLoss.onclick = () => eseguiGiornoMisto(0, 'loss');
+  grid.appendChild(btnLoss);
+
+  // 2. Take Profit intermedi (1 a Schedine - 1)
+  for (let w = 1; w < S.schedine; w++) {
     const btn = document.createElement('button');
     btn.className = 'modal-btn-choice';
     const moltW = Math.pow(S.quotaMultipla, w);
-    const netto = puntata * (moltW - 1);
-    btn.innerHTML = `<strong>${w}/${S.schedine}</strong><div style="font-size:10px;margin-top:2px;color:${netto>=0?'#00e676':'#ff3d57'}">${netto>=0?'+':''}${fmt(netto)}</div>`;
-    btn.onclick = () => eseguiGiornoMisto(w);
+    const incassoW = puntata * moltW;
+    const profitW = incassoW - puntata;
+    btn.innerHTML = `<strong>Take Profit ${w}/${S.schedine}</strong><div style="font-size:10px;margin-top:2px;color:#00e676">+${fmt(profitW)} (×${moltW.toFixed(3)})</div>`;
+    btn.onclick = () => eseguiGiornoMisto(w, 'take_profit');
     grid.appendChild(btn);
   }
+
+  // 3. Tutte vinte
+  const btnAll = document.createElement('button');
+  btnAll.className = 'modal-btn-choice success';
+  const moltAll = Math.pow(S.quotaMultipla, S.schedine);
+  const incassoAll = puntata * moltAll;
+  const profitAll = incassoAll - puntata;
+  btnAll.innerHTML = `<strong>Tutte Vinte ${S.schedine}/${S.schedine} ⭐</strong><div style="font-size:10px;margin-top:2px;color:#00e676">+${fmt(profitAll)} (×${moltAll.toFixed(3)})</div>`;
+  btnAll.onclick = () => { closeMistoModal(); giornoVinto(); };
+  grid.appendChild(btnAll);
+
   el('mistoModal').style.display = 'flex';
 }
 
@@ -1302,59 +1373,55 @@ function simulaGiornoMistoCasuale() {
   for (let i = 0; i < S.schedine; i++) {
     if (Math.random() < S.winRate) vinte++;
   }
-  eseguiGiornoMisto(vinte);
+  if (vinte === S.schedine) {
+    closeMistoModal();
+    giornoVinto();
+  } else if (vinte === 0) {
+    eseguiGiornoMisto(0, 'loss');
+  } else {
+    eseguiGiornoMisto(vinte, 'take_profit');
+  }
 }
 
-function eseguiGiornoMisto(vinte) {
+function eseguiGiornoMisto(vinte, tipo) {
   closeMistoModal();
   if (S.cassa <= 0) return;
 
   const cassaInizio = S.cassa;
   const puntata = puntataOdierna();
-  // Calcolo quota multipla elevata al numero di schedine vinte
+
+  if (tipo === 'loss' || vinte === 0) {
+    giornoPerso();
+    return;
+  }
+
+  // Take Profit al gradino vinte
   const moltW = Math.pow(S.quotaMultipla, vinte);
   const incassoLordo = puntata * moltW;
   const profit = incassoLordo - puntata;
 
+  const pPerc = S.prelievoPerc || 0;
   let prelevato = 0;
-  let esito = '';
-
-  if (profit > 0) {
-    S.perditeConsecutive = 0;
-    if (S.mode === 'costruisci' || S.mode === 'sicuro') {
-      S.cassa += profit;
-      esito = `🔄 MISTO (${vinte}/${S.schedine}) +${fmt(profit)}`;
-    } else if (S.cassa >= S.target) {
-      prelevato = profit * 0.50;
-      S.cassa += (profit - prelevato);
-      esito = `🔄 MISTO (${vinte}/${S.schedine}) prelevato ${fmt(prelevato)}`;
-    } else {
-      S.cassa += profit;
-      if (S.cassa >= S.target) {
-        prelevato = S.cassa - S.target;
-        S.cassa = S.target;
-        esito = '🎯 RECUPERO COMPLETATO!';
-      } else {
-        esito = `🔄 MISTO (${vinte}/${S.schedine}) recupero`;
-      }
-    }
-  } else {
-    S.cassa = Math.max(0, S.cassa + profit);
-    S.perditeConsecutive++;
-    esito = `🔄 MISTO (${vinte}/${S.schedine}) ${fmt(profit)}`;
+  if (pPerc > 0) {
+    prelevato = profit * pPerc;
   }
-
+  const accreditoCassa = profit - prelevato;
+  S.cassa += accreditoCassa;
   S.prelevatoTot += prelevato;
+  S.perditeConsecutive = 0;
   simStats.total++;
   simStats.misti++;
 
-  registra(cassaInizio, puntata, esito, profit - prelevato, prelevato, S.cassa, profit >= 0 ? 'win' : 'loss', vinte);
+  const esito = `💰 TAKE PROFIT (${vinte}/${S.schedine}) +${fmt(profit)}`;
+  registra(cassaInizio, puntata, esito, accreditoCassa, prelevato, S.cassa, 'win', vinte);
   S.giorno++;
-  showToast(`Misto: ${vinte}/${S.schedine} vinte`, '🔄');
+  showToast(`Take profit: +${fmt(accreditoCassa)}`, '💰');
   aggiorna();
 }
 
-/* SIMULATORE 30 GIORNI REALE BASATO SU DISTRIBUZIONE BINOMIALE */
+/* ========================================================
+   SIMULATORE 30 GIORNI CON FORMULE COMPOUND
+   ======================================================== */
 function simulaGiornate() {
   const giorni = 30;
   let count = 0;
@@ -1369,73 +1436,45 @@ function simulaGiornate() {
       return;
     }
 
-    let vinte = 0;
+    // Simulazione del percorso compound su S.schedine
+    let allWon = true;
     for (let i = 0; i < S.schedine; i++) {
-      if (Math.random() < S.winRate) vinte++;
+      if (Math.random() >= S.winRate) {
+        allWon = false;
+        break;
+      }
     }
 
-    if (vinte === S.schedine) {
+    if (allWon) {
       giornoVinto();
-    } else if (vinte === 0) {
-      giornoPerso();
     } else {
-      const cassaInizio = S.cassa;
-      const puntata = puntataOdierna();
-      const moltW = Math.pow(S.quotaMultipla, vinte);
-      const incassoLordo = puntata * moltW;
-      const profit = incassoLordo - puntata;
-      
-      let prelevato = 0;
-      let esito = '';
-
-      if (profit > 0) {
-        S.perditeConsecutive = 0;
-        if (S.mode === 'costruisci' || S.mode === 'sicuro') {
-          S.cassa += profit;
-          esito = `🔄 MISTO (${vinte}/${S.schedine})`;
-        } else if (S.cassa >= S.target) {
-          prelevato = profit * 0.50;
-          S.cassa += (profit - prelevato);
-          esito = `🔄 MISTO (${vinte}/${S.schedine})`;
-        } else {
-          S.cassa += profit;
-          if (S.cassa >= S.target) {
-            prelevato = S.cassa - S.target;
-            S.cassa = S.target;
-            esito = `🎯 RECUPERO COMPLETATO`;
-          } else {
-            esito = `🔄 MISTO (${vinte}/${S.schedine})`;
-          }
-        }
-      } else {
-        S.cassa = Math.max(0, S.cassa + profit);
-        S.perditeConsecutive++;
-        esito = `🔄 MISTO (${vinte}/${S.schedine})`;
-      }
-
-      S.prelevatoTot += prelevato;
-      simStats.total++;
-      simStats.misti++;
-
-      registra(cassaInizio, puntata, esito, profit - prelevato, prelevato, S.cassa, profit >= 0 ? 'win' : 'loss', vinte);
-      S.giorno++;
-      aggiorna();
+      giornoPerso();
     }
     count++;
-  }, 90);
+  }, 75);
 }
 
 function usaComeCassa() {
   const cassaInizio = S.cassa;
   S.mode = 'gia4x';
   S.target = S.cassa;
+  const radio = document.querySelector('input[name="modo"][value="gia4x"]');
+  if (radio) radio.checked = true;
   registra(cassaInizio, 0, '💰 CASSA IMPOSTATA (4X)', 0, 0, S.cassa, 'special', S.schedine);
   aggiorna();
+  saveSettings();
   showToast('Cassa impostata per la rendita!', '💰');
 }
 
 window.onload = async () => {
-  recalcQuotaMultiplaFromEvents();
+  const hadSettings = loadSettings();
+  if (!hadSettings) {
+    // Default ottimali
+    el('cassaInput').value = '1000';
+    el('quotaMultiplaInput').value = '1.105';
+    el('schedineInput').value = '6';
+    el('eventiSelect').value = '10';
+  }
   reset();
   await initIndexedDB();
   loadHistoryFromDB();
